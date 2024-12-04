@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1080898166278",
+    "project_id": "moonevent-fa42b",
+    "storage_bucket": "moonevent-fa42b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080898166278:android:ed45ea20749db701c36d87",
+        "android_client_info": {
+          "package_name": "com.example.moon_event"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN73ff64We6etqOy49Z7tUGXmaEyOFwPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

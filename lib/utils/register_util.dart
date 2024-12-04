@@ -36,7 +36,7 @@ class RegisterUtil {
           Navigator.push(
             // ignore: use_build_context_synchronously
             context, MaterialPageRoute(
-              builder: (context) => const MoonHomeScreen()
+              builder: (context) => MoonHomeScreen()
             )
           );
         });

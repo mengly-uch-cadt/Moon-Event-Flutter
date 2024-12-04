@@ -5,8 +5,11 @@ import 'package:moon_event/screen/joined_screen.dart';
 import 'package:moon_event/screen/profile_screen.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/moon_custom_appbar_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -39,10 +42,10 @@ class MoonBottomNavigationBar extends StatefulWidget {
 
 class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _widgetOptions = <Widget>[
       MoonHomeScreen(),
-      MoonJoinedScreen(),
-      MoonProfileScreen(),
+      const MoonJoinedScreen(),
+      const MoonProfileScreen(),
     ];
 
     void _onItemTapped(int index) {
@@ -64,11 +67,8 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
               topRight: Radius.circular(16),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            ),
+          child: Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
