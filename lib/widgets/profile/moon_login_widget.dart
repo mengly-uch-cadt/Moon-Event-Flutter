@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moon_event/screen/home_screen.dart';
+import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/login_util.dart';
+import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_password_field_widget.dart';
 import 'package:moon_event/widgets/moon_text_field_widget.dart';
@@ -122,19 +123,25 @@ class _MoonLoginWidgetState extends State<MoonLoginWidget> {
                       text: "Login",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          final user = await LoginUtil().loginUser(
+                          AuthService authService = AuthService();
+                          ResponseResult responseResult = await authService.login(
                             email: _emailController.text,
                             password: _passwordController.text,
-                            context: context,
                           );
 
-                          if (user != null) {
-                            // Navigate to the home screen
-                            Navigator.push(
-                              // ignore: use_build_context_synchronously
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MoonHomeScreen(),
+                          if ( responseResult.isSuccess) {
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(responseResult.message),
+                              ),
+                            );
+                          }
+                          else {
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(responseResult.message),
                               ),
                             );
                           }

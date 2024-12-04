@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/model/user_model.dart';
+import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/register_util.dart';
+import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_password_field_widget.dart';
 import 'package:moon_event/widgets/moon_text_field_widget.dart';
@@ -62,12 +64,12 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                     const SizedBox(height: 25),
                     MoonTextFieldWidget(
                       controller: _nameController,
-                      labelText: 'Full Name',
-                      hintText: "Enter your full name",
+                      labelText: 'Username',
+                      hintText: "Enter your username",
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
+                          return 'Please enter your username';
                         }
                         return null;
                       },
@@ -128,14 +130,39 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                       text: "Register",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await RegisterUtil.registerUser(
-                            user: User.register(
-                              name: _nameController.text,
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ),
-                            context: context,
+                          // await RegisterUtil.registerUser(
+                          //   user: User.register(
+                          //     name: _nameController.text,
+                          //     email: _emailController.text,
+                          //     password: _passwordController.text,
+                          //   ),
+                          //   context: context,
+                          // );
+                          AuthService authService = AuthService();
+                          ResponseResult responseResult = await authService.signUp(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            username: _nameController.text,
                           );
+                          if (responseResult.isSuccess) {
+                            // Handle the responseResult if needed
+                            print("=====================================");
+                            print("User registration successful");
+                            print(responseResult.data);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('User registration successful'),
+                              ),
+                            );
+                          } else {
+                            // Show an error or leave it to validators to handle
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(responseResult.message),
+                              ),
+                            );
+                          }
+                          // Handle the responseResult if needed
                         } else {
                           // Show an error or leave it to validators to handle
                           ScaffoldMessenger.of(context).showSnackBar(
