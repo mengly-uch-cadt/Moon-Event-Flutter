@@ -9,7 +9,8 @@ import 'package:moon_event/widgets/profile/moon_forgot_password_widget.dart';
 import 'package:moon_event/widgets/profile/moon_register_widget.dart';
 
 class MoonLoginWidget extends StatefulWidget {
-  const MoonLoginWidget({super.key});
+  const MoonLoginWidget({super.key, required this.onLoginSuccess});
+  final VoidCallback onLoginSuccess;
 
   @override
   State<MoonLoginWidget> createState() => _MoonLoginWidgetState();
@@ -135,6 +136,8 @@ class _MoonLoginWidgetState extends State<MoonLoginWidget> {
                                 content: Text(responseResult.message),
                               ),
                             );
+                            widget.onLoginSuccess(); // Trigger callback to signal login success
+                            Navigator.pop(context);
                           }
                           else {
                             // ignore: use_build_context_synchronously

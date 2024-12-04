@@ -36,23 +36,24 @@ class MoonHomeScreen extends StatelessWidget {
     return Center(
       child: Column(
         children: [
+          const SizedBox(height: 10,),
           const MoonCarouselWidget(),
           // Text input field
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _controller,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Enter value',
-                ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter value',
               ),
             ),
-            // Submit button to add the input value to Firestore
-            ElevatedButton(
-              onPressed: () => _addInputValue(context),
-              child: const Text('Submit Input'),
-            ),
+          ),
+          // Submit button to add the input value to Firestore
+          ElevatedButton(
+            onPressed: () => _addInputValue(context),
+            child: const Text('Submit Input'),
+          ),
         ],
       ),
     );

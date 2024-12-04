@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
@@ -175,7 +176,8 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const MoonLoginWidget(),
+                                    // const MoonLoginWidget(),
+                                    MoonHomeScreen()
                               ),
                             );
                           },
