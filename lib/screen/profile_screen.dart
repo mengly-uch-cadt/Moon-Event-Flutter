@@ -70,10 +70,4 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
       ),
     );
   }
-
-  // Function to handle logout
-  void _onLogout() async {
-    ref.read(isLoggedInProvider.notifier).clearLoggedIn();  // Update login state
-    ref.read(userProvider.notifier).clearsetUserData(); // Clear user data
-  }
 }

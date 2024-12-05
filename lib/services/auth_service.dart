@@ -62,6 +62,49 @@ class AuthService {
     }
   }
 
+  // Chnage password
+  Future<ResponseResult> changePassword({required String currentPassword, required String newPassword}) async {
+    try {
+      User user = _auth.currentUser!;
+      String email = user.email!;
+
+      // Reauthenticate the user
+      AuthCredential credential = EmailAuthProvider.credential(email: email, password: currentPassword);
+      await user.reauthenticateWithCredential(credential);
+
+      // Update the password
+      await user.updatePassword(newPassword);
+      return ResponseResult.success(
+        data: null,
+        message: 'Password changed successfully',
+      );
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
+  // Forgot Password 
+  Future<ResponseResult> forgotPassword(String? email) async {
+    try {
+      if (email == null) {
+        User user = _auth.currentUser!;
+        email = user.email!;
+      }
+      
+      await _auth.sendPasswordResetEmail(email: email!);
+      return ResponseResult.success(
+        data: null,
+        message: 'Password reset email sent',
+      );
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
   // Logout
   Future<void> logout() async {
     await _auth.signOut();

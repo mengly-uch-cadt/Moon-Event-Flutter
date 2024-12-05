@@ -5,9 +5,11 @@ import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_password_field_widget.dart';
 import 'package:moon_event/widgets/moon_text_field_widget.dart';
+import 'package:moon_event/widgets/profile/moon_login_widget.dart';
 
 class MoonRegisterWidget extends StatefulWidget {
   const MoonRegisterWidget({super.key});
@@ -66,12 +68,12 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                     const SizedBox(height: 25),
                     MoonTextFieldWidget(
                       controller: _firstNameController,
-                      labelText: 'Username',
-                      hintText: "Enter your username",
+                      labelText: 'Firstname',
+                      hintText: "Enter your firstname",
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your username';
+                          return 'Please enter your firstname';
                         }
                         return null;
                       },
@@ -140,7 +142,7 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     MoonButtonWidget(
                       text: "Register",
                       onPressed: () async {
@@ -156,46 +158,33 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                             password: _passwordController.text,
                             );
                             if (responseResult.isSuccess) {
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                content: Text('User registration successful'),
-                                ),
-                              );
-                              // Automatically log in the user after successful registration
-                              ResponseResult loginResult = await authService.login(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              );
-                              if (loginResult.isSuccess) {
-                                Navigator.push(
+                              showDialog(
                                 // ignore: use_build_context_synchronously
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MyApp(),
-                                ),
-                                );
-                              } else {
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(loginResult.message),
-                                ),
-                                );
-                              }
+                                context: context, 
+                                builder: (context) => MoonAlertWidget(
+                                  icon: Icons.check_circle_outline,
+                                  title: 'User Registration Successfully',
+                                  description: responseResult.message,
+                                  typeError: false,
+                                ),    
+                              );
                             } else {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                              content: Text(responseResult.message),
-                              ),
-                            );
+                              showDialog(
+                                // ignore: use_build_context_synchronously
+                                context: context, 
+                                builder: (context) => MoonAlertWidget(
+                                  icon: Icons.error_outline,
+                                  title: 'Error',
+                                  description: responseResult.message,
+                                  typeError: true,
+                                ),
+                              );
                             }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text('Please fix the errors in the form'),
+                            SnackBar(
+                              content: const Text('Please fix the errors in the form'),
+                              backgroundColor: AppColors.secondary,
                             ),
                           );
                         }
@@ -217,8 +206,7 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    // const MoonLoginWidget(),
-                                    MoonHomeScreen()
+                                    const MoonLoginWidget(),
                               ),
                             );
                           },

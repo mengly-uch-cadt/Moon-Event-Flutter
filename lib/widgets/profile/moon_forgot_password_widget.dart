@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
-import 'package:moon_event/widgets/moon_divider_widget.dart';
 import 'package:moon_event/widgets/moon_text_field_widget.dart';
+import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonForgotPasswordWidget extends StatefulWidget {
   const MoonForgotPasswordWidget({super.key});
@@ -13,53 +15,12 @@ class MoonForgotPasswordWidget extends StatefulWidget {
 
 class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController = TextEditingController();
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _handleGetCode() async {
-    if (_formKey.currentState!.validate()) {
-      print("Phone: ${_phoneController.text}");
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fix the errors in the form')),
-      );
-    }
-  }
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        titleSpacing: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.chevron_left, color: Colors.black),
-              iconSize: 20,
-            ),
-            Text(
-              'Back to login',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textBlack,
-                  ),
-            ),
-          ],
-        ),
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(
@@ -68,13 +29,7 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 5),
-              Text(
-                "Forgot Password?",
-                style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
-                    ),
-              ),
+              const MoonTitleWidget(firstTitle: "forgot", secondTitle: "password"),
               const SizedBox(height: 10),
               Text(
                 "Don’t worry, happens to all of us. Enter your email below to recover your password.",
@@ -85,39 +40,63 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
               ),
               const SizedBox(height: 40),
               MoonTextFieldWidget(
-                controller: _phoneController,
-                labelText: 'Phone number',
-                hintText: "Enter your phone number",
-                validator: (value) {
+                controller: _emailController,
+                labelText: 'Email',
+                hintText: "Enter your email",
+                keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
+                    return 'Please enter your email';
                   }
-                  if (value.length < 9 || value.length > 10) {
-                    return 'Please enter a valid phone number';
-                  }
-                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please enter a valid phone number';
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Please enter a valid email address';
                   }
                   return null;
-                },
+                  },
               ),
               const SizedBox(height: 45),
               MoonButtonWidget(
-                text: "Get Code",
-                onPressed: _handleGetCode,
-              ),
-              const SizedBox(height: 55),
-              Row(
-                children: [
-                  const MoonDividerWidget(),
-                  const SizedBox(width: 3),
-                  Text(
-                    "Or continue with",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  const SizedBox(width: 3),
-                  const MoonDividerWidget(),
-                ],
+                text: "Send Email",
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    AuthService().forgotPassword(_emailController.text).then((responseResult) {
+                      if(responseResult.isSuccess){
+                        showDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          builder: (context) => MoonAlertWidget(
+                            icon: Icons.check_circle_outline,
+                            title: 'Success',
+                            description: responseResult.message,
+                            typeError: false,
+                          ),
+                        );
+                      }else{
+                        showDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          builder: (context) => MoonAlertWidget(
+                            icon: Icons.error_outline,
+                            title: 'Error',
+                            description: responseResult.message,
+                            typeError: true,
+                          ),
+                        );
+                      }
+                    }).catchError((e) {
+                      showDialog(
+                        // ignore: use_build_context_synchronously
+                        context: context,
+                        builder: (context) => MoonAlertWidget(
+                          icon: Icons.error_outline,
+                          title: 'Error',
+                          description: e.toString(),
+                          typeError: true,
+                        ),
+                      );
+                    });
+                  }
+                },
               ),
             ],
           ),

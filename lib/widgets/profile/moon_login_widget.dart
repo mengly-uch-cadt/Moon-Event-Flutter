@@ -3,6 +3,7 @@ import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/widgets/moon_password_field_widget.dart';
@@ -136,6 +137,7 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(responseResult.message),
+                                backgroundColor: AppColors.secondary,
                               ),
                             );
                             // ignore: use_build_context_synchronously
@@ -145,19 +147,23 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                             // ignore: use_build_context_synchronously
                             Navigator.of(context).popUntil((route) => route.isFirst);
                           } else {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(responseResult.message),
-                              ),
+                            showDialog(
+                              // ignore: use_build_context_synchronously
+                              context:context, 
+                              builder: (ctx) => MoonAlertWidget(
+                                icon: Icons.error_outline,
+                                title: 'Error',
+                                description: responseResult.message,
+                                typeError: true,
+                              )
                             );
                           }
                         } else {
                           // Show an error or leave it to validators to handle
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text('Please fix the errors in the form'),
+                            SnackBar(
+                              content: const Text('Please fix the errors in the form'),
+                              backgroundColor: AppColors.secondary,
                             ),
                           );
                         }

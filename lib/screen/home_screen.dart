@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -25,7 +26,7 @@ class MoonHomeScreen extends StatelessWidget {
       _controller.clear();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a value')),
+        SnackBar(content: const Text('Please enter a value'), backgroundColor: AppColors.secondary,),
       );
     }
   }

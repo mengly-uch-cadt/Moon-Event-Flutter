@@ -29,16 +29,27 @@ class User {
         bio = '',
         notificationsEnabled = true;
 
+  // Constructor for update user info 
+  User.update({
+    required this.uid,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.profilePictureUrl,
+    required this.bio,
+    required this.notificationsEnabled,
+  });
+
   // Converts a User object into a Map
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
-      'first_name': firstName,
-      'last_name': lastName,
+      'firstName': firstName,
+      'lastName': lastName,
       'email': email,
-      'profile_picture_url': profilePictureUrl,
+      'profilePictureUrl': profilePictureUrl,
       'bio': bio,
-      'notifications_enabled': notificationsEnabled,
+      'notificationsEnabled': notificationsEnabled,
     };
   }
 
@@ -46,18 +57,18 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       uid: map['uid'],
-      firstName: map['first_name'],
-      lastName: map['last_name'],
+      firstName: map['firstName'],
+      lastName: map['lastName'],
       email: map['email'],
-      profilePictureUrl: map['profile_picture_url'],
+      profilePictureUrl: map['profilePictureUrl'],
       bio: map['bio'],
-      notificationsEnabled: map['notifications_enabled'] ?? 1,
+      notificationsEnabled: map['notificationsEnabled'] ?? 1,
     );
   }
 
   // Converts a User object into a JSON string
   String toJson() => json.encode(toMap());
 
-  // Creates a User object from a JSON string
+  // // Creates a User object from a JSON string
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }
