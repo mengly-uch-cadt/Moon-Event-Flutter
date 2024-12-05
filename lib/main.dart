@@ -74,9 +74,7 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
               topRight: Radius.circular(16),
             ),
           ),
-          child: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,

@@ -35,6 +35,7 @@ class MoonHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        
         children: [
           const SizedBox(height: 10,),
           const MoonCarouselWidget(),
