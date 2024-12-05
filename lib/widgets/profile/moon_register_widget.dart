@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/model/user.dart';
 import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
@@ -16,15 +17,17 @@ class MoonRegisterWidget extends StatefulWidget {
 }
 
 class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey                    = GlobalKey<FormState>();
+  final TextEditingController _firstNameController       = TextEditingController();
+  final TextEditingController _lastNameController        = TextEditingController();
+  final TextEditingController _emailController           = TextEditingController();
+  final TextEditingController _passwordController        = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -62,9 +65,21 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                     ),
                     const SizedBox(height: 25),
                     MoonTextFieldWidget(
-                      controller: _nameController,
+                      controller: _firstNameController,
                       labelText: 'Username',
                       hintText: "Enter your username",
+                      keyboardType: TextInputType.text,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your username';
+                        }
+                        return null;
+                      },
+                    ),
+                     MoonTextFieldWidget(
+                      controller: _lastNameController,
+                      labelText: 'Lastname',
+                      hintText: "Enter your lastname",
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -130,10 +145,15 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           AuthService authService = AuthService();
+                          User user = User.register(
+                            email: _emailController.text, 
+                            firstName: _firstNameController.text, 
+                            lastName: _lastNameController.text
+                          );
+
                           ResponseResult responseResult = await authService.signUp(
-                            email: _emailController.text,
+                            user: user,
                             password: _passwordController.text,
-                            username: _nameController.text,
                           );
                           if (responseResult.isSuccess) {
                             // ignore: use_build_context_synchronously

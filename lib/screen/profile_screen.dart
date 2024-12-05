@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
-import 'package:moon_event/widgets/moon_title_widget.dart';
 import 'package:moon_event/widgets/profile/moon_login_widget.dart';
 import 'package:moon_event/widgets/profile/moon_profile_info_widget.dart';
 import 'package:moon_event/widgets/profile/moon_register_widget.dart';

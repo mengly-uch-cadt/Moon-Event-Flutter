@@ -1,19 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: library_prefixes
+import 'package:moon_event/model/user.dart' as AppUser;
 import 'package:moon_event/utils/response_result_util.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // Sign Up
-  Future<ResponseResult> signUp({required String email, required String password, required String username}) async {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  // Sign Up // User is model of Firebase auth so need to use AppUser.User form user model 
+  Future<ResponseResult> signUp({required AppUser.User user, required String password}) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
+        email: user.email,
         password: password,
       );
-      // update user name 
-      await userCredential.user!.updateDisplayName(username);
+      // update user name in firebase auth
+      await userCredential.user!.updateDisplayName('${user.firstName} ${user.lastName}');
       await userCredential.user!.reload();
+      user.uid = userCredential.user!.uid;
+
+      // save user data in firestore
+      await _firestore.collection('users').doc(user.uid).set(user.toMap());
 
       return ResponseResult.success(
         data: userCredential.user,

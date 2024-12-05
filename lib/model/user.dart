@@ -1,51 +1,41 @@
 import 'dart:convert';
-import 'package:uuid/uuid.dart';
 
 class User {
-  int id;
-  String uuid;
-  String name;
+  String? uid;
+  String firstName;
+  String lastName;
   String email;
-  String password;
   String? profilePictureUrl;
   String? bio;
-  int notificationsEnabled;
+  bool notificationsEnabled;
 
   User({
-    required this.id,
-    required this.uuid,
-    required this.name,
+    this.uid = '',
+    required this.firstName,
+    required this.lastName,
     required this.email,
-    required this.password,
-    this.profilePictureUrl,
-    this.bio,
-    this.notificationsEnabled = 1,
+    this.profilePictureUrl='',
+    this.bio = '',
+    this.notificationsEnabled = true,
   });
 
   // Constructor for registration, which only takes name, email, and password
   User.register({
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.email,
-    required this.password,
-  })  : id = 0,
-        uuid = _generateUuid(),
-        profilePictureUrl = null,
-        bio = null,
-        notificationsEnabled = 1;
-  // Generates a UUID using the uuid package
-  static String _generateUuid() {
-    var uuid = const Uuid();
-    return uuid.v4(); // Generates a random UUID v4
-  }
+  })  : uid = '',
+        profilePictureUrl = '',
+        bio = '',
+        notificationsEnabled = true;
 
   // Converts a User object into a Map
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'uuid': uuid,
-      'name': name,
+      'uid': uid,
+      'first_name': firstName,
+      'last_name': lastName,
       'email': email,
-      'password': password,
       'profile_picture_url': profilePictureUrl,
       'bio': bio,
       'notifications_enabled': notificationsEnabled,
@@ -55,11 +45,10 @@ class User {
   // Creates a User object from a Map
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'],
-      uuid: map['uuid'],
-      name: map['name'],
+      uid: map['uid'],
+      firstName: map['first_name'],
+      lastName: map['last_name'],
       email: map['email'],
-      password: map['password'],
       profilePictureUrl: map['profile_picture_url'],
       bio: map['bio'],
       notificationsEnabled: map['notifications_enabled'] ?? 1,
