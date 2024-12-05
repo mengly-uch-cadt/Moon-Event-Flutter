@@ -18,7 +18,10 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
   Widget build(BuildContext context) {
     // Watch the login status from the provider
     final isLoggedIn = ref.watch(isLoggedInProvider);
-
+    void onLogout() async {
+      ref.read(isLoggedInProvider.notifier).clearLoggedIn();  // Update login state
+      ref.read(userProvider.notifier).clearsetUserData(); // Clear user data
+    }
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -31,7 +34,7 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
                       const MoonProfileInfoWidget(),
                       MoonButtonWidget(
                         text: "Logout",
-                        onPressed: _onLogout,
+                        onPressed: onLogout,
                       ),
                     ],
                   )

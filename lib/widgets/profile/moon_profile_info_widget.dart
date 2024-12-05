@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moon_event/model/user.dart';
+import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
-class MoonProfileInfoWidget extends StatelessWidget {
+class MoonProfileInfoWidget extends ConsumerStatefulWidget {
   const MoonProfileInfoWidget({super.key});
 
   @override
+  ConsumerState<MoonProfileInfoWidget> createState() => _MoonProfileInfoWidgetState();
+}
+
+class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
+  User? user;
+  @override
   Widget build(BuildContext context) {
+    user = ref.watch(userProvider);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -15,27 +25,26 @@ class MoonProfileInfoWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MoonTitleWidget(firstTitle: 'Profile', secondTitle: 'Info'),
-
           ],
         ),
         const SizedBox(height: 20),
-        const CircleAvatar(
+        CircleAvatar(
           radius: 100,
-          backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+          backgroundImage: user?.profilePictureUrl != '' 
+              ? NetworkImage(user!.profilePictureUrl!) 
+              : const AssetImage('assets/profiles/female_profile.jpg') as ImageProvider,
         ),
         const SizedBox(height: 20),
         Text(
-          'John Doe',
+          '${user?.firstName} ${user?.lastName}',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
               color: AppColors.secondary
             ),
         ),
         const SizedBox(height: 15),
-        const Text('Passionate about technology, creativity, and making ideas come to life. Always learning, always growing. 🚀'), 
-        
+        user?.bio != null ? Text(user!.bio!) :
         const SizedBox(height: 25),
-
         MoonButtonWidget(
           text: 'Edit Profile',
           onPressed: () {

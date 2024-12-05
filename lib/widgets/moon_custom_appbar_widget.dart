@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MoonCustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
+class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidget {
   final double appBarHeight; // Custom height
 
   // Constructor to allow dynamic height
@@ -12,8 +14,19 @@ class MoonCustomAppBarWidget extends StatelessWidget implements PreferredSizeWid
   Size get preferredSize => Size.fromHeight(appBarHeight);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Watch the user state
+    final user = ref.watch(userProvider);
+
+    // Check if user is null and provide a fallback
+    final userName = (user?.firstName != null && user?.lastName != null)
+        ? '${user!.firstName} ${user.lastName}'
+        : 'Guest';
+
+    final userProfilePicture = user?.profilePictureUrl != null && user!.profilePictureUrl!.isNotEmpty
+        ? NetworkImage(user.profilePictureUrl!)
+        : const AssetImage('assets/profiles/female_profile.jpg') as ImageProvider;
+
     return Container(
       color: AppColors.secondary, // Background color
       height: appBarHeight, // Set custom height
@@ -27,9 +40,9 @@ class MoonCustomAppBarWidget extends StatelessWidget implements PreferredSizeWid
               Row(
                 children: [
                   // Profile image
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 24,
-                    backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                    backgroundImage: userProfilePicture,
                   ),
                   const SizedBox(width: 10),
                   // Welcome back text
@@ -44,9 +57,9 @@ class MoonCustomAppBarWidget extends StatelessWidget implements PreferredSizeWid
                               color: AppColors.white,
                             ),
                       ),
-                      const Text(
-                        'Guest', // Use dynamic user name or default to 'Guest'
-                        style: TextStyle(
+                      Text(
+                        userName, 
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
