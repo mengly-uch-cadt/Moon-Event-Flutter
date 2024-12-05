@@ -11,14 +11,14 @@ class MoonTitleWidget extends StatelessWidget {
       children: [
         Text(
           firstTitle.toUpperCase(), 
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(width: 10),
         Text(
           secondTitle.toUpperCase(), 
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w800,
             color: AppColors.primary,
           ),

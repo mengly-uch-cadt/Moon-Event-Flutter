@@ -1,0 +1,255 @@
+{
+    "users": {
+      "6140c030-f2a0-46c9-90b4-6c3ce4fa0395": {
+        "name": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event enthusiast and organizer",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "30986afc-7849-435e-85de-ffbd48a7ff46": {
+        "name": "Bob Smith",
+        "email": "bob.smith@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Passionate about creating memorable events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "eaaac248-87df-4565-bab3-ef0053416b61": {
+        "name": "Catherine Lee",
+        "email": "catherine.lee@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Love to collaborate on event planning",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "d356b67c-9de6-437c-9f40-783311558485": {
+        "name": "David Brown",
+        "email": "david.brown@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Music event organizer",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "0c4942a8-1a01-457f-ba08-4bf41bc34d46": {
+        "name": "Emma Wilson",
+        "email": "emma.wilson@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Bringing people together through events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "acb28cb1-d485-406e-8cdc-e5f4930f0b2d": {
+        "name": "Frank Green",
+        "email": "frank.green@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "I love organizing corporate events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "6cc10abe-edfa-4a8a-9e19-334b91274a8a": {
+        "name": "Grace Lee",
+        "email": "grace.lee@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event planner and coordinator",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "91f7e207-7a08-4dfe-a63c-acf7c8b75e35": {
+        "name": "Hannah Clark",
+        "email": "hannah.clark@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Creating unforgettable event experiences",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "09eef59a-70e7-4159-b650-2be8bb6157e6": {
+        "name": "Ian Turner",
+        "email": "ian.turner@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Love working on tech events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "5d3a4a08-cf16-4770-bcb8-586fe72f78d2": {
+        "name": "Jack Harris",
+        "email": "jack.harris@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event organizer and strategist",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "e7716442-cbcb-41c3-8a57-ce51308c95ed": {
+        "name": "Kathy Adams",
+        "email": "kathy.adams@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Specializing in conference events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "328792e8-e657-4146-8ff7-a6b8a0cfe8be": {
+        "name": "Liam Carter",
+        "email": "liam.carter@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Planning exciting social events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "bcb4b7c4-d30c-4050-9797-0a358a91a48c": {
+        "name": "Mason Scott",
+        "email": "mason.scott@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Corporate event manager",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "9f24c7e5-2fe9-421b-b178-dea07380b0b2": {
+        "name": "Natalie Evans",
+        "email": "natalie.evans@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event planning and logistics expert",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "68f10553-c7e3-4d00-b23e-bacf1ae47a7d": {
+        "name": "Oscar Martinez",
+        "email": "oscar.martinez@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event producer and manager",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "a7ae891d-797a-44a1-b43b-431d791ba9d8": {
+        "name": "Paige Garcia",
+        "email": "paige.garcia@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Specializing in weddings and large events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "4ec7ffeb-5a8a-40c2-87b0-34cc21c82a50": {
+        "name": "Quinn Walker",
+        "email": "quinn.walker@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event design and coordination",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "314ca183-b6aa-49f7-a671-07878b439cc9": {
+        "name": "Rachel Young",
+        "email": "rachel.young@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Corporate events and seminars",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "70305d89-923b-4917-a2b6-e33bcc0fe156": {
+        "name": "Samantha King",
+        "email": "samantha.king@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Non-profit event coordinator",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "f1be26ea-ea3a-4b1e-be5f-68a07da0f0e9": {
+        "name": "Thomas Robinson",
+        "email": "thomas.robinson@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Helping brands organize events",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "ddf85389-fb8d-47cf-b3af-1c4751b7ecc5": {
+        "name": "Uma White",
+        "email": "uma.white@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event logistics coordinator",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "89564a0d-9963-4e0e-a795-2b955529e071": {
+        "name": "Victor Black",
+        "email": "victor.black@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Fundraising and charity event planner",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      },
+      "49ff5b63-7ff6-4b30-961a-9de22fa3d6af": {
+        "name": "Wendy Perez",
+        "email": "wendy.perez@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Festival and concert event manager",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "27aca0f9-3273-4e49-924a-5b5fe7754095": {
+        "name": "Xander Brown",
+        "email": "xander.brown@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Tech event coordinator",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": true
+      },
+      "e95b192f-bfba-4161-994e-70a6c69b4808": {
+        "name": "Yara Davis",
+        "email": "yara.davis@example.com",
+        "password": "password",
+        "profilePicture": "",
+        "bio": "Event marketing expert",
+        "createdEvents": [],
+        "joinedEvents": [],
+        "notificationsEnabled": false
+      }
+    }
+  }
+  

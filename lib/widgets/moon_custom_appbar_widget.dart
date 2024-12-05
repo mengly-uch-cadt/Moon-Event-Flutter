@@ -83,17 +83,6 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                       // Add your notification logic
                     },
                   ),
-                  IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/icons/earth.svg',
-                      width: 24,
-                      // ignore: deprecated_member_use
-                      color: AppColors.white,
-                    ),
-                    onPressed: () {
-                      // Add your language switch logic
-                    },
-                  ),
                 ],
               ),
             ],

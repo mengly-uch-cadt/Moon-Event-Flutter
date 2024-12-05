@@ -5,11 +5,9 @@ class MoonDividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Divider(
-        color: Colors.grey[300],
-        height: 0.5,
-      ),
+    return Divider(
+      color: Colors.grey[300],
+      height: 0.5,
     );
   }
 }
