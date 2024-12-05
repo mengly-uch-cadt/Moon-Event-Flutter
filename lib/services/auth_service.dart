@@ -93,7 +93,7 @@ class AuthService {
         email = user.email!;
       }
       
-      await _auth.sendPasswordResetEmail(email: email!);
+      await _auth.sendPasswordResetEmail(email: email);
       return ResponseResult.success(
         data: null,
         message: 'Password reset email sent',
