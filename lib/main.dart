@@ -85,11 +85,11 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
             ),
             BottomNavigationBarItem(
               icon: svg.SvgPicture.asset(
-                'assets/icons/connection.svg',
+                'assets/icons/event.svg',
                 // ignore: deprecated_member_use
                 color: _selectedIndex == 1 ? AppColors.primary : AppColors.textBlack,
                 ),
-              label: 'Joined',
+              label: 'My Event',
             ),
             BottomNavigationBarItem(
               icon:  svg.SvgPicture.asset(
