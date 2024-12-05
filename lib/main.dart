@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart' as svg;
 import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/screen/joined_screen.dart';
@@ -10,7 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,17 +44,12 @@ class MoonBottomNavigationBar extends StatefulWidget {
 class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
   int _selectedIndex = 0;
 
-  late List<Widget> _widgetOptions;
-
-  @override
-  void initState() {
-    super.initState();
-    _widgetOptions = <Widget>[
-      MoonHomeScreen(),
-      const MoonJoinedScreen(),
-      MoonProfileScreen(onLoginSuccess: () => _onItemTapped(0)),
-    ];
-  }
+  final List<Widget> _widgetOptions =<Widget>[
+    MoonHomeScreen(),
+    const MoonJoinedScreen(),
+    const MoonProfileScreen(),
+  ];
+  
 
     void _onItemTapped(int index) {
       setState(() {

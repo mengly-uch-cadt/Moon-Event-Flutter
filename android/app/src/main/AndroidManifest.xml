@@ -3,6 +3,7 @@
         android:label="MoonEvent"
         android:name="${applicationName}"
         android:icon="@mipmap/moon_event">
+        android:enableOnBackInvokedCallback="true"
         <activity
             android:name=".MainActivity"
             android:exported="true"

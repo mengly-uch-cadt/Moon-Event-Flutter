@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/services/auth_service.dart';
+import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/utils/local_storage.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/widgets/moon_password_field_widget.dart';
 import 'package:moon_event/widgets/moon_text_field_widget.dart';
 import 'package:moon_event/widgets/profile/moon_forgot_password_widget.dart';
 import 'package:moon_event/widgets/profile/moon_register_widget.dart';
 
-class MoonLoginWidget extends StatefulWidget {
-  const MoonLoginWidget({super.key, required this.onLoginSuccess});
-  final VoidCallback onLoginSuccess;
+class MoonLoginWidget extends ConsumerStatefulWidget {
+  const MoonLoginWidget({super.key});
 
   @override
-  State<MoonLoginWidget> createState() => _MoonLoginWidgetState();
+  ConsumerState<MoonLoginWidget> createState() => _MoonLoginWidgetState();
 }
 
-class _MoonLoginWidgetState extends State<MoonLoginWidget> {
+class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -128,18 +130,22 @@ class _MoonLoginWidgetState extends State<MoonLoginWidget> {
                             email: _emailController.text,
                             password: _passwordController.text,
                           );
-
-                          if ( responseResult.isSuccess) {
+                          if (responseResult.isSuccess) {
+                            ref.read(userProvider.notifier).setUserData(responseResult.data);
+                            ref.read(isLoggedInProvider.notifier).setLoggedIn(true);  // Update login state
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(responseResult.message),
                               ),
                             );
-                            widget.onLoginSuccess(); // Trigger callback to signal login success
-                            Navigator.pop(context);
-                          }
-                          else {
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);  // Close the login dialog
+                            // Now we explicitly update the screen to show profile information
+                            // Replace with this navigation approach to ensure proper screen update
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).popUntil((route) => route.isFirst);
+                          } else {
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -147,7 +153,6 @@ class _MoonLoginWidgetState extends State<MoonLoginWidget> {
                               ),
                             );
                           }
-
                         } else {
                           // Show an error or leave it to validators to handle
                           ScaffoldMessenger.of(context).showSnackBar(

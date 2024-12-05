@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/main.dart';
 import 'package:moon_event/model/user.dart';
 import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/services/auth_service.dart';
@@ -75,14 +76,15 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                         return null;
                       },
                     ),
-                     MoonTextFieldWidget(
+                    const SizedBox(height: 20),
+                    MoonTextFieldWidget(
                       controller: _lastNameController,
                       labelText: 'Lastname',
                       hintText: "Enter your lastname",
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your username';
+                          return 'Please enter your lastname';
                         }
                         return null;
                       },
@@ -148,27 +150,47 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                             email: _emailController.text, 
                             firstName: _firstNameController.text, 
                             lastName: _lastNameController.text
-                          );
-
-                          ResponseResult responseResult = await authService.signUp(
+                            );
+                            ResponseResult responseResult = await authService.signUp(
                             user: user,
                             password: _passwordController.text,
-                          );
-                          if (responseResult.isSuccess) {
-                            // ignore: use_build_context_synchronously
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('User registration successful'),
-                              ),
                             );
-                          } else {
+                            if (responseResult.isSuccess) {
+                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                content: Text('User registration successful'),
+                                ),
+                              );
+                              // Automatically log in the user after successful registration
+                              ResponseResult loginResult = await authService.login(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
+                              if (loginResult.isSuccess) {
+                                Navigator.push(
+                                // ignore: use_build_context_synchronously
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MyApp(),
+                                ),
+                                );
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(loginResult.message),
+                                ),
+                                );
+                              }
+                            } else {
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(responseResult.message),
+                              content: Text(responseResult.message),
                               ),
                             );
-                          }
+                            }
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

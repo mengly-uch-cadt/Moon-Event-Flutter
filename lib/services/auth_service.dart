@@ -41,10 +41,22 @@ class AuthService {
         email: email,
         password: password,
       );
-      return ResponseResult.success(
-        data: userCredential.user, 
-        message: 'User login successful'
-      );
+
+      // Get UID and fetch user data from Firestore
+      String uid = userCredential.user!.uid;
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(uid).get();
+
+      if (userDoc.exists) {
+        AppUser.User appUser = AppUser.User.fromMap(userDoc.data() as Map<String, dynamic>);
+        return ResponseResult.success(
+          data: appUser,
+          message: 'User login successful',
+        );
+      } else {
+        return ResponseResult.failure(
+          message: 'User data not found in Firestore',
+        );
+      }
     } catch (e) {
       return ResponseResult.failure(message: e.toString());
     }
