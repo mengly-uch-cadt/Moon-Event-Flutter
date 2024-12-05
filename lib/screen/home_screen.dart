@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MoonHomeScreen extends StatelessWidget {
   MoonHomeScreen({super.key});
