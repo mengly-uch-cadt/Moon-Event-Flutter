@@ -4,6 +4,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+         // Check if you're using a compatible AGP version (7.x or higher)
+        classpath 'com.android.tools.build:gradle:7.0.4'  // or another 7.x version
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21' // or the Kotlin version you are using
         // Ensure you're using a compatible version of google-services
         classpath 'com.google.gms:google-services:4.3.15'  // Updated version
     }

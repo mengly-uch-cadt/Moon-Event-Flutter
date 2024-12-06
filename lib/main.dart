@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart' as svg;
 import 'package:moon_event/screen/home_screen.dart';
-import 'package:moon_event/screen/joined_screen.dart';
+import 'package:moon_event/screen/event_screen.dart';
 import 'package:moon_event/screen/profile_screen.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/moon_custom_appbar_widget.dart';
@@ -23,10 +23,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Moon Event',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: primaryTheme.copyWith(
+        textTheme: AppTextTheme.getTextTheme(context), // Apply the text theme here
+      ), // Apply the theme from theme.dart
+
       home: const MoonBottomNavigationBar(),
     );
   }
@@ -46,7 +46,7 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
 
   final List<Widget> _widgetOptions =<Widget>[
     MoonHomeScreen(),
-    const MoonJoinedScreen(),
+    const MoonEventScreen(),
     const MoonProfileScreen(),
   ];
   
@@ -109,3 +109,4 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
       );
     }
 }
+

@@ -9,6 +9,7 @@ class AppColors{
   static Color platinum    = const Color(0xFFEFF1F3);
   static Color gray        = const Color(0xFFD9D9D9);
   static Color secondary   = const Color(0xFF0F185E);
+  static Color lighterShade   = const Color(0xFF3C4C90);
   static Color darkLiver   = const Color(0xFF4D4D4D);
   static Color outerSpace  = const Color(0xFF494949);
   static Color red         = const Color(0xFFD02828);

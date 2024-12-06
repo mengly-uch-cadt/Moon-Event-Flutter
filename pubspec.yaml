@@ -49,6 +49,8 @@ dependencies:
   shared_preferences: ^2.3.3
   image_picker: ^1.1.2
   firebase_storage: ^12.3.7
+  qr_flutter: ^4.1.0
+  qr_code_scanner_plus: ^2.0.6
 
 dev_dependencies:
   flutter_test:

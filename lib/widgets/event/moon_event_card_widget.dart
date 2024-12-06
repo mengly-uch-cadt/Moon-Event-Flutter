@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_event/theme.dart';
-import 'package:moon_event/widgets/moon_divider_widget.dart';
 
 class MoonEventCardWidget extends StatelessWidget {
   const MoonEventCardWidget({super.key, required this.title, required this.description, required this.date, required this.time, required this.category, required this.numberUsers, this.imageUrl});
