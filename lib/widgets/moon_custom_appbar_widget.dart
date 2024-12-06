@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moon_event/widgets/moon_notification_widget.dart';
 
 class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidget {
   final double appBarHeight; // Custom height
@@ -80,7 +81,10 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                       color: AppColors.white,
                     ),
                     onPressed: () {
-                      // Add your notification logic
+                      showDialog(
+                        context: context, 
+                        builder: (ctx) => const MoonNotificationWidget(),
+                      );
                     },
                   ),
                 ],
