@@ -72,13 +72,16 @@ class MoonEventCardWidget extends StatelessWidget {
                 children: [
                   // ===========================================================
                   // Title
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+                  SizedBox(
+                    height: 20,
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 2, // Maximum of 2 lines for the title
+                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
                     ),
-                    maxLines: 2, // Maximum of 2 lines for the title
-                    overflow: TextOverflow.ellipsis, // Ellipsis for long text
                   ),
                   const SizedBox(height: 4),
                   Divider(
@@ -88,13 +91,16 @@ class MoonEventCardWidget extends StatelessWidget {
                   const SizedBox(height: 4),           
                   // ===========================================================
                   // Description
-                  Text(
-                    description,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                  SizedBox(
+                    height: 40,
+                    child: Text(
+                      description,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 2, // Maximum of 2 lines for the title
+                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
                     ),
-                    maxLines: 2, // Maximum of 2 lines for the title
-                    overflow: TextOverflow.ellipsis, // Ellipsis for long text
                   ),
                   const SizedBox(height: 4),
                   Divider(
@@ -104,11 +110,14 @@ class MoonEventCardWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   // ===========================================================
                   // location
-                  Text(
-                    "Location: $location",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    maxLines: 2, // Maximum of 2 lines for the title
-                    overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                  SizedBox(
+                    height: 40,
+                    child: Text(
+                      "Location: $location",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 2, // Maximum of 2 lines for the title
+                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                    ),
                   ),
                   const SizedBox(height: 4),
                   // ===========================================================

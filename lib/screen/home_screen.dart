@@ -5,6 +5,7 @@ import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/state/event_state.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
+import 'package:moon_event/widgets/event/moon_see_all_event_widget.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
 import 'package:moon_event/widgets/home/moon_list_category_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
@@ -88,7 +89,12 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           secondTitle: "Events",
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context, 
+                              builder: (ctx)=> MoonSeeAllEventWidget(events: allEventsData!)
+                            );
+                          },
                           child: Text(
                             "See All",
                             style: Theme.of(context).textTheme.bodyMedium,
