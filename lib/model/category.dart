@@ -14,7 +14,7 @@ class Category {
     return Category(
       uuid: id,   // Use Firestore document ID as the uuid
       category: map['category'] ?? '',
-      icon: map['icon'] ?? '',
+      icon: map['icon'] ?? ''
     );
   }
 }

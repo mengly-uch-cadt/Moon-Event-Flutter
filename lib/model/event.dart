@@ -1,7 +1,7 @@
 import 'package:moon_event/utils/generate_uuid_util.dart';
 
 class Event {
-  String? eventId;
+  String? eventUuid;
   String title;
   String description;
   String date;
@@ -14,7 +14,6 @@ class Event {
   String categoryId;
 
   Event({
-    this.eventId,
     required this.title,
     required this.description,
     required this.date,
@@ -25,40 +24,12 @@ class Event {
     required this.participants,
     required this.isPublic,
     required this.categoryId,
-  });
-  
-  factory Event.create({
-    required String title,
-    required String description,
-    required String date,
-    required String time,
-    required String location,
-    required String imageUrl,
-    required String organizerId,
-    required List<String> participants,
-    required bool isPublic,
-    required String categoryId,
-  }) {
-    return Event(
-      eventId: generateUuid(),
-      title: title,
-      description: description,
-      date: date,
-      time: time,
-      location: location,
-      imageUrl: imageUrl,
-      organizerId: organizerId,
-      participants: participants,
-      isPublic: isPublic,
-      categoryId: categoryId,
-    );
-  }
+  }):eventUuid = generateUuid();
 
   // Converts an Event object into a Map
-  // toIso8601String is a method in Dart's DateTime class that converts a DateTime object into a string formatted in ISO 8601 standard. 
   Map<String, dynamic> toMap() {
     return {
-      'eventId': eventId,
+      'eventUuid': eventUuid,
       'title': title,
       'description': description,
       'date': date,
@@ -70,22 +41,5 @@ class Event {
       'isPublic': isPublic,
       'categoryId': categoryId,
     };
-  }
-
-  // Creates an Event object from a Map
-  factory Event.fromMap(Map<String, dynamic> map) {
-    return Event(
-      eventId: map['eventId'] as String?,
-      title: map['title'] as String,
-      description: map['description'] as String,
-      date: map['date'] as String,
-      time: map['time'] as String,
-      location: map['location'] as String,
-      imageUrl: map['imageUrl'] as String,
-      organizerId: map['organizerId'] as String,
-      participants: List<String>.from(map['participants'] ?? []),
-      isPublic: map['isPublic'] as bool,
-      categoryId: map['categoryId'] as String
-    );
   }
 }

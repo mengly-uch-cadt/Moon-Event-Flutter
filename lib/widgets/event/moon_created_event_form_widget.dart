@@ -207,7 +207,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
                                     try {
                                       // Create a new event object using the selected category ID
-                                      final event = Event.create(
+                                      final event = Event(
                                         title: _titleController.text,
                                         description: _descriptionController.text,
                                         date: _dateController.text,

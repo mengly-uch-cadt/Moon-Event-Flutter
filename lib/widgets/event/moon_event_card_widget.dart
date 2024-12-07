@@ -4,14 +4,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_event/theme.dart';
 
 class MoonEventCardWidget extends StatelessWidget {
-  const MoonEventCardWidget({super.key, required this.title, required this.description, required this.date, required this.time, required this.category, required this.numberUsers, this.imageUrl});
+  const MoonEventCardWidget({super.key, required this.title, required this.description, required this.date, required this.time, required this.category, required this.numberParticipants, this.imageUrl});
 
   final String title;
   final String description;
   final DateTime date;
   final TimeOfDay time;
   final String category;
-  final int numberUsers;
+  final int numberParticipants;
   final String? imageUrl;
 
   @override
@@ -37,12 +37,20 @@ class MoonEventCardWidget extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 // ignore: unnecessary_null_comparison
-                child: Image.asset(
-                  'assets/images/$imageUrl.jpg',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 100,
-                )
+                child: 
+                  imageUrl == null
+                  ?  Image.asset(
+                      'assets/images/default-placeholder.jpg', // Default placeholder image
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 100,
+                    )
+                  : Image.asset(
+                    'assets/images/$imageUrl.jpg',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 100,
+                  )
               ),
             ),
             
@@ -113,6 +121,23 @@ class MoonEventCardWidget extends StatelessWidget {
                       const SizedBox(width: 8),
                       Text(
                         category,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  // ===========================================================
+                  // Number of Participants
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/user.svg',
+                        // ignore: deprecated_member_use
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '$numberParticipants Participants',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

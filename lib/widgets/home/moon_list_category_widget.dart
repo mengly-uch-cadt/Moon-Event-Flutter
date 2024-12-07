@@ -5,36 +5,51 @@ import 'package:moon_event/model/category.dart';
 import 'package:moon_event/services/category_service.dart';
 import 'package:moon_event/state/category_state.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/utils/response_result_util.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MoonListCategoryWidget extends ConsumerStatefulWidget {
   const MoonListCategoryWidget({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  ConsumerState<MoonListCategoryWidget> createState() => _MoonListCategoryWidgetState();
+  ConsumerState<MoonListCategoryWidget> createState() =>
+      _MoonListCategoryWidgetState();
 }
-class _MoonListCategoryWidgetState extends ConsumerState<MoonListCategoryWidget> {
-  late Future<List<Category>> categoriesFuture;
+
+class _MoonListCategoryWidgetState
+    extends ConsumerState<MoonListCategoryWidget> {
+  bool isLoading = true; // Control the loading state
 
   @override
   void initState() {
     super.initState();
+    _getCategoryData(); // Fetch categories when the widget is first built
+  }
+
+  // Fetch category data from the service
+  void _getCategoryData() async {
     CategoryService categoryService = CategoryService();
-    categoriesFuture = categoryService.getCategories().then((responseResult) {
-      if (responseResult.isSuccess) {
-        final categories = responseResult.data as List<Category>;
-        // Set the categories to the state
-        ref.read(categoryProvider.notifier).setCategoryData(categories); 
-        return categories; // Return the list of categories
-      } else {
-        throw Exception(responseResult.message); // Handle error if failed
-      }
-    });
+    ResponseResult responseResult = await categoryService.getCategories();
+    if (responseResult.isSuccess) {
+      List<Category> categoryData = responseResult.data as List<Category>;
+      ref.read(categoryProvider.notifier).setCategoryData(categoryData);
+      setState(() {
+        isLoading = false; // Set loading to false after data is fetched
+      });
+    } else {
+      // Handle the error if the API request fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(responseResult.message)),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final categoryData = ref.watch(categoryProvider);
+
     return Container(
+      height: 150,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
@@ -44,39 +59,67 @@ class _MoonListCategoryWidgetState extends ConsumerState<MoonListCategoryWidget>
         ),
         boxShadow: const [],
       ),
-      child: FutureBuilder<List<Category>>(
-        future: categoriesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Show loading spinner
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}')); // Show error message
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No categories available.')); // No data available
-          } else {
-            final categories = snapshot.data!;
-            return SizedBox(  // Wrap ListView.builder in SizedBox
-              height: 120,  // Define a fixed height for the ListView
+      child: Skeletonizer(
+        enabled: isLoading, // Show skeleton while loading
+        child: categoryData.isNotEmpty
+            ? SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(categoryData.length, (index) {
+                    return SizedBox(
+                      width: 80,
+                      child: MoonCategory(
+                        category: categoryData[index].category,
+                        icon: categoryData[index].icon,
+                      ),
+                    );
+                  }),
+                ),
+              )
+            : SizedBox(
+              height: 120,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                // padding: const EdgeInsets.symmetric(horizontal: 0.0),
-                itemCount: categories.length,
+                itemCount: 4, // Number of skeleton items
                 itemBuilder: (context, index) {
-                  final category = categories[index];
-                  return MoonCategory(
-                    category: category.category,  // Use category.name directly
-                    icon: category.icon,          // Use category.icon directly
+                  return SizedBox(
+                    width: 80,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 60,
+                          height: 12,
+                          color: Colors.grey.shade300,
+                        ),
+                        const SizedBox(height: 4),
+                        Container(
+                          width: 40,
+                          height: 12,
+                          color: Colors.grey.shade300,
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),
-            );
-          }
-        },
+            ) // Empty widget when there is no category data
       ),
     );
   }
 }
 
+// Widget to display each category
 class MoonCategory extends StatelessWidget {
   const MoonCategory({
     super.key,
@@ -89,50 +132,45 @@ class MoonCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categoryWords = category.split(" ");
-    return SizedBox(
-      width: 80,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Circular icon container
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            width: 50,
-            height: 50,
-            child: Center(
-              child: SvgPicture.asset(
-                'assets/icons/$icon.svg',
-                // ignore: deprecated_member_use
-                color: AppColors.white,
-                width: 25,
-                height: 25,
-              ),
+    final categoryWords = category.split(" "); // Split the category name by space
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.primary, // Primary color for category circle
+            borderRadius: BorderRadius.circular(50),
+          ),
+          width: 50,
+          height: 50,
+          child: Center(
+            child: SvgPicture.asset(
+              'assets/icons/$icon.svg', // Category icon
+              color: AppColors.white,
+              width: 25,
+              height: 25,
             ),
           ),
-          const SizedBox(height: 8),
-          // Text container with fixed height
-          SizedBox(
-            height: 36, // Ensures consistent alignment for one or two lines
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Center-align text vertically
-              children: List.generate(categoryWords.length, (index) {
-                return Text(
-                  categoryWords[index],
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                );
-              }),
-            ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 36,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(categoryWords.length, (index) {
+              return Text(
+                categoryWords[index], // Display each word in the category name
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              );
+            }),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
