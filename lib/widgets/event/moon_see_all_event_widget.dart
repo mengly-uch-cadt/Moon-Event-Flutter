@@ -4,13 +4,14 @@ import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonSeeAllEventWidget extends StatelessWidget {
-  const MoonSeeAllEventWidget({super.key, required this.events});
+  const MoonSeeAllEventWidget({super.key, required this.events, required this.moonTitleWidget});
   final List<GetEvent> events;
+  final MoonTitleWidget moonTitleWidget;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const MoonTitleWidget(firstTitle: "all", secondTitle: "Events"),
+        title: moonTitleWidget,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -92,7 +92,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           onPressed: () {
                             showDialog(
                               context: context, 
-                              builder: (ctx)=> MoonSeeAllEventWidget(events: allEventsData!)
+                              builder: (ctx)=> MoonSeeAllEventWidget(events: allEventsData!, moonTitleWidget: const MoonTitleWidget(firstTitle: "All", secondTitle: "Events"),)
                             );
                           },
                           child: Text(
