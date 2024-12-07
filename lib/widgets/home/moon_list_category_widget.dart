@@ -38,6 +38,7 @@ class _MoonListCategoryWidgetState
       });
     } else {
       // Handle the error if the API request fails
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(responseResult.message)),
       );
@@ -51,7 +52,7 @@ class _MoonListCategoryWidgetState
     return Container(
       height: 150,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.white, // Set color inside BoxDecoration
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: Colors.grey.shade300,
@@ -77,43 +78,43 @@ class _MoonListCategoryWidgetState
                 ),
               )
             : SizedBox(
-              height: 120,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 4, // Number of skeleton items
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    width: 80,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(50),
+                height: 120,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4, // Number of skeleton items
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      width: 80,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          width: 60,
-                          height: 12,
-                          color: Colors.grey.shade300,
-                        ),
-                        const SizedBox(height: 4),
-                        Container(
-                          width: 40,
-                          height: 12,
-                          color: Colors.grey.shade300,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ) // Empty widget when there is no category data
+                          const SizedBox(height: 8),
+                          Container(
+                            width: 60,
+                            height: 12,
+                            color: Colors.grey.shade300,
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            width: 40,
+                            height: 12,
+                            color: Colors.grey.shade300,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ), // Empty widget when there is no category data
       ),
     );
   }
@@ -148,6 +149,7 @@ class MoonCategory extends StatelessWidget {
           child: Center(
             child: SvgPicture.asset(
               'assets/icons/$icon.svg', // Category icon
+              // ignore: deprecated_member_use
               color: AppColors.white,
               width: 25,
               height: 25,

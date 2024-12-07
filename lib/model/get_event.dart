@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:moon_event/model/category.dart';
 
 class GetEvent {
   String eventUuid;
   String title;
   String description;
-  DateTime date;
-  TimeOfDay time;
+  String date;
+  String time;
   String location;
   String imageUrl;
   String organizerId;
@@ -34,11 +33,8 @@ class GetEvent {
       eventUuid: data['eventUuid'],
       title: data['title'],
       description: data['description'],
-      date: DateTime.parse(data['date']),
-      time: TimeOfDay(
-        hour: int.parse(data['time'].split(":")[0]),
-        minute: int.parse(data['time'].split(":")[1]),
-      ),
+      date: data['date'],
+      time: data['time'],
       location: data['location'],
       imageUrl: data['imageUrl'],
       organizerId: data['organizerId'],

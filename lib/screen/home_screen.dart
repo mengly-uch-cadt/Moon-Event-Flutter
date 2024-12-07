@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/state/event_state.dart';
@@ -22,6 +21,7 @@ class MoonHomeScreen extends ConsumerStatefulWidget {
 class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   EventService eventService = EventService();
   bool _allEventsLoading = true;
+  List<GetEvent>? allEventsData;
 
   double halfScreen(BuildContext context) {
     return MediaQuery.of(context).size.width / 2.25;
@@ -37,8 +37,8 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     Future<ResponseResult> responseResult = eventService.getEvents(isAllEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      final events = result.data as List<GetEvent>;
-      ref.read(eventProvider.notifier).setAllEventData(events);
+      allEventsData = result.data;
+      ref.read(eventProvider.notifier).setAllEventData(allEventsData!);
     } else {
       throw Exception(result.message);
     }
@@ -125,29 +125,30 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     );
   }
 
-  // Widget to build the list of events
   Widget _buildEventsList(List<GetEvent> events) {
     return Skeletonizer(
       enabled: _allEventsLoading,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: List.generate(4, (index) {
+          children: events.map((event) {
             return SizedBox(
               width: halfScreen(context),
               child: MoonEventCardWidget(
-                imageUrl: '${(Random().nextInt(46) + 1)}',
-                title: events[index].title,
-                description: events[index].description,
-                date: events[index].date,
-                time: events[index].time,
+                imageUrl: event.imageUrl,
+                title: event.title,
+                description: event.description,
+                location: event.location,
+                date: event.date,
+                time: event.time,
                 numberParticipants: 0,
-                category: '',
+                category: event.category,
               ),
             );
-          }),
+          }).toList(),
         ),
       ),
     );
   }
+
 }

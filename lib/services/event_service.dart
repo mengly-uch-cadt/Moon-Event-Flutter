@@ -24,40 +24,8 @@ class EventService {
     }
   }
 
-  // Future<ResponseResult> getEvents({bool isAllEvents = false,}) async {
-  //   try {
-  //     QuerySnapshot querySnapshot;
-  //     if (isAllEvents) {
-  //       querySnapshot = await _firestore.collection('events')
-  //       .where("isPublic", isEqualTo: true)
-  //       .get();
-  //     } 
-  //     // else if (!isAllEvents) {
-  //     //   querySnapshot = await _firestore.collection('events')
-  //     //   .where("isPublic", isEqualTo: false)
-  //     //   .get();
-  //     // }
-
-  //     else {
-  //       querySnapshot = await _firestore.collection('events').get();
-  //     }
-
-  //     List<GetEvent> events = querySnapshot.docs.map((doc) => GetEvent.fromMap(doc.data() as Map<String, dynamic>)).toList();
-  //     return ResponseResult.success(
-  //       data: events,
-  //       message: 'Events fetched successfully',
-  //     );
-  //   } catch (e) {
-  //     return ResponseResult.failure(
-  //       message: e.toString(),
-  //     );
-  //   }
-  // }
   Future<ResponseResult> getEvents({bool isAllEvents = false}) async {
     try {
-      print("===========================================  ");
-      print("Get events");
-      print("===========================================  ");
       QuerySnapshot eventSnapshot;
 
       // Fetch all categories once to map them
@@ -76,33 +44,18 @@ class EventService {
         eventSnapshot = await _firestore.collection('events').get();
       }
 
-
+      if(eventSnapshot.docs.isEmpty){
+        return ResponseResult.success(
+          data: [],
+          message: 'No events found',
+        );
+      }
       // Map events with their associated categories
       List<GetEvent> events = eventSnapshot.docs.map((doc) {
         Map<String, dynamic> eventData = doc.data() as Map<String, dynamic>;
         String categoryId = eventData['categoryId'];
         // Find the matching category from the categoryMap
         Category category = categoryMap[categoryId]!;
-
-        print("===========================================  ");
-        print(categoryId);
-        print("===========================================  ");
-        print("Event data");
-        print("eventUuid: ${eventData['eventUuid']}");
-        print("description: ${eventData['description']}");
-        print("title: ${eventData['title']}");
-        print("date: ${eventData['date']}");
-        print("time: ${eventData['time']}");
-        print("location: ${eventData['location']}");
-        print("imageUrl: ${eventData['imageUrl']}");
-        print("organizerId: ${eventData['organizerId']}");
-        print("participants: ${eventData['participants']}");
-        print("isPublic: ${eventData['isPublic']}");
-        print("category name: ${category.category}");
-        print("category id : ${category.uuid}");
-        print("category icon : ${category.icon}");
-        print("===========================================  ");
-        
         // Convert event data to a `GetEvent` object
         return GetEvent(
           eventUuid: eventData['eventUuid'],
@@ -118,8 +71,6 @@ class EventService {
           category: category,
         );
       }).toList();
-
-
 
       return ResponseResult.success(
         data: events,

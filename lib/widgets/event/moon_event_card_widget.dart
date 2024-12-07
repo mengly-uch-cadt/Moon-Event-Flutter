@@ -1,16 +1,27 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:moon_event/model/category.dart';
 import 'package:moon_event/theme.dart';
 
 class MoonEventCardWidget extends StatelessWidget {
-  const MoonEventCardWidget({super.key, required this.title, required this.description, required this.date, required this.time, required this.category, required this.numberParticipants, this.imageUrl});
+  const MoonEventCardWidget({
+    super.key, 
+    required this.title, 
+    required this.description, 
+    required this.location,
+    required this.date, 
+    required this.time, 
+    required this.category, 
+    required this.numberParticipants, 
+    this.imageUrl, 
+  });
 
   final String title;
   final String description;
-  final DateTime date;
-  final TimeOfDay time;
-  final String category;
+  final String location;
+  final String date;
+  final String time;
+  final Category category;
   final int numberParticipants;
   final String? imageUrl;
 
@@ -24,7 +35,7 @@ class MoonEventCardWidget extends StatelessWidget {
             color: Colors.grey,
             width: 0.5,
           ),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,10 +43,10 @@ class MoonEventCardWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(2),
               decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderRadius: BorderRadius.all(Radius.circular(4)),
               ), 
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(4),
                 // ignore: unnecessary_null_comparison
                 child: 
                   imageUrl == null
@@ -61,89 +72,74 @@ class MoonEventCardWidget extends StatelessWidget {
                 children: [
                   // ===========================================================
                   // Title
-                  SizedBox(
-                    height: 40,
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 2, // Maximum of 2 lines for the title
-                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 2, // Maximum of 2 lines for the title
+                    overflow: TextOverflow.ellipsis, // Ellipsis for long text
                   ),
+                  const SizedBox(height: 4),
                   Divider(
                     color: Colors.grey[300],
                     height: 0.5,
-                  ),                  
+                  ),       
+                  const SizedBox(height: 4),           
                   // ===========================================================
                   // Description
-                  SizedBox(
-                    height: 40,
-                    child: Text(
-                      description,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 2, // Maximum of 2 lines for the title
-                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                  Text(
+                    description,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 2, // Maximum of 2 lines for the title
+                    overflow: TextOverflow.ellipsis, // Ellipsis for long text
                   ),
+                  const SizedBox(height: 4),
                   Divider(
                     color: Colors.grey[300],
                     height: 0.5,
                   ), 
+                  const SizedBox(height: 4),
+                  // ===========================================================
+                  // location
+                  Text(
+                    "Location: $location",
+                      style: Theme.of(context).textTheme.bodySmall,
+                    maxLines: 2, // Maximum of 2 lines for the title
+                    overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                  ),
+                  const SizedBox(height: 4),
                   // ===========================================================
                   // Date & Time 
                   Row(
                     children: [
                       Text(
-                        '${date.day}/${date.month}/${date.year}',
+                        date,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 4),
                       Text(
-                        time.format(context),
+                        time,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   // ===========================================================
                   // Category
-                  Row( 
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/web-development.svg',
-                        // ignore: deprecated_member_use
-                        color: AppColors.primary,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        category,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
+                  Text(
+                    category.category,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 4),
                   // ===========================================================
                   // Number of Participants
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/user.svg',
-                        // ignore: deprecated_member_use
-                        color: AppColors.primary,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '$numberParticipants Participants',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
+                  Text(
+                    '$numberParticipants Participants',
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  
-                  
                 ],
               ),
             )

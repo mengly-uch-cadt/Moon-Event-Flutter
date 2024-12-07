@@ -40,23 +40,23 @@ class _MoonEventScreenState extends State<MoonEventScreen> {
               ],
             ),
           ),
-          // Expanded widget to constrain the height of the content
-            Expanded(
-            child: Builder(
-              builder: (context) {
-              switch (_selectedIndex) {
-                case 0:
-                return MoonPlanEventWidget();
-                case 1:
-                return MoonJoinedEventWidget();
-                case 2:
-                return MoonCreatedEventWidget();
-                default:
-                return Container();
-              }
-              },
-            ),
-            ),
+          // // Expanded widget to constrain the height of the content
+          //   Expanded(
+          //   child: Builder(
+          //     builder: (context) {
+          //     // switch (_selectedIndex) {
+          //     //   case 0:
+          //     //   return MoonPlanEventWidget();
+          //     //   case 1:
+          //     //   return MoonJoinedEventWidget();
+          //     //   case 2:
+          //     //   return MoonCreatedEventWidget();
+          //     //   default:
+          //     //   return Container();
+          //     // }
+          //     },
+          //   ),
+          //   ),
         ],
       ),
     );
