@@ -13,6 +13,7 @@ class Event {
   List<String> participants;
   bool isPublic;
   String categoryId;
+  int participantCount;
 
   Event({
     required this.title,
@@ -25,6 +26,7 @@ class Event {
     required this.participants,
     required this.isPublic,
     required this.categoryId,
+    required this.participantCount,
   }):eventUuid = generateUuid();
 
   // Converts an Event object into a Map
@@ -41,6 +43,7 @@ class Event {
       'participants': participants,
       'isPublic': isPublic,
       'categoryId': categoryId,
+      'participantCount': participantCount,
     };
   }
 }

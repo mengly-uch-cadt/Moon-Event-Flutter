@@ -23,12 +23,27 @@ class EventService {
     }
   }
 
+  // Update participant count
+  Future<void> updateParticipantCount(String eventUuid) async {
+    DocumentReference eventRef = _firestore.collection('events').doc(eventUuid);
+
+    // Fetch the event to get the current participant list
+    DocumentSnapshot eventSnapshot = await eventRef.get();
+    List participants = eventSnapshot['participants'] ?? [];
+
+    // Update the participant count
+    await eventRef.update({
+      'participantCount': participants.length,
+    });
+  }
+
   Future<ResponseResult> getEvents({
     bool isAllEvents = false, 
-    bool isPopularEvents = false
+    bool isPopularEvents = false,
+    bool isNewReleaseEvents = false
   }) async {
     try {
-      QuerySnapshot eventSnapshot;
+      QuerySnapshot? eventSnapshot;
 
       // Fetch all categories once to map them
       QuerySnapshot categorySnapshot = await _firestore.collection('categories').get();
@@ -44,30 +59,36 @@ class EventService {
           .get();
       } 
       else if(isPopularEvents){
-        // Get current date (start of today)
         DateTime now = DateTime.now();
         DateTime todayStart = DateTime(now.year, now.month, now.day);
 
-        // Fetch popular events (not expired and sorted by participant count)
         eventSnapshot = await _firestore.collection('events')
           .where("isPublic", isEqualTo: true)
           .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
-          .orderBy("participants", descending: true)
+          .orderBy("participantCount", descending: true)
           .limit(15)
           .get();
-        }
-      else {
-        eventSnapshot = await _firestore.collection('events').get();
+      }
+      else if(isNewReleaseEvents){
+        DateTime now = DateTime.now();
+        DateTime todayStart = DateTime(now.year, now.month, now.day);
+
+        eventSnapshot = await _firestore.collection('events')
+          .where("isPublic", isEqualTo: true)
+          .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
+          .orderBy("date", descending: false)
+          .limit(15)
+          .get();
       }
 
-      if(eventSnapshot.docs.isEmpty){
-        return ResponseResult.success(
-          data: [],
-          message: 'No events found',
-        );
-      }
+      // if(eventSnapshot!.docs.isEmpty){
+      //   return ResponseResult.success(
+      //     data: [],
+      //     message: 'No events found',
+      //   );
+      // }
       // Map events with their associated categories
-      List<GetEvent> events = eventSnapshot.docs.map((doc) {
+      List<GetEvent> events = eventSnapshot!.docs.map((doc) {
         Map<String, dynamic> eventData = doc.data() as Map<String, dynamic>;
         String categoryId = eventData['categoryId'];
         // Find the matching category from the categoryMap
@@ -85,11 +106,13 @@ class EventService {
           participants: List<String>.from(eventData['participants']),
           isPublic: eventData['isPublic'],
           category: category,
+          participantCount: eventData['participantCount'] ?? 0,
         );
       }).toList();
       print("===========================================");
       print("is all events: $isAllEvents");
       print("is popular events: $isPopularEvents");
+      print("is new release events: $isNewReleaseEvents");
       print(events.length);
       return ResponseResult.success(
         data: events,

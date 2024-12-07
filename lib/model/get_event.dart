@@ -13,6 +13,7 @@ class GetEvent {
   List<String> participants;
   bool isPublic;
   Category category;
+  int participantCount;
 
   GetEvent({
     required this.eventUuid,
@@ -26,6 +27,7 @@ class GetEvent {
     required this.participants,
     required this.isPublic,
     required this.category,
+    required this.participantCount,
   });
 
 
@@ -34,7 +36,7 @@ class GetEvent {
       eventUuid: data['eventUuid'],
       title: data['title'],
       description: data['description'],
-      date: data['date'] as Timestamp,  // Convert Firebase Timestamp to DateTime
+      date: data['date'] as Timestamp,
       time: data['time'],
       location: data['location'],
       imageUrl: data['imageUrl'],
@@ -42,6 +44,7 @@ class GetEvent {
       participants: List<String>.from(data['participants']),
       isPublic: data['isPublic'],
       category: Category.fromMap(data['category'], data['category']['uuid']),
+      participantCount: data['participantCount'] ?? 0,
     );
   }
 }

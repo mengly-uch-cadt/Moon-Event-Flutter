@@ -21,7 +21,13 @@ class EventNotifier extends StateNotifier<EventState> {
     state = state.copyWith(popularEvents: null);
   }
 
+  void setNewReleaseEventData(List<GetEvent> eventData) {
+    state = state.copyWith(newReleaseEvents: eventData);
+  }
 
+  void clearNewReleaseEventData() {
+    state = state.copyWith(newReleaseEvents: null);
+  }
 }
 
 final eventProvider = StateNotifierProvider<EventNotifier, EventState>((ref) {
@@ -32,16 +38,19 @@ final eventProvider = StateNotifierProvider<EventNotifier, EventState>((ref) {
 class EventState{
   final List<GetEvent>? allEvents;
   final List<GetEvent>? popularEvents;
+  final List<GetEvent>? newReleaseEvents;
 
-  EventState({this.allEvents, this.popularEvents});
+  EventState({this.allEvents, this.popularEvents, this.newReleaseEvents});
 
   EventState copyWith({
     List<GetEvent>? allEvents,
     List<GetEvent>? popularEvents,
+    List<GetEvent>? newReleaseEvents,
   }) {
     return EventState(
-      allEvents: allEvents ?? this.allEvents,
-      popularEvents: popularEvents ?? this.popularEvents,
+      allEvents       : allEvents ?? this.allEvents,
+      popularEvents   : popularEvents ?? this.popularEvents,
+      newReleaseEvents: newReleaseEvents ?? this.newReleaseEvents,
     );
   }
 }

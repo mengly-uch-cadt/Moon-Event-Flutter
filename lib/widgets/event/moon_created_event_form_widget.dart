@@ -218,6 +218,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                         participants: selectedUIDs,
                                         isPublic: isPublic,
                                         categoryId: _selectedCategoryId!,
+                                        participantCount: 0,// Initialize the participant count 
                                       );
 
                                       EventService eventService = EventService();
