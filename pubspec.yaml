@@ -51,6 +51,7 @@ dependencies:
   firebase_storage: ^12.3.7
   qr_flutter: ^4.1.0
   qr_code_scanner_plus: ^2.0.6
+  skeletonizer: ^1.4.2
 
 dev_dependencies:
   flutter_test:
