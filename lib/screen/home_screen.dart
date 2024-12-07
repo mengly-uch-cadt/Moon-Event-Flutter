@@ -25,7 +25,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   bool _allEventsLoading = true;
   bool _popluarEventsLoading = true;
   List<GetEvent>? allEventsData;
-  List<GetEvent>? popularEvents;
+  List<GetEvent>? popularEventsData;
 
   double halfScreen(BuildContext context) {
     return MediaQuery.of(context).size.width / 2.25;
@@ -35,34 +35,34 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   void initState() {
     super.initState();
     // loadDummyEvents();
-    getAllEvents();
     getPopularEvents();
+    getAllEvents();
   }
 
-  void loadDummyEvents(){
-    EventService eventService = EventService(); 
-    for (var event in dummyEvents){
-      eventService.createEvent(event);
-      print("Event created: ${event.title}");
+  // void loadDummyEvents(){
+  //   EventService eventService = EventService(); 
+  //   for (var event in dummyEvents){
+  //     eventService.createEvent(event);
+  //     print("Event created: ${event.title}");
+  //   }
+  // }
+  void getPopularEvents() async {
+    Future<ResponseResult> responseResult = eventService.getEvents(isPopularEvents: true);
+    final result = await responseResult;
+    if (result.isSuccess) {
+      popularEventsData = result.data;
+      ref.read(eventProvider.notifier).setAllEventData(popularEventsData!);
+    } else {
+      throw Exception(result.message);
     }
   }
+  
   void getAllEvents() async {
     Future<ResponseResult> responseResult = eventService.getEvents(isAllEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
       allEventsData = result.data;
-      ref.read(eventProvider.notifier).setAllEventData(allEventsData!);
-    } else {
-      throw Exception(result.message);
-    }
-  }
-
-  void getPopularEvents() async {
-    Future<ResponseResult> responseResult = eventService.getEvents(isPopularEvents: true);
-    final result = await responseResult;
-    if (result.isSuccess) {
-      popularEvents = result.data;
-      ref.read(eventProvider.notifier).setAllEventData(popularEvents!);
+      ref.read(eventProvider.notifier).setPopularEventData(allEventsData!);
     } else {
       throw Exception(result.message);
     }
@@ -72,11 +72,11 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   Widget build(BuildContext context) {
     final eventState = ref.watch(eventProvider);
     final allEventsData = eventState.allEvents;
-    final popularEvents = eventState.popularEvents;
+    final popularEventsData = eventState.popularEvents;
 
     // loading events
     _allEventsLoading = allEventsData == null;
-    _popluarEventsLoading = popularEvents == null;
+    _popluarEventsLoading = popularEventsData == null;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -123,9 +123,9 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                       ],
                     ),
                      // Show skeleton or events based on loading state and data length
-                    popularEvents == null || popularEvents.isEmpty
+                    popularEventsData == null || popularEventsData.isEmpty
                         ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                        : _buildEventsList(popularEvents, _popluarEventsLoading),
+                        : _buildEventsList(popularEventsData, _popluarEventsLoading),
                     const SizedBox(height: 20,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
