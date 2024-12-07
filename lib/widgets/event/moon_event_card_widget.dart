@@ -1,5 +1,7 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:moon_event/model/category.dart';
 import 'package:moon_event/theme.dart';
 
@@ -19,7 +21,7 @@ class MoonEventCardWidget extends StatelessWidget {
   final String title;
   final String description;
   final String location;
-  final String date;
+  final Timestamp date;
   final String time;
   final Category category;
   final int numberParticipants;
@@ -125,7 +127,7 @@ class MoonEventCardWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        date,
+                        DateFormat('MMM, dd, yyyy -' ).format(date.toDate()),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(width: 4),

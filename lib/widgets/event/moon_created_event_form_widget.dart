@@ -210,7 +210,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                       final event = Event(
                                         title: _titleController.text,
                                         description: _descriptionController.text,
-                                        date: _dateController.text,
+                                        date: DateTime.parse(_dateController.text),
                                         time: _timeController.text,
                                         location: _locationController.text,
                                         imageUrl: _imageUrl,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moon_event/dummy_data/dummy.dart';
+import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/state/event_state.dart';
@@ -21,7 +23,9 @@ class MoonHomeScreen extends ConsumerStatefulWidget {
 class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   EventService eventService = EventService();
   bool _allEventsLoading = true;
+  bool _popluarEventsLoading = true;
   List<GetEvent>? allEventsData;
+  List<GetEvent>? popularEvents;
 
   double halfScreen(BuildContext context) {
     return MediaQuery.of(context).size.width / 2.25;
@@ -30,10 +34,19 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   @override
   void initState() {
     super.initState();
-    getEvents();
+    // loadDummyEvents();
+    getAllEvents();
+    getPopularEvents();
   }
 
-  void getEvents() async {
+  void loadDummyEvents(){
+    EventService eventService = EventService(); 
+    for (var event in dummyEvents){
+      eventService.createEvent(event);
+      print("Event created: ${event.title}");
+    }
+  }
+  void getAllEvents() async {
     Future<ResponseResult> responseResult = eventService.getEvents(isAllEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
@@ -44,13 +57,26 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     }
   }
 
+  void getPopularEvents() async {
+    Future<ResponseResult> responseResult = eventService.getEvents(isPopularEvents: true);
+    final result = await responseResult;
+    if (result.isSuccess) {
+      popularEvents = result.data;
+      ref.read(eventProvider.notifier).setAllEventData(popularEvents!);
+    } else {
+      throw Exception(result.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final eventState = ref.watch(eventProvider);
-    final allEventsData = eventState.isAllEvents;
+    final allEventsData = eventState.allEvents;
+    final popularEvents = eventState.popularEvents;
 
     // loading events
     _allEventsLoading = allEventsData == null;
+    _popluarEventsLoading = popularEvents == null;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -79,6 +105,37 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     const MoonListCategoryWidget(),
                     const SizedBox(height: 20),
                     // ===========================================================
+                    //  Popular Events  
+                    // ===========================================================
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const MoonTitleWidget(
+                          firstTitle: "Popular",
+                          secondTitle: "Events",
+                        ),
+                        TextButton(onPressed: () {},
+                        child: Text(
+                          "See All", 
+                          style: Theme.of(context).textTheme.bodyMedium
+                          )
+                        ),
+                      ],
+                    ),
+                     // Show skeleton or events based on loading state and data length
+                    popularEvents == null || popularEvents.isEmpty
+                        ? _buildNoDataMessage()  // Show 'No Available Data' if no events
+                        : _buildEventsList(popularEvents, _popluarEventsLoading),
+                    const SizedBox(height: 20,),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
+                        Text("Enroll now and take the first step towards mastering [subject/topic].", style: Theme.of(context).textTheme.bodyMedium,)
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    // ===========================================================
                     // All Events
                     // ===========================================================
                     Row(
@@ -105,7 +162,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     // Show skeleton or events based on loading state and data length
                     allEventsData == null || allEventsData.isEmpty
                         ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                        : _buildEventsList(allEventsData),
+                        : _buildEventsList(allEventsData, _allEventsLoading),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -130,9 +187,9 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     );
   }
 
-  Widget _buildEventsList(List<GetEvent> events) {
+  Widget _buildEventsList(List<GetEvent> events, bool enabled) {
     return Skeletonizer(
-      enabled: _allEventsLoading,
+      enabled: enabled,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

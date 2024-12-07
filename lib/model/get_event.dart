@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_event/model/category.dart';
 
 class GetEvent {
   String eventUuid;
   String title;
   String description;
-  String date;
+  Timestamp date;
   String time;
   String location;
   String imageUrl;
@@ -33,7 +34,7 @@ class GetEvent {
       eventUuid: data['eventUuid'],
       title: data['title'],
       description: data['description'],
-      date: data['date'],
+      date: data['date'] as Timestamp,  // Convert Firebase Timestamp to DateTime
       time: data['time'],
       location: data['location'],
       imageUrl: data['imageUrl'],

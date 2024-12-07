@@ -26,13 +26,13 @@ class MoonSeeAllEventWidget extends StatelessWidget {
             final event = events[index];
             return MoonEventCardWidget(
               imageUrl: event.imageUrl,
-                title: event.title,
-                description: event.description,
-                location: event.location,
-                date: event.date,
-                time: event.time,
-                numberParticipants: 0,
-                category: event.category,
+              title: event.title,
+              description: event.description,
+              location: event.location,
+              date: event.date,
+              time: event.time,
+              numberParticipants: 0,
+              category: event.category,
             );
           },
         ),

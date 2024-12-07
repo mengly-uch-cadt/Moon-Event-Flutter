@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_event/utils/generate_uuid_util.dart';
 
 class Event {
-  String? eventUuid;
+  String eventUuid;
   String title;
   String description;
-  String date;
+  DateTime  date;
   String time;
   String location;
   String imageUrl;
@@ -32,7 +33,7 @@ class Event {
       'eventUuid': eventUuid,
       'title': title,
       'description': description,
-      'date': date,
+      'date': Timestamp.fromDate(date),
       'time': time,
       'location': location,
       'imageUrl': imageUrl,

@@ -23,7 +23,10 @@ class EventService {
     }
   }
 
-  Future<ResponseResult> getEvents({bool isAllEvents = false}) async {
+  Future<ResponseResult> getEvents({
+    bool isAllEvents = false, 
+    bool isPopularEvents = false
+  }) async {
     try {
       QuerySnapshot eventSnapshot;
 
@@ -37,9 +40,23 @@ class EventService {
       // Fetch events based on `isAllEvents` flag
       if (isAllEvents) {
         eventSnapshot = await _firestore.collection('events')
-            .where("isPublic", isEqualTo: true)
-            .get();
-      } else {
+          .where("isPublic", isEqualTo: true)
+          .get();
+      } 
+      else if(isPopularEvents){
+        // Get current date (start of today)
+        DateTime now = DateTime.now();
+        DateTime todayStart = DateTime(now.year, now.month, now.day);
+
+        // Fetch popular events (not expired and sorted by participant count)
+        eventSnapshot = await _firestore.collection('events')
+          .where("isPublic", isEqualTo: true)
+          .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
+          .orderBy("participants", descending: true)
+          .limit(15)
+          .get();
+        }
+      else {
         eventSnapshot = await _firestore.collection('events').get();
       }
 
@@ -70,6 +87,10 @@ class EventService {
           category: category,
         );
       }).toList();
+      print("===========================================");
+      print("is all events: $isAllEvents");
+      print("is popular events: $isPopularEvents");
+      print(events.length);
       return ResponseResult.success(
         data: events,
         message: 'Events fetched successfully',

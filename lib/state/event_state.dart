@@ -6,11 +6,19 @@ class EventNotifier extends StateNotifier<EventState> {
   EventNotifier() : super(EventState());
 
   void setAllEventData(List<GetEvent> eventData) {
-    state = state.copyWith(isAllEvents: eventData);
+    state = state.copyWith(allEvents: eventData);
   }
 
   void clearAllEventData() {
-    state = state.copyWith(isAllEvents: null);
+    state = state.copyWith(allEvents: null);
+  }
+
+  void setPopularEventData(List<GetEvent> eventData) {
+    state = state.copyWith(popularEvents: eventData);
+  }
+
+  void clearPopularEventData() {
+    state = state.copyWith(popularEvents: null);
   }
 
 
@@ -22,15 +30,18 @@ final eventProvider = StateNotifierProvider<EventNotifier, EventState>((ref) {
 
 
 class EventState{
-  final List<GetEvent>? isAllEvents;
+  final List<GetEvent>? allEvents;
+  final List<GetEvent>? popularEvents;
 
-  EventState({this.isAllEvents});
+  EventState({this.allEvents, this.popularEvents});
 
   EventState copyWith({
-    List<GetEvent>? isAllEvents,
+    List<GetEvent>? allEvents,
+    List<GetEvent>? popularEvents,
   }) {
     return EventState(
-      isAllEvents: isAllEvents ?? this.isAllEvents,
+      allEvents: allEvents ?? this.allEvents,
+      popularEvents: popularEvents ?? this.popularEvents,
     );
   }
 }
