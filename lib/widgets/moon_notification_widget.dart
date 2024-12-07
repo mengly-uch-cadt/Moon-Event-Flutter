@@ -28,7 +28,7 @@ class MoonNotificationWidget extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const MoonTitleWidget(firstTitle: "notifications", secondTitle: ""),
+        title: const MoonTitleWidget(firstTitle: "notifications", secondTitle: "messages"),
       ),
       body: ListView.builder(
         itemCount: notifications.length,

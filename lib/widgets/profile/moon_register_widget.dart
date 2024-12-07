@@ -5,8 +5,8 @@ import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
-import 'package:moon_event/widgets/moon_password_field_widget.dart';
-import 'package:moon_event/widgets/moon_text_field_widget.dart';
+import 'package:moon_event/widgets/input/moon_password_field_widget.dart';
+import 'package:moon_event/widgets/input/moon_text_field_widget.dart';
 import 'package:moon_event/widgets/profile/moon_login_widget.dart';
 
 class MoonRegisterWidget extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
-import 'package:moon_event/widgets/moon_text_field_widget.dart';
+import 'package:moon_event/widgets/input/moon_text_field_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonForgotPasswordWidget extends StatefulWidget {

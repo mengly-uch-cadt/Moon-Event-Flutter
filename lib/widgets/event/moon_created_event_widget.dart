@@ -1,6 +1,7 @@
 import 'dart:math'; // Import Random for generating random numbers
 import 'package:flutter/material.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/widgets/event/moon_created_event_form_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
@@ -133,8 +134,10 @@ class _MoonCreatedEventWidgetState extends State<MoonCreatedEventWidget> {
               right: 16.0, // Adjust the horizontal position
                 child: FloatingActionButton(
                 onPressed: () {
-                  // Your FAB action
-                  print('Floating Action Button Pressed!');
+                  showDialog(
+                    context: context, 
+                    builder: (ctx)=> MoonCreatedEventFormWidget(),
+                  );
                 },
                 backgroundColor: AppColors.primary, // Set the background color
                 focusColor: AppColors.primary,

@@ -66,9 +66,9 @@ class User {
     );
   }
 
-  // Converts a User object into a JSON string
-  String toJson() => json.encode(toMap());
+  // // Converts a User object into a JSON string
+  // String toJson() => json.encode(toMap());
 
-  // // Creates a User object from a JSON string
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
+  // // // Creates a User object from a JSON string
+  // factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }

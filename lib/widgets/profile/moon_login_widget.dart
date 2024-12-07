@@ -6,8 +6,8 @@ import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moon_event/widgets/moon_password_field_widget.dart';
-import 'package:moon_event/widgets/moon_text_field_widget.dart';
+import 'package:moon_event/widgets/input/moon_password_field_widget.dart';
+import 'package:moon_event/widgets/input/moon_text_field_widget.dart';
 import 'package:moon_event/widgets/profile/moon_forgot_password_widget.dart';
 import 'package:moon_event/widgets/profile/moon_register_widget.dart';
 
