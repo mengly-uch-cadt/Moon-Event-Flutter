@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/dummy_data/dummy.dart';
+import 'package:moon_event/model/category.dart';
 import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
@@ -34,18 +36,10 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   @override
   void initState() {
     super.initState();
-    // loadDummyEvents();
     getPopularEvents();
     getAllEvents();
   }
 
-  // void loadDummyEvents(){
-  //   EventService eventService = EventService(); 
-  //   for (var event in dummyEvents){
-  //     eventService.createEvent(event);
-  //     print("Event created: ${event.title}");
-  //   }
-  // }
   void getPopularEvents() async {
     Future<ResponseResult> responseResult = eventService.getEvents(isPopularEvents: true);
     final result = await responseResult;
@@ -105,7 +99,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     const MoonListCategoryWidget(),
                     const SizedBox(height: 20),
                     // ===========================================================
-                    //  Popular Events  
+                    // Popular Events  
                     // ===========================================================
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,24 +108,27 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           firstTitle: "Popular",
                           secondTitle: "Events",
                         ),
-                        TextButton(onPressed: () {},
-                        child: Text(
-                          "See All", 
-                          style: Theme.of(context).textTheme.bodyMedium
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "See All", 
+                            style: Theme.of(context).textTheme.bodyMedium
                           )
                         ),
                       ],
                     ),
-                     // Show skeleton or events based on loading state and data length
-                    popularEventsData == null || popularEventsData.isEmpty
-                        ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                        : _buildEventsList(popularEventsData, _popluarEventsLoading),
+                    // Show skeleton or events based on loading state and data length
+                    _popluarEventsLoading
+                        ? _buildSkeleton() // Show skeleton while loading
+                        : (popularEventsData == null || popularEventsData.isEmpty
+                            ? _buildNoDataMessage()  // Show 'No Available Data' if no events
+                            : _buildEventsList(popularEventsData, _popluarEventsLoading)),
                     const SizedBox(height: 20,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
-                        Text("Enroll now and take the first step towards mastering [subject/topic].", style: Theme.of(context).textTheme.bodyMedium,)
+                        Text("Check out the most popular events happening right now. Don't miss the chance to be part of these exciting experiences!", style: Theme.of(context).textTheme.bodyMedium,)
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -160,15 +157,48 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                       ],
                     ),
                     // Show skeleton or events based on loading state and data length
-                    allEventsData == null || allEventsData.isEmpty
-                        ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                        : _buildEventsList(allEventsData, _allEventsLoading),
+                    _allEventsLoading
+                        ? _buildSkeleton() // Show skeleton while loading
+                        : (allEventsData == null || allEventsData.isEmpty
+                            ? _buildNoDataMessage()  // Show 'No Available Data' if no events
+                            : _buildEventsList(allEventsData, _allEventsLoading)),
                     const SizedBox(height: 20),
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // Widget to show the skeleton loader while fetching data
+  Widget _buildSkeleton() {
+    return Skeletonizer(
+      enabled: true,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(3, (index) {
+            return SizedBox(
+              width: halfScreen(context),
+              child: MoonEventCardWidget(
+                imageUrl: null,
+                title: 'Loading...',
+                description: 'Loading...',
+                location: 'Loading...',
+                date: Timestamp.now(),
+                time: 'Loading...',
+                numberParticipants: 0,
+                category: Category(
+                  uuid: 'uuid-placeholder',
+                  category: 'category-placeholder',
+                  icon: "", // replace with appropriate icon
+                ),
+              ),
+            );
+          }),
         ),
       ),
     );
@@ -188,29 +218,25 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   }
 
   Widget _buildEventsList(List<GetEvent> events, bool enabled) {
-    return Skeletonizer(
-      enabled: enabled,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: events.map((event) {
-            return SizedBox(
-              width: halfScreen(context),
-              child: MoonEventCardWidget(
-                imageUrl: event.imageUrl,
-                title: event.title,
-                description: event.description,
-                location: event.location,
-                date: event.date,
-                time: event.time,
-                numberParticipants: 0,
-                category: event.category,
-              ),
-            );
-          }).toList(),
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: events.map((event) {
+          return SizedBox(
+            width: halfScreen(context),
+            child: MoonEventCardWidget(
+              imageUrl: event.imageUrl,
+              title: event.title,
+              description: event.description,
+              location: event.location,
+              date: event.date,
+              time: event.time,
+              numberParticipants: 0,
+              category: event.category,
+            ),
+          );
+        }).toList(),
       ),
     );
   }
-
 }
