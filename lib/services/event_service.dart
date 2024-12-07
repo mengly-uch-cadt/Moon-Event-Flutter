@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_event/model/category.dart';
 import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
-import 'package:moon_event/services/category_service.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 
 class EventService {
@@ -71,7 +70,6 @@ class EventService {
           category: category,
         );
       }).toList();
-
       return ResponseResult.success(
         data: events,
         message: 'Events fetched successfully',

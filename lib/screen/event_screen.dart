@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/theme.dart';
-import 'package:moon_event/widgets/event/moon_created_event_widget.dart';
-import 'package:moon_event/widgets/event/moon_joined_event_widget.dart';
-import 'package:moon_event/widgets/event/moon_plan_event_widget.dart';
-
 class MoonEventScreen extends StatefulWidget {
   const MoonEventScreen({super.key});
 
