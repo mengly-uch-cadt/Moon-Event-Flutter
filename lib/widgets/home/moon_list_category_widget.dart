@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_event/model/category.dart';
 import 'package:moon_event/services/category_service.dart';
+import 'package:moon_event/state/category_state.dart';
 import 'package:moon_event/theme.dart';
 
-class MoonListCategoryWidget extends StatefulWidget {
+class MoonListCategoryWidget extends ConsumerStatefulWidget {
   const MoonListCategoryWidget({super.key});
 
   @override
-  _MoonListCategoryWidgetState createState() => _MoonListCategoryWidgetState();
+  // ignore: library_private_types_in_public_api
+  ConsumerState<MoonListCategoryWidget> createState() => _MoonListCategoryWidgetState();
 }
-class _MoonListCategoryWidgetState extends State<MoonListCategoryWidget> {
+class _MoonListCategoryWidgetState extends ConsumerState<MoonListCategoryWidget> {
   late Future<List<Category>> categoriesFuture;
 
   @override
@@ -19,7 +22,10 @@ class _MoonListCategoryWidgetState extends State<MoonListCategoryWidget> {
     CategoryService categoryService = CategoryService();
     categoriesFuture = categoryService.getCategories().then((responseResult) {
       if (responseResult.isSuccess) {
-        return responseResult.data as List<Category>; // Return the list of categories
+        final categories = responseResult.data as List<Category>;
+        // Set the categories to the state
+        ref.read(categoryProvider.notifier).setCategoryData(categories); 
+        return categories; // Return the list of categories
       } else {
         throw Exception(responseResult.message); // Handle error if failed
       }
@@ -101,6 +107,7 @@ class MoonCategory extends StatelessWidget {
             child: Center(
               child: SvgPicture.asset(
                 'assets/icons/$icon.svg',
+                // ignore: deprecated_member_use
                 color: AppColors.white,
                 width: 25,
                 height: 25,

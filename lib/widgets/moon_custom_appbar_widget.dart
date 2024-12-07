@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_notification_widget.dart';
 
 class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidget {
@@ -81,6 +82,16 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                       color: AppColors.white,
                     ),
                     onPressed: () {
+                        if (ref.read(userProvider) == null) {
+                        showDialog(context: context, builder: (ctx) => 
+                          const MoonAlertWidget(
+                            icon: Icons.error_outline,
+                            title: 'Error',
+                            description: 'Please log in to create an event.',
+                            typeError: true,
+                          ));
+                        return;
+                      }
                     },
                   ),
                   IconButton(
@@ -91,6 +102,16 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                       color: AppColors.white,
                     ),
                     onPressed: () {
+                      if (ref.read(userProvider) == null) {
+                        showDialog(context: context, builder: (ctx) => 
+                          const MoonAlertWidget(
+                            icon: Icons.error_outline,
+                            title: 'Error',
+                            description: 'Please log in to create an event.',
+                            typeError: true,
+                          ));
+                        return;
+                      }
                       showDialog(
                         context: context, 
                         builder: (ctx) => const MoonNotificationWidget(),

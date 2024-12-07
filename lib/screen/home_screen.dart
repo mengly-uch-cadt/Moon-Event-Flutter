@@ -1,40 +1,12 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_event/widgets/home/moon_list_category_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonHomeScreen extends StatelessWidget {
-  MoonHomeScreen({super.key});
-  // Firestore collection reference
-  final CollectionReference _counterRef =
-      FirebaseFirestore.instance.collection('counter');  // Collection in Firestore
-  
-  final TextEditingController _controller = TextEditingController();
-
-  // Add a new value to Firestore from the input field
-  void _addInputValue(BuildContext context) async {
-    String inputValue = _controller.text.trim();
-
-    if (inputValue.isNotEmpty) {
-      // Use `set()` if you want to update a specific document (e.g., for the same user)
-      await _counterRef.doc('inputValuedddDoc').set({
-        'inputValue': inputValue,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
-
-      // Clear the input field after submitting
-      _controller.clear();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: const Text('Please enter a value'), backgroundColor: AppColors.secondary,),
-      );
-    }
-  }
+  const MoonHomeScreen({super.key});
 
   double halfScreen(BuildContext context) {
     return MediaQuery.of(context).size.width / 2.25;

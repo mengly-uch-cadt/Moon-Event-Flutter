@@ -152,8 +152,8 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                             lastName: _lastNameController.text
                             );
                             ResponseResult responseResult = await authService.signUp(
-                            user: user,
-                            password: _passwordController.text,
+                              user: user,
+                              password: _passwordController.text,
                             );
                             if (responseResult.isSuccess) {
                               showDialog(

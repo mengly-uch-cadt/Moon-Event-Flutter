@@ -1,3 +1,5 @@
+import 'package:moon_event/utils/generate_uuid_util.dart';
+
 class Event {
   String? eventId;
   String title;
@@ -9,7 +11,7 @@ class Event {
   String organizerId;
   List<String> participants;
   bool isPublic;
-  String category;
+  String categoryId;
 
   Event({
     this.eventId,
@@ -22,8 +24,35 @@ class Event {
     required this.organizerId,
     required this.participants,
     required this.isPublic,
-    required this.category,
+    required this.categoryId,
   });
+  
+  factory Event.create({
+    required String title,
+    required String description,
+    required String date,
+    required String time,
+    required String location,
+    required String imageUrl,
+    required String organizerId,
+    required List<String> participants,
+    required bool isPublic,
+    required String categoryId,
+  }) {
+    return Event(
+      eventId: generateUuid(),
+      title: title,
+      description: description,
+      date: date,
+      time: time,
+      location: location,
+      imageUrl: imageUrl,
+      organizerId: organizerId,
+      participants: participants,
+      isPublic: isPublic,
+      categoryId: categoryId,
+    );
+  }
 
   // Converts an Event object into a Map
   // toIso8601String is a method in Dart's DateTime class that converts a DateTime object into a string formatted in ISO 8601 standard. 
@@ -39,7 +68,7 @@ class Event {
       'organizerId': organizerId,
       'participants': participants,
       'isPublic': isPublic,
-      'category': category,
+      'categoryId': categoryId,
     };
   }
 
@@ -56,7 +85,7 @@ class Event {
       organizerId: map['organizerId'] as String,
       participants: List<String>.from(map['participants'] ?? []),
       isPublic: map['isPublic'] as bool,
-      category: map['category'] as String
+      categoryId: map['categoryId'] as String
     );
   }
 }

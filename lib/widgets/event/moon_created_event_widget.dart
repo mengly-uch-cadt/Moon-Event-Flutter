@@ -1,18 +1,21 @@
 import 'dart:math'; // Import Random for generating random numbers
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/event/moon_created_event_form_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
-class MoonCreatedEventWidget extends StatefulWidget {
+class MoonCreatedEventWidget extends ConsumerStatefulWidget {
   MoonCreatedEventWidget({super.key});
 
   @override
-  _MoonCreatedEventWidgetState createState() => _MoonCreatedEventWidgetState();
+  ConsumerState<MoonCreatedEventWidget> createState() => _MoonCreatedEventWidgetState();
 }
 
-class _MoonCreatedEventWidgetState extends State<MoonCreatedEventWidget> {
+class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget> {
   final ScrollController _scrollController = ScrollController();
   bool _isBottom = false; // Track if the scroll is at the bottom
 
@@ -134,6 +137,16 @@ class _MoonCreatedEventWidgetState extends State<MoonCreatedEventWidget> {
               right: 16.0, // Adjust the horizontal position
                 child: FloatingActionButton(
                 onPressed: () {
+                  if (ref.read(userProvider) == null) {
+                    showDialog(context: context, builder: (ctx) => 
+                      const MoonAlertWidget(
+                        icon: Icons.error_outline,
+                        title: 'Error',
+                        description: 'Please log in to create an event.',
+                        typeError: true,
+                      ));
+                    return;
+                  }
                   showDialog(
                     context: context, 
                     builder: (ctx)=> MoonCreatedEventFormWidget(),
@@ -141,8 +154,8 @@ class _MoonCreatedEventWidgetState extends State<MoonCreatedEventWidget> {
                 },
                 backgroundColor: AppColors.primary, // Set the background color
                 focusColor: AppColors.primary,
-                child: Icon(Icons.add, color: AppColors.white,),
                 tooltip: 'Create New Event',
+                child: Icon(Icons.add, color: AppColors.white,),
                 ),
               ),
         ],

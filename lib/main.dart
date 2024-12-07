@@ -45,7 +45,7 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
   int _selectedIndex = 0;
 
   final List<Widget> _widgetOptions =<Widget>[
-    MoonHomeScreen(),
+    const MoonHomeScreen(),
     const MoonEventScreen(),
     const MoonProfileScreen(),
   ];
@@ -59,54 +59,54 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
 
     @override
     Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: const MoonCustomAppBarWidget(),
-        backgroundColor: AppColors.secondary,
-        body: Container(
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
+    return Scaffold(
+      appBar: const MoonCustomAppBarWidget(),
+      backgroundColor: AppColors.secondary,
+      body: Container(
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
-          child: _widgetOptions.elementAt(_selectedIndex),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: svg.SvgPicture.asset(
-                'assets/icons/home.svg',
-                // ignore: deprecated_member_use
-                color: _selectedIndex == 0 ? AppColors.primary : AppColors.textBlack,
-                ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: svg.SvgPicture.asset(
-                'assets/icons/event.svg',
-                // ignore: deprecated_member_use
-                color: _selectedIndex == 1 ? AppColors.primary : AppColors.textBlack,
-                ),
-              label: 'My Event',
-            ),
-            BottomNavigationBarItem(
-              icon:  svg.SvgPicture.asset(
-                'assets/icons/profile.svg',
-                // ignore: deprecated_member_use
-                color: _selectedIndex == 2 ? AppColors.primary : AppColors.textBlack,
-                ),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: AppColors.textBlack,
-          showUnselectedLabels: true,
-          onTap: _onItemTapped,
-        ),
-      );
-    }
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: svg.SvgPicture.asset(
+              'assets/icons/home.svg',
+              // ignore: deprecated_member_use
+              color: _selectedIndex == 0 ? AppColors.primary : AppColors.textBlack,
+              ),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: svg.SvgPicture.asset(
+              'assets/icons/event.svg',
+              // ignore: deprecated_member_use
+              color: _selectedIndex == 1 ? AppColors.primary : AppColors.textBlack,
+              ),
+            label: 'My Event',
+          ),
+          BottomNavigationBarItem(
+            icon:  svg.SvgPicture.asset(
+              'assets/icons/profile.svg',
+              // ignore: deprecated_member_use
+              color: _selectedIndex == 2 ? AppColors.primary : AppColors.textBlack,
+              ),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.textBlack,
+        showUnselectedLabels: true,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
 }
 

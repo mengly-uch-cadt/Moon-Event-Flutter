@@ -107,6 +107,7 @@ class MoonEventCardWidget extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/icons/web-development.svg',
+                        // ignore: deprecated_member_use
                         color: AppColors.primary,
                       ),
                       const SizedBox(width: 8),

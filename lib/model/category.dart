@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 class Category {
   final String uuid;  // To store the document ID
   final String category;
