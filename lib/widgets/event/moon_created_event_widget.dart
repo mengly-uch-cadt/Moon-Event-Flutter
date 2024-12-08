@@ -71,7 +71,7 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: 
-            events?.length == 0 
+            events.isEmpty 
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
