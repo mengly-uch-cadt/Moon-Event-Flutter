@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/state/user_state.dart';
+import 'package:moon_event/utils/secure_local_storage_util.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/profile/moon_login_widget.dart';
 import 'package:moon_event/widgets/profile/moon_profile_info_widget.dart';
@@ -14,14 +15,31 @@ class MoonProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
+  bool isLoggedIn = false; // Initially set to false
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus(); // Call the checkLoginStatus method on widget initialization
+  }
+
+  void checkLoginStatus() async {
+    bool loggedIn = await isUserLoggedIn(); // Check login status asynchronously
+    setState(() {
+      isLoggedIn = loggedIn; // Update the state after getting the result
+    });
+  }
+
+  void onLogout() async {
+    await logout(); // Logout the user
+    ref.read(userProvider.notifier).clearsetUserData(); // Clear user data
+    setState(() {
+      isLoggedIn = false; // After logout, update the isLoggedIn state
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Watch the login status from the provider
-    final isLoggedIn = ref.watch(isLoggedInProvider);
-    void onLogout() async {
-      ref.read(isLoggedInProvider.notifier).clearLoggedIn();  // Update login state
-      ref.read(userProvider.notifier).clearsetUserData(); // Clear user data
-    }
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -31,10 +49,10 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
             child: isLoggedIn
                 ? Column(
                     children: [
-                      const MoonProfileInfoWidget(),
+                      const MoonProfileInfoWidget(), // Show profile info widget
                       MoonButtonWidget(
                         text: "Logout",
-                        onPressed: onLogout,
+                        onPressed: onLogout, // Logout action
                       ),
                     ],
                   )
@@ -46,7 +64,7 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const MoonLoginWidget();  // Show login widget
+                              return const MoonLoginWidget(); // Show login widget
                             },
                           );
                         },
@@ -58,7 +76,7 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return const MoonRegisterWidget();  // Show register widget
+                              return const MoonRegisterWidget(); // Show register widget
                             },
                           );
                         },

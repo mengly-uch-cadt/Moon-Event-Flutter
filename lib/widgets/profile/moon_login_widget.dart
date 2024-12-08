@@ -3,6 +3,7 @@ import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+import 'package:moon_event/utils/secure_local_storage_util.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,12 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void onLoginSuccess(String userId) async {
+    await saveLoginState(userId);
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
@@ -131,8 +138,9 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                             password: _passwordController.text,
                           );
                           if (responseResult.isSuccess) {
+                            final String userId = responseResult.data.uid;
+                            onLoginSuccess(userId);
                             ref.read(userProvider.notifier).setUserData(responseResult.data);
-                            ref.read(isLoggedInProvider.notifier).setLoggedIn(true);  // Update login state
                             // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/widgets/event/moon_created_event_widget.dart';
+import 'package:moon_event/widgets/event/moon_joined_event_widget.dart';
+import 'package:moon_event/widgets/event/moon_plan_event_widget.dart';
 class MoonEventScreen extends StatefulWidget {
   const MoonEventScreen({super.key});
 
@@ -37,22 +40,22 @@ class _MoonEventScreenState extends State<MoonEventScreen> {
             ),
           ),
           // // Expanded widget to constrain the height of the content
-          //   Expanded(
-          //   child: Builder(
-          //     builder: (context) {
-          //     // switch (_selectedIndex) {
-          //     //   case 0:
-          //     //   return MoonPlanEventWidget();
-          //     //   case 1:
-          //     //   return MoonJoinedEventWidget();
-          //     //   case 2:
-          //     //   return MoonCreatedEventWidget();
-          //     //   default:
-          //     //   return Container();
-          //     // }
-          //     },
-          //   ),
-          //   ),
+            Expanded(
+              child: Builder(
+                builder: (context) {
+                switch (_selectedIndex) {
+                  case 0:
+                  return MoonPlanEventWidget();
+                  case 1:
+                  return MoonJoinedEventWidget();
+                  case 2:
+                  return MoonCreatedEventWidget();
+                  default:
+                  return Container();
+                }
+                },
+              ),
+            ),
         ],
       ),
     );

@@ -28,6 +28,15 @@ class EventNotifier extends StateNotifier<EventState> {
   void clearNewReleaseEventData() {
     state = state.copyWith(newReleaseEvents: null);
   }
+
+  void setUserEventData(List<GetEvent> eventData) {
+    state = state.copyWith(userEvents: eventData);
+  }
+
+  void clearUserEventData() {
+    state = state.copyWith(userEvents: null);
+  }
+
 }
 
 final eventProvider = StateNotifierProvider<EventNotifier, EventState>((ref) {
@@ -39,18 +48,21 @@ class EventState{
   final List<GetEvent>? allEvents;
   final List<GetEvent>? popularEvents;
   final List<GetEvent>? newReleaseEvents;
+  final List<GetEvent>? userEvents;
 
-  EventState({this.allEvents, this.popularEvents, this.newReleaseEvents});
+  EventState({this.allEvents, this.popularEvents, this.newReleaseEvents, this.userEvents});
 
   EventState copyWith({
     List<GetEvent>? allEvents,
     List<GetEvent>? popularEvents,
     List<GetEvent>? newReleaseEvents,
+    List<GetEvent>? userEvents,
   }) {
     return EventState(
       allEvents       : allEvents ?? this.allEvents,
       popularEvents   : popularEvents ?? this.popularEvents,
       newReleaseEvents: newReleaseEvents ?? this.newReleaseEvents,
+      userEvents      : userEvents ?? this.userEvents,
     );
   }
 }

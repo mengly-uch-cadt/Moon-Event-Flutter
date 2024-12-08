@@ -53,6 +53,7 @@ dependencies:
   qr_code_scanner_plus: ^2.0.6
   skeletonizer: ^1.4.2
   intl: ^0.18.0 # Make sure this is added
+  flutter_secure_storage: ^9.2.2  # use for storing sensitive data
 
 dev_dependencies:
   flutter_test:

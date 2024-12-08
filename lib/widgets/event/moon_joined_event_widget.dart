@@ -97,7 +97,8 @@
 //               date: event['date'],
 //               time: event['time'],
 //               category: event['category'],
-//               numberParticipants: event['numberUsers'],
+//               numberParticipants: event['numberUsers'], 
+//               location: '',
 //             );
 //           },
 //         ),
@@ -105,3 +106,20 @@
 //     );
 //   }
 // }
+import 'package:flutter/material.dart';
+
+class MoonJoinedEventWidget extends StatelessWidget {
+  const MoonJoinedEventWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Joined Events'),
+      ),
+      body: const Center(
+        child: Text('Joined Events'),
+      ),
+    );
+  }
+}

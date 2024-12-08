@@ -1,3 +1,4 @@
+import 'package:moon_event/model/get_user.dart';
 import 'package:moon_event/model/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 class UserNotifier extends StateNotifier<User?> {
@@ -16,19 +17,18 @@ final userProvider = StateNotifierProvider<UserNotifier, User?>((ref) {
   return UserNotifier();
 });
 
-class IsLoggedInNotifier extends StateNotifier<bool> {
-  IsLoggedInNotifier() : super(false);
+class GetUsersNotifier extends StateNotifier<List<GetUser>?> {
+  GetUsersNotifier() : super(null);
 
-  void setLoggedIn(bool isLoggedIn) {
-    state = isLoggedIn;
+  void setGetUsersData(List<GetUser> userData) {
+    state = userData;
   }
 
-  void clearLoggedIn() {
-    state = false;
+  void clearGetUsersData() {
+    state = null;
   }
 }
 
-final isLoggedInProvider = StateNotifierProvider<IsLoggedInNotifier, bool>((ref) {
-  return IsLoggedInNotifier();
-}
-);
+final getUsersProvider = StateNotifierProvider<GetUsersNotifier, List<GetUser>?>((ref) {
+  return GetUsersNotifier();
+});

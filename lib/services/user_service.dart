@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:moon_event/model/get_user.dart';
 import 'package:moon_event/model/user.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'dart:io';
@@ -63,6 +64,28 @@ class UserService {
       );
 
       return ResponseResult.success(data: updateUser, message: 'User information updated successfully');
+    } catch (e) {
+      return ResponseResult.failure(message: e.toString());
+    }
+  }
+
+  // Get all users
+  Future<ResponseResult> getUsers() async {
+    try {
+      QuerySnapshot userSnapshot = await _firestore.collection('users').get();
+      List<GetUser> users = userSnapshot.docs.map((doc) => GetUser.fromMapOnlyUidEmail(doc.data() as Map<String, dynamic>)).toList();
+      return ResponseResult.success(data: users, message: 'Users fetched successfully');
+    } catch (e) {
+      return ResponseResult.failure(message: e.toString());
+    }
+  }
+
+  // Get user by UID
+  Future<ResponseResult> getUserByUid(String uid) async {
+    try {
+      DocumentSnapshot userSnapshot = await _firestore.collection('users').doc(uid).get();
+      User user = User.fromMap(userSnapshot.data() as Map<String, dynamic>);
+      return ResponseResult.success(data: user, message: 'User fetched successfully');
     } catch (e) {
       return ResponseResult.failure(message: e.toString());
     }

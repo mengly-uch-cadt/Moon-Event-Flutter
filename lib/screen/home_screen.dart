@@ -6,9 +6,13 @@ import 'package:moon_event/dummy_data/dummy.dart';
 import 'package:moon_event/model/category.dart';
 import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
+import 'package:moon_event/model/user.dart';
 import 'package:moon_event/services/event_service.dart';
+import 'package:moon_event/services/user_service.dart';
 import 'package:moon_event/state/event_state.dart';
+import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+import 'package:moon_event/utils/secure_local_storage_util.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/event/moon_see_all_event_widget.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
@@ -25,6 +29,7 @@ class MoonHomeScreen extends ConsumerStatefulWidget {
 
 class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   EventService eventService = EventService();
+  UserService userService = UserService();
   bool _allEventsLoading = true;
   bool _popluarEventsLoading = true;
   bool _newReleaseEventsLoading = true;
@@ -42,6 +47,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     getPopularEvents();
     getNewReleaseEvents();
     getAllEvents();
+    fetchUserData();
   }
 
   void getPopularEvents() async {
@@ -76,6 +82,23 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
       throw Exception(result.message);
     }
   }
+
+  void fetchUserData() async {
+    final String? userUid = await getUserId();
+    if (userUid == null) {
+      throw Exception('User ID is null');
+    }
+    Future<ResponseResult> responseResult = userService.getUserByUid(userUid);
+    responseResult.then((responseResult) {
+      if (responseResult.isSuccess) {
+        final User user = responseResult.data;
+        ref.read(userProvider.notifier).setUserData(user);
+      } else {
+        throw Exception('Failed to get user data');
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
