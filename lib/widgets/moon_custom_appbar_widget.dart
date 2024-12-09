@@ -87,7 +87,7 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                           const MoonAlertWidget(
                             icon: Icons.error_outline,
                             title: 'Error',
-                            description: 'Please log in to create an event.',
+                            description: 'Please log in to see notifications.',
                             typeError: true,
                           ));
                         return;

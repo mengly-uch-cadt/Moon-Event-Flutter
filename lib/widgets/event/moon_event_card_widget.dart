@@ -112,16 +112,16 @@ class MoonEventCardWidget extends StatelessWidget {
                   const SizedBox(height: 4),
                   // ===========================================================
                   // location
-                  SizedBox(
-                    height: 40,
-                    child: Text(
-                      "Location: $location",
-                        style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 2, // Maximum of 2 lines for the title
-                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
-                    ),
-                  ),
-                  const SizedBox(height: 4),
+                  // SizedBox(
+                  //   height: 40,
+                  //   child: Text(
+                  //     "Location: $location",
+                  //       style: Theme.of(context).textTheme.bodySmall,
+                  //     maxLines: 2, // Maximum of 2 lines for the title
+                  //     overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 4),
                   // ===========================================================
                   // Date & Time 
                   Row(
@@ -137,20 +137,20 @@ class MoonEventCardWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  // const SizedBox(height: 4),
                   // ===========================================================
                   // Category
-                  Text(
-                    category.category,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 4),
+                  // Text(
+                  //   category.category,
+                  //   style: Theme.of(context).textTheme.bodySmall,
+                  // ),
+                  // const SizedBox(height: 4),
                   // ===========================================================
                   // Number of Participants
-                  Text(
-                    '$numberParticipants Participants',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
+                  // Text(
+                  //   '$numberParticipants Participants',
+                  //   style: Theme.of(context).textTheme.bodySmall,
+                  // ),
                 ],
               ),
             )

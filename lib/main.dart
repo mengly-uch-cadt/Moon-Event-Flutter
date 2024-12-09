@@ -5,6 +5,8 @@ import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/screen/event_screen.dart';
 import 'package:moon_event/screen/profile_screen.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/utils/secure_local_storage_util.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_custom_appbar_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -43,6 +45,7 @@ class MoonBottomNavigationBar extends StatefulWidget {
 
 class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
   int _selectedIndex = 0;
+  bool isLoggedIn = false;
 
   final List<Widget> _widgetOptions =<Widget>[
     const MoonHomeScreen(),
@@ -55,6 +58,37 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
       setState(() {
         _selectedIndex = index;
       });
+    }
+    Future<void> _checkLoginAndNavigate(int index) async {
+      if (index == 1) {
+        _checkLoginStatus();
+        if (!isLoggedIn) {
+          _showLoginDialog();
+          return;
+        }
+      }
+      _onItemTapped(index);
+    }
+
+    void _checkLoginStatus() async {
+      bool loggedIn = await isUserLoggedIn(); // Check login status asynchronously
+      setState(() {
+        isLoggedIn = loggedIn; // Update the state after getting the result
+      });
+  }
+
+    void _showLoginDialog() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const MoonAlertWidget(
+            icon: Icons.error_outline,
+            title: 'Error',
+            description: 'Please log in before accessing the event.',
+            typeError: true,
+          );
+        },
+      );
     }
 
     @override
@@ -104,7 +138,7 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.textBlack,
         showUnselectedLabels: true,
-        onTap: _onItemTapped,
+        onTap: _checkLoginAndNavigate,
       ),
     );
   }

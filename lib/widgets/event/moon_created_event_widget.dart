@@ -7,7 +7,7 @@ import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/event/moon_created_event_form_widget.dart';
-import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
+import 'package:moon_event/widgets/event/moon_event_grid_view_widget.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
@@ -85,28 +85,7 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                     ],
                   ),
                 )
-              : GridView.builder(
-                  controller: _scrollController,
-                  shrinkWrap: true, // Prevent the GridView from taking up all available space
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Display two cards per row
-                    childAspectRatio: 0.58, // Adjust this ratio to fit your card size
-                  ),
-                  itemCount: events.length,
-                  itemBuilder: (context, index) {
-                    final event = events[index];
-                    return MoonEventCardWidget(
-                      imageUrl: event.imageUrl,
-                      title: event.title,
-                      description: event.description,
-                      location: event.location,
-                      date: event.date,
-                      time: event.time,
-                      numberParticipants: event.participants.length,
-                      category: event.category,
-                    );
-                  },
-                ),
+              : MoonEventGridViewWidget(events: events, scrollController: _scrollController,),
           ),
           if (!_isBottom) // Show the FAB only if not at the bottom
             Positioned(
@@ -114,16 +93,6 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
               right: 16.0, // Adjust the horizontal position
                 child: FloatingActionButton(
                 onPressed: () {
-                  if (ref.read(userProvider) == null) {
-                    showDialog(context: context, builder: (ctx) => 
-                      const MoonAlertWidget(
-                        icon: Icons.error_outline,
-                        title: 'Error',
-                        description: 'Please log in to create an event.',
-                        typeError: true,
-                      ));
-                    return;
-                  }
                   showDialog(
                     context: context, 
                     builder: (ctx)=> const MoonCreatedEventFormWidget(),
