@@ -6,11 +6,13 @@ class GetEvent {
   String title;
   String description;
   Timestamp date;
-  String time;
+  String startTime;
+  String endTime;
   String location;
   String imageUrl;
   String organizerId;
-  List<String> participants;
+  List<String> participantsWillAttend;
+  List<String> participantsJoined;
   bool isPublic;
   Category category;
   int participantCount;
@@ -20,11 +22,13 @@ class GetEvent {
     required this.title,
     required this.description,
     required this.date,
-    required this.time,
+    required this.startTime,
+    required this.endTime,
     required this.location,
     required this.imageUrl,
     required this.organizerId,
-    required this.participants,
+    required this.participantsWillAttend,
+    required this.participantsJoined,
     required this.isPublic,
     required this.category,
     required this.participantCount,
@@ -37,11 +41,13 @@ class GetEvent {
       title: data['title'],
       description: data['description'],
       date: data['date'] as Timestamp,
-      time: data['time'],
+      startTime: data['startTime'],
+      endTime: data['endTime'],
       location: data['location'],
       imageUrl: data['imageUrl'],
       organizerId: data['organizerId'],
-      participants: List<String>.from(data['participants']),
+      participantsWillAttend: List<String>.from(data['participantsWillAttend']),
+      participantsJoined: List<String>.from(data['participantsJoined']),
       isPublic: data['isPublic'],
       category: Category.fromMap(data['category'], data['category']['uuid']),
       participantCount: data['participantCount'] ?? 0,

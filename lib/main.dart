@@ -53,12 +53,17 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
     const MoonProfileScreen(),
   ];
   
-
+    @override
+    void initState() {
+      super.initState();
+      _checkLoginStatus();
+    }
     void _onItemTapped(int index) {
       setState(() {
         _selectedIndex = index;
       });
     }
+
     Future<void> _checkLoginAndNavigate(int index) async {
       if (index == 1) {
         _checkLoginStatus();

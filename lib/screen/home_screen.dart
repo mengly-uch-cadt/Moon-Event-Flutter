@@ -8,6 +8,7 @@ import 'package:moon_event/state/event_state.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/utils/user_util.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
+import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
 import 'package:moon_event/widgets/event/moon_see_all_event_widget.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
 import 'package:moon_event/widgets/home/moon_list_category_widget.dart';
@@ -153,7 +154,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           : _buildEventsList(popularEventsData, _popluarEventsLoading)),
                     _popluarEventsLoading 
                       ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
                           Text("Check out the most popular events happening right now. Don't miss the chance to be part of these exciting experiences!", style: Theme.of(context).textTheme.bodyMedium,)
@@ -199,7 +200,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                             : _buildEventsList(newReleaseEventsData, _newReleaseEventsLoading)),
                     const SizedBox(height: 20),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
                         Text("Enroll now and take the first step towards mastering [subject/topic].", style: Theme.of(context).textTheme.bodyMedium,)
@@ -265,17 +266,21 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
             return SizedBox(
               width: halfScreen(context),
               child: MoonEventCardWidget(
-                imageUrl: null,
-                title: 'Loading...',
-                description: 'Loading...',
-                location: 'Loading...',
-                date: Timestamp.now(),
-                time: 'Loading...',
-                numberParticipants: 0,
-                category: Category(
-                  uuid: 'uuid-placeholder',
-                  category: 'category-placeholder',
-                  icon: "", // replace with appropriate icon
+                   event: GetEvent(
+                    title: '',
+                    description: '',
+                    location: '',
+                    date: Timestamp.now(),
+                    startTime: '',
+                    endTime: '',
+                    participantCount: 0,
+                    category: Category(category: '', uuid: '', icon: ''),
+                    imageUrl: '', 
+                    eventUuid: '', 
+                    organizerId: '', 
+                    participantsWillAttend: [], 
+                    participantsJoined: [], 
+                    isPublic: false
                 ),
               ),
             );
@@ -305,15 +310,17 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
         children: events.map((event) {
           return SizedBox(
             width: halfScreen(context),
-            child: MoonEventCardWidget(
-              imageUrl: event.imageUrl,
-              title: event.title,
-              description: event.description,
-              location: event.location,
-              date: event.date,
-              time: event.time,
-              numberParticipants: event.participants.length,
-              category: event.category,
+            child: GestureDetector(
+              onTap: () {
+                // Navigate to event details screen
+                showDialog(
+                  context: context, 
+                  builder: (ctx) => MoonEventDetailsWidget(event: event)
+                );
+              },
+              child: MoonEventCardWidget(
+                event: event,
+              ),
             ),
           );
         }).toList(),

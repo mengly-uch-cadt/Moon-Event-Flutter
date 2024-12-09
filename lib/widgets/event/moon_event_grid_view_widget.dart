@@ -22,14 +22,7 @@ class MoonEventGridViewWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final event = events[index];
         return MoonEventCardWidget(
-          imageUrl: event.imageUrl,
-          title: event.title,
-          description: event.description,
-          location: event.location,
-          date: event.date,
-          time: event.time,
-          numberParticipants: event.participants.length,
-          category: event.category,
+          event: event,
         );
       },
     );

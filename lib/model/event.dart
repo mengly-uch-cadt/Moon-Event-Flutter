@@ -6,11 +6,13 @@ class Event {
   String title;
   String description;
   DateTime  date;
-  String time;
+  String startTime;
+  String endTime;
   String location;
   String imageUrl;
   String organizerId;
-  List<String> participants;
+  List<String> participantsWillAttend;
+  List<String> participantsJoined;
   bool isPublic;
   String categoryId;
   int participantCount;
@@ -19,11 +21,13 @@ class Event {
     required this.title,
     required this.description,
     required this.date,
-    required this.time,
+    required this.startTime,
+    required this.endTime,
     required this.location,
     required this.imageUrl,
     required this.organizerId,
-    required this.participants,
+    required this.participantsWillAttend,
+    required this.participantsJoined,
     required this.isPublic,
     required this.categoryId,
     required this.participantCount,
@@ -32,18 +36,20 @@ class Event {
   // Converts an Event object into a Map
   Map<String, dynamic> toMap() {
     return {
-      'eventUuid': eventUuid,
-      'title': title,
-      'description': description,
-      'date': Timestamp.fromDate(date),
-      'time': time,
-      'location': location,
-      'imageUrl': imageUrl,
-      'organizerId': organizerId,
-      'participants': participants,
-      'isPublic': isPublic,
-      'categoryId': categoryId,
-      'participantCount': participantCount,
+      'eventUuid'             : eventUuid,
+      'title'                 : title,
+      'description'           : description,
+      'date'                  : Timestamp.fromDate(date),
+      'startTime'              : startTime,
+      'endTime'               : endTime,
+      'location'              : location,
+      'imageUrl'              : imageUrl,
+      'organizerId'           : organizerId,
+      'participantsWillAttend': participantsWillAttend,
+      'participantsJoined'    : participantsJoined,
+      'isPublic'              : isPublic,
+      'categoryId'            : categoryId,
+      'participantCount'      : participantCount,
     };
   }
 }

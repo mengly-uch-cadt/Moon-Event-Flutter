@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/main.dart';
@@ -33,7 +32,8 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
   final String _imageUrl = '${(Random().nextInt(46) + 1)}';
@@ -44,6 +44,12 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
   // For selected participants (User IDs)
   List<String> selectedUIDs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getUserMap();
+  }
 
   void handleToggle(bool value) {
     setState(() {
@@ -118,35 +124,46 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                     ),
                     const SizedBox(height: 10),
                     // Date and Time Fields
+                    MoonDatePickerWidget(
+                      controller: _dateController,
+                      labelText: "Date",
+                      hintText: "Select a date",
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please select a date";
+                        }
+                        return null;
+                      },
+                    ),
                     Row(
                       children: [
                         Expanded(
-                          child: MoonDatePickerWidget(
-                            controller: _dateController,
-                            labelText: "Date",
-                            hintText: "Select a date",
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2100),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please select a date";
-                              }
-                              return null;
-                            },
+                          child: MoonTimePickerWidget(
+                          controller: _startTimeController,
+                          labelText: "Start Time",
+                          hintText: "Select the event time",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please select a time.";
+                            }
+                            return null;
+                          },
                           ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: MoonTimePickerWidget(
-                            controller: _timeController,
-                            labelText: "Time",
-                            hintText: "Select the event time",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please select a time.";
-                              }
-                              return null;
-                            },
+                          controller: _endTimeController,
+                          labelText: "End Time",
+                          hintText: "Select the event time",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please select a time.";
+                            }
+                            return null;
+                          },
                           ),
                         ),
                       ],
@@ -222,17 +239,19 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
                                         try {
                                           final event = Event(
-                                            title: _titleController.text,
-                                            description: _descriptionController.text,
-                                            date: DateTime.parse(_dateController.text),
-                                            time: _timeController.text,
-                                            location: _locationController.text,
-                                            imageUrl: _imageUrl,
-                                            organizerId: userUid!,
-                                            participants: selectedUIDs,
-                                            isPublic: isPublic,
-                                            categoryId: _selectedCategoryId!,
-                                            participantCount: 0,
+                                            title                 : _titleController.text,
+                                            description           : _descriptionController.text,
+                                            date                  : DateTime.parse(_dateController.text),
+                                            startTime             : _startTimeController.text,
+                                            endTime               : _endTimeController.text,
+                                            location              : _locationController.text,
+                                            imageUrl              : _imageUrl,
+                                            organizerId           : userUid!,
+                                            participantsWillAttend: selectedUIDs,
+                                            participantsJoined    : [],
+                                            isPublic              : isPublic,
+                                            categoryId            : _selectedCategoryId!,
+                                            participantCount      : selectedUIDs.length,
                                           );
 
                                           EventService eventService = EventService();
@@ -240,6 +259,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
                                           if (responseResult.isSuccess) {
                                             showDialog(
+                                              // ignore: use_build_context_synchronously
                                               context: context,
                                               builder: (ctx) => MoonAlertWidget(
                                                 icon: Icons.check_circle_outline,
@@ -249,12 +269,14 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                               ),
                                             ).then((value) {
                                               Navigator.pushReplacement(
+                                                // ignore: use_build_context_synchronously
                                                 context,
                                                 MaterialPageRoute(builder: (context) => const MyApp()),
                                               );
                                             });
                                           } else {
                                             showDialog(
+                                              // ignore: use_build_context_synchronously
                                               context: context,
                                               builder: (ctx) => const MoonAlertWidget(
                                                 icon: Icons.error_outline,
@@ -266,6 +288,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                           }
                                         } catch (e) {
                                           showDialog(
+                                            // ignore: use_build_context_synchronously
                                             context: context,
                                             builder: (ctx) => const MoonAlertWidget(
                                               icon: Icons.error_outline,

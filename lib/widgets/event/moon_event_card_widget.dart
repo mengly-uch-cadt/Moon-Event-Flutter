@@ -1,32 +1,15 @@
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:moon_event/model/category.dart';
+import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/theme.dart';
 
 class MoonEventCardWidget extends StatelessWidget {
   const MoonEventCardWidget({
     super.key, 
-    required this.title, 
-    required this.description, 
-    required this.location,
-    required this.date, 
-    required this.time, 
-    required this.category, 
-    required this.numberParticipants, 
-    this.imageUrl, 
+    required this.event
   });
 
-  final String title;
-  final String description;
-  final String location;
-  final Timestamp date;
-  final String time;
-  final Category category;
-  final int numberParticipants;
-  final String? imageUrl;
-
+  final GetEvent  event;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -51,7 +34,7 @@ class MoonEventCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 // ignore: unnecessary_null_comparison
                 child: 
-                  imageUrl == null
+                  event.imageUrl.isEmpty
                   ?  Image.asset(
                       'assets/images/default-placeholder.jpg', // Default placeholder image
                       fit: BoxFit.cover,
@@ -59,7 +42,7 @@ class MoonEventCardWidget extends StatelessWidget {
                       height: 100,
                     )
                   : Image.asset(
-                    'assets/images/$imageUrl.jpg',
+                    'assets/images/${event.imageUrl}.jpg',
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 100,
@@ -77,7 +60,7 @@ class MoonEventCardWidget extends StatelessWidget {
                   SizedBox(
                     height: 20,
                     child: Text(
-                      title,
+                      event.title,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -96,7 +79,7 @@ class MoonEventCardWidget extends StatelessWidget {
                   SizedBox(
                     height: 40,
                     child: Text(
-                      description,
+                      event.description,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -111,46 +94,16 @@ class MoonEventCardWidget extends StatelessWidget {
                   ), 
                   const SizedBox(height: 4),
                   // ===========================================================
-                  // location
-                  // SizedBox(
-                  //   height: 40,
-                  //   child: Text(
-                  //     "Location: $location",
-                  //       style: Theme.of(context).textTheme.bodySmall,
-                  //     maxLines: 2, // Maximum of 2 lines for the title
-                  //     overflow: TextOverflow.ellipsis, // Ellipsis for long text
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 4),
-                  // ===========================================================
                   // Date & Time 
-                  Row(
-                    children: [
-                      Text(
-                        DateFormat('MMM, dd, yyyy -' ).format(date.toDate()),
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        time,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
+                  Text(
+                    DateFormat('MMM, dd, yyyy').format(event.date.toDate()),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  // const SizedBox(height: 4),
-                  // ===========================================================
-                  // Category
-                  // Text(
-                  //   category.category,
-                  //   style: Theme.of(context).textTheme.bodySmall,
-                  // ),
-                  // const SizedBox(height: 4),
-                  // ===========================================================
-                  // Number of Participants
-                  // Text(
-                  //   '$numberParticipants Participants',
-                  //   style: Theme.of(context).textTheme.bodySmall,
-                  // ),
+                  const SizedBox(width: 4),
+                  Text(
+                    "${event.startTime}-${event.endTime}",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ],
               ),
             )
@@ -160,4 +113,3 @@ class MoonEventCardWidget extends StatelessWidget {
     );
   }
 }
-
