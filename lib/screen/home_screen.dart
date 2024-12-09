@@ -125,7 +125,19 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           secondTitle: "Events",
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context, 
+                              builder: (ctx)=> 
+                                MoonSeeAllEventWidget(
+                                  events: popularEventsData!, 
+                                  moonTitleWidget: const MoonTitleWidget(
+                                    firstTitle: "Popular", 
+                                    secondTitle: "Events"
+                                  ),
+                                )
+                            );
+                          },
                           child: Text(
                             "See All", 
                             style: Theme.of(context).textTheme.bodyMedium
@@ -159,7 +171,19 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           firstTitle: "New",
                           secondTitle: "Events",
                         ),
-                        TextButton(onPressed: () {},
+                        TextButton(onPressed: () {
+                          showDialog(
+                            context: context, 
+                            builder: (ctx)=> 
+                              MoonSeeAllEventWidget(
+                                events: newReleaseEventsData!, 
+                                moonTitleWidget: const MoonTitleWidget(
+                                  firstTitle: "New", 
+                                  secondTitle: "Events"
+                                ),
+                              )
+                          );
+                        },
                         child: Text(
                           "See All", 
                           style: Theme.of(context).textTheme.bodyMedium
@@ -196,7 +220,14 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                           onPressed: () {
                             showDialog(
                               context: context, 
-                              builder: (ctx)=> MoonSeeAllEventWidget(events: allEventsData!, moonTitleWidget: const MoonTitleWidget(firstTitle: "All", secondTitle: "Events"),)
+                              builder: (ctx)=> 
+                                MoonSeeAllEventWidget(
+                                  events: allEventsData!, 
+                                  moonTitleWidget: const MoonTitleWidget(
+                                    firstTitle: "All", 
+                                    secondTitle: "Events"
+                                  ),
+                                )
                             );
                           },
                           child: Text(
@@ -272,32 +303,17 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: events.map((event) {
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context, 
-                builder: (ctx)=> 
-                  MoonSeeAllEventWidget(
-                    events: events, 
-                    moonTitleWidget: const MoonTitleWidget(
-                      firstTitle: "All", 
-                      secondTitle: "Events"
-                    ),
-                  )
-              );
-            },
-            child: SizedBox(
-              width: halfScreen(context),
-              child: MoonEventCardWidget(
-                imageUrl: event.imageUrl,
-                title: event.title,
-                description: event.description,
-                location: event.location,
-                date: event.date,
-                time: event.time,
-                numberParticipants: event.participants.length,
-                category: event.category,
-              ),
+          return SizedBox(
+            width: halfScreen(context),
+            child: MoonEventCardWidget(
+              imageUrl: event.imageUrl,
+              title: event.title,
+              description: event.description,
+              location: event.location,
+              date: event.date,
+              time: event.time,
+              numberParticipants: event.participants.length,
+              category: event.category,
             ),
           );
         }).toList(),

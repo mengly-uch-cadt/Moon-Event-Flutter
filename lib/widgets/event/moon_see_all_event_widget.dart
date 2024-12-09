@@ -15,7 +15,10 @@ class MoonSeeAllEventWidget extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: MoonEventGridViewWidget(events: events)
+        child: 
+        events.isEmpty 
+          ? const Center(child: Text('No events available')) 
+          : MoonEventGridViewWidget(events: events)
       ),
     );
   }
