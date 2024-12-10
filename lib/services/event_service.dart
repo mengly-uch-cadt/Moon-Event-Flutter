@@ -173,4 +173,34 @@ class EventService {
     }
   }
 
+  Future<ResponseResult> attendEvent(String eventId) async{
+    try{
+      User? user = _auth.currentUser;
+      DocumentReference eventRef = _firestore.collection('events').doc(eventId);
+      DocumentSnapshot eventSnapshot = await eventRef.get();
+      List participantsWillAttend = eventSnapshot['participantsWillAttend'] ?? [];
+
+      if(participantsWillAttend.contains(user!.uid)){
+        return ResponseResult.failure(
+          message: 'You are already marked as attending this event.',
+        );
+      }
+
+      participantsWillAttend.add(user.uid);
+
+      await eventRef.update({
+        'participantsWillAttend': participantsWillAttend,
+      });
+
+      return ResponseResult.success(
+        data: null,
+        message: 'You have successfully RSVP\'d for "${eventSnapshot['title']}". We look forward to seeing you!',
+      );
+    }catch(e){
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
 }

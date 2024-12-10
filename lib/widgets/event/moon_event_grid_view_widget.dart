@@ -4,11 +4,12 @@ import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
 
 class MoonEventGridViewWidget extends StatelessWidget {
-  const MoonEventGridViewWidget({super.key, required this.events, ScrollController? scrollController})
+  const MoonEventGridViewWidget({super.key, required this.events, ScrollController? scrollController, this.isCreator = false})
       : _scrollController = scrollController; // Assign the ScrollController to the private variable
   
   final List<GetEvent> events;
   final ScrollController? _scrollController; // Make it nullable
+  final bool? isCreator;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MoonEventGridViewWidget extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context, 
-              builder: (ctx) => MoonEventDetailsWidget(event: event)
+              builder: (ctx) => MoonEventDetailsWidget(event: event, isCreator: isCreator),
             );
           },
           child: MoonEventCardWidget(

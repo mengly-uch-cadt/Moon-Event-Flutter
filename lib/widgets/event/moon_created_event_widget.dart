@@ -87,7 +87,7 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                         ],
                       ),
                     ),
-                    MoonEventGridViewWidget(events: events, scrollController: _scrollController,),
+                    MoonEventGridViewWidget(events: events, scrollController: _scrollController, isCreator: true,),
                   ],
                 ),
               )
