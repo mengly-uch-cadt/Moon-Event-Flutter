@@ -52,18 +52,6 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
     final eventsData = ref.watch(eventProvider);
     final events = eventsData.userEvents ?? [];
     return Scaffold(
-      appBar: AppBar(
-        title: const MoonTitleWidget(firstTitle: "Created", secondTitle: "Events"),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              "Calendar",
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           Padding(
@@ -83,7 +71,26 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                     ],
                   ),
                 )
-              : MoonEventGridViewWidget(events: events, scrollController: _scrollController,),
+              : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const MoonTitleWidget(firstTitle: "Created", secondTitle: "Events"),
+                          Text(
+                            "Calendar",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    MoonEventGridViewWidget(events: events, scrollController: _scrollController,),
+                  ],
+                ),
+              )
           ),
           if (!_isBottom) // Show the FAB only if not at the bottom
             Positioned(

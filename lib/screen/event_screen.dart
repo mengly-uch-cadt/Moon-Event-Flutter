@@ -45,11 +45,11 @@ class _MoonEventScreenState extends State<MoonEventScreen> {
                 builder: (context) {
                 switch (_selectedIndex) {
                   case 0:
-                  return MoonPlanEventWidget();
+                  return const MoonPlanEventWidget();
                   case 1:
-                  return MoonJoinedEventWidget();
+                  return const MoonJoinedEventWidget();
                   case 2:
-                  return MoonCreatedEventWidget();
+                  return const MoonCreatedEventWidget();
                   default:
                   return Container();
                 }

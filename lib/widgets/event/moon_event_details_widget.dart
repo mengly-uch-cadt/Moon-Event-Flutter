@@ -93,14 +93,9 @@ class MoonEventDetailsWidget extends StatelessWidget {
                         const SizedBox(height: 4),
                         // ===========================================================
                         // location
-                        SizedBox(
-                          height: 40,
-                          child: Text(
-                            "Location: ${event.location}",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            maxLines: 2, // Maximum of 2 lines for the event.title
-                            overflow: TextOverflow.ellipsis, // Ellipsis for long text
-                          ),
+                        Text(
+                          "Location: ${event.location}",
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(height: 4),
                         // ===========================================================

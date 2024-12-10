@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
+import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
 
 class MoonEventGridViewWidget extends StatelessWidget {
   const MoonEventGridViewWidget({super.key, required this.events, ScrollController? scrollController})
@@ -21,8 +22,16 @@ class MoonEventGridViewWidget extends StatelessWidget {
       itemCount: events.length,
       itemBuilder: (context, index) {
         final event = events[index];
-        return MoonEventCardWidget(
-          event: event,
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context, 
+              builder: (ctx) => MoonEventDetailsWidget(event: event)
+            );
+          },
+          child: MoonEventCardWidget(
+            event: event,
+          ),
         );
       },
     );
