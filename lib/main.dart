@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart' as svg;
 import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/screen/event_screen.dart';
 import 'package:moon_event/screen/profile_screen.dart';
+import 'package:moon_event/screen/scan_screen.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/secure_local_storage_util.dart';
 import 'package:moon_event/utils/user_util.dart';
@@ -51,6 +54,7 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
   final List<Widget> _widgetOptions =<Widget>[
     const MoonHomeScreen(),
     const MoonEventScreen(),
+    const MoonScanScreen(),
     const MoonProfileScreen(),
   ];
   
@@ -119,6 +123,8 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
           BottomNavigationBarItem(
             icon: svg.SvgPicture.asset(
               'assets/icons/home.svg',
+              // width: 24,
+              // height: 24,
               // ignore: deprecated_member_use
               color: _selectedIndex == 0 ? AppColors.primary : AppColors.textBlack,
               ),
@@ -127,16 +133,30 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
           BottomNavigationBarItem(
             icon: svg.SvgPicture.asset(
               'assets/icons/event.svg',
+              // width: 24,
+              // height: 24,
               // ignore: deprecated_member_use
               color: _selectedIndex == 1 ? AppColors.primary : AppColors.textBlack,
               ),
             label: 'My Event',
           ),
           BottomNavigationBarItem(
-            icon:  svg.SvgPicture.asset(
-              'assets/icons/profile.svg',
+            icon: svg.SvgPicture.asset(
+              'assets/icons/scan.svg',
+              // width: 24,
+              // height: 24,
               // ignore: deprecated_member_use
               color: _selectedIndex == 2 ? AppColors.primary : AppColors.textBlack,
+              ),
+            label: 'Scan',
+          ),
+          BottomNavigationBarItem(
+            icon:  svg.SvgPicture.asset(
+              'assets/icons/profile.svg',
+              // width: 24,
+              // height: 24,
+              // ignore: deprecated_member_use
+              color: _selectedIndex == 3 ? AppColors.primary : AppColors.textBlack,
               ),
             label: 'Profile',
           ),

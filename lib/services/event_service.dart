@@ -203,4 +203,53 @@ class EventService {
     }
   }
 
+  Future<ResponseResult> getEventById(String eventId) async {
+    try {
+      DocumentSnapshot eventSnapshot = await _firestore.collection('events').doc(eventId).get();
+      if(!eventSnapshot.exists){
+        return ResponseResult.failure(
+          message: 'Event not found',
+        );
+      }
+
+      // Fetch all categories once to map them
+      QuerySnapshot categorySnapshot = await _firestore.collection('categories').get();
+      Map<String, Category> categoryMap = {
+        for (var doc in categorySnapshot.docs)
+          doc.id: Category.fromMap(doc.data() as Map<String, dynamic>, doc.id),
+      };
+
+      Map<String, dynamic> eventData = eventSnapshot.data() as Map<String, dynamic>;
+      String categoryId = eventData['categoryId'];
+      Category category = categoryMap[categoryId]!;
+
+      GetEvent event = GetEvent(
+        eventUuid: eventData['eventUuid'],
+        title: eventData['title'],
+        description: eventData['description'],
+        date: eventData['date'],
+        startTime: eventData['startTime'],
+        endTime: eventData['endTime'],
+        location: eventData['location'],
+        imageUrl: eventData['imageUrl'],
+        organizerId: eventData['organizerId'],
+        participantsWillAttend: List<String>.from(eventData['participantsWillAttend']),
+        participantsJoined: List<String>.from(eventData['participantsJoined']),
+        isPublic: eventData['isPublic'],
+        category: category,
+        participantCount: eventData['participantCount'] ?? 0,
+      );
+
+      return ResponseResult.success(
+        data: event,
+        message: 'Event fetched successfully',
+      );
+
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
 }

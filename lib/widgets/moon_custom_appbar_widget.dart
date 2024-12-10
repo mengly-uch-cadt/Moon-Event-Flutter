@@ -74,26 +74,6 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
               // Notification and globe icons
               Row(
                 children: [
-                   IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/icons/scan.svg',
-                      width: 24,
-                      // ignore: deprecated_member_use
-                      color: AppColors.white,
-                    ),
-                    onPressed: () {
-                        if (ref.read(userProvider) == null) {
-                        showDialog(context: context, builder: (ctx) => 
-                          const MoonAlertWidget(
-                            icon: Icons.error_outline,
-                            title: 'Error',
-                            description: 'Please log in to see notifications.',
-                            typeError: true,
-                          ));
-                        return;
-                      }
-                    },
-                  ),
                   IconButton(
                     icon: SvgPicture.asset(
                       'assets/icons/notification.svg',

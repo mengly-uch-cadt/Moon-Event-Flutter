@@ -119,7 +119,6 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
