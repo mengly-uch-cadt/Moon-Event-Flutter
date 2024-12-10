@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moon_event/model/category.dart';
+import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/category_service.dart';
 import 'package:moon_event/state/category_state.dart';
+import 'package:moon_event/state/event_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+import 'package:moon_event/widgets/event/moon_see_all_event_widget.dart';
+import 'package:moon_event/widgets/moon_title_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MoonListCategoryWidget extends ConsumerStatefulWidget {
   const MoonListCategoryWidget({super.key});
-
   @override
   ConsumerState<MoonListCategoryWidget> createState() =>
       _MoonListCategoryWidgetState();
@@ -18,7 +21,9 @@ class MoonListCategoryWidget extends ConsumerStatefulWidget {
 
 class _MoonListCategoryWidgetState
     extends ConsumerState<MoonListCategoryWidget> {
-  bool isLoading = true; // Control the loading state
+  bool isLoading = true;
+  
+  get eventService => null; // Control the loading state
 
   @override
   void initState() {
@@ -45,6 +50,15 @@ class _MoonListCategoryWidgetState
     }
   }
 
+  Future<List<GetEvent>> filterEventByCategory(String categoryId) async {
+    final allEventsData = ref.watch(eventProvider).allEvents;
+    List<GetEvent> events = [];
+    if (allEventsData != null) {
+      events = allEventsData.where((event) => event.category.uuid == categoryId).toList();
+    }
+    return events;
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryData = ref.watch(categoryProvider);
@@ -69,9 +83,26 @@ class _MoonListCategoryWidgetState
                   children: List.generate(categoryData.length, (index) {
                     return SizedBox(
                       width: 80,
-                      child: MoonCategory(
-                        category: categoryData[index].category,
-                        icon: categoryData[index].icon,
+                      child: GestureDetector(
+                        onTap: () async {
+                          final filteredEvents = await filterEventByCategory(categoryData[index].uuid);
+                          showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context, 
+                            builder: (ctx)=> MoonSeeAllEventWidget(
+                              events: filteredEvents, 
+                              moonTitleWidget: const MoonTitleWidget(
+                                firstTitle: "Filterd", 
+                                secondTitle: "Events",
+                                )
+                            )
+                          );
+                          
+                        },
+                        child: MoonCategory(
+                          category: categoryData[index].category,
+                          icon: categoryData[index].icon,
+                        ),
                       ),
                     );
                   }),

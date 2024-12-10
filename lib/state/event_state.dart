@@ -4,7 +4,7 @@ import 'package:moon_event/model/get_event.dart';
 
 class EventNotifier extends StateNotifier<EventState> {
   EventNotifier() : super(EventState());
-
+  //  All Event Data
   void setAllEventData(List<GetEvent> eventData) {
     state = state.copyWith(allEvents: eventData);
   }
@@ -13,6 +13,7 @@ class EventNotifier extends StateNotifier<EventState> {
     state = state.copyWith(allEvents: null);
   }
 
+  // Popular Event Data
   void setPopularEventData(List<GetEvent> eventData) {
     state = state.copyWith(popularEvents: eventData);
   }
@@ -21,6 +22,7 @@ class EventNotifier extends StateNotifier<EventState> {
     state = state.copyWith(popularEvents: null);
   }
 
+  // New Release Event Data
   void setNewReleaseEventData(List<GetEvent> eventData) {
     state = state.copyWith(newReleaseEvents: eventData);
   }
@@ -29,6 +31,7 @@ class EventNotifier extends StateNotifier<EventState> {
     state = state.copyWith(newReleaseEvents: null);
   }
 
+  // User Event Data
   void setUserEventData(List<GetEvent> eventData) {
     state = state.copyWith(userEvents: eventData);
   }
@@ -50,7 +53,12 @@ class EventState{
   final List<GetEvent>? newReleaseEvents;
   final List<GetEvent>? userEvents;
 
-  EventState({this.allEvents, this.popularEvents, this.newReleaseEvents, this.userEvents});
+  EventState({
+    this.allEvents, 
+    this.popularEvents, 
+    this.newReleaseEvents, 
+    this.userEvents,
+  });
 
   EventState copyWith({
     List<GetEvent>? allEvents,
