@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/main.dart';
 import 'package:moon_event/model/user.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+import 'package:moon_event/utils/secure_local_storage_util.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/input/moon_password_field_widget.dart';
@@ -156,6 +158,7 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                               password: _passwordController.text,
                             );
                             if (responseResult.isSuccess) {
+                              saveLoginState(responseResult.data!.uid);
                               showDialog(
                                 // ignore: use_build_context_synchronously
                                 context: context, 
@@ -165,7 +168,10 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                                   description: responseResult.message,
                                   typeError: false,
                                 ),    
-                              );
+                              ).then((_) {
+                                // ignore: use_build_context_synchronously
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const MyApp()));
+                              });
                             } else {
                               showDialog(
                                 // ignore: use_build_context_synchronously

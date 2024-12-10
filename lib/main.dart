@@ -6,6 +6,7 @@ import 'package:moon_event/screen/event_screen.dart';
 import 'package:moon_event/screen/profile_screen.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/secure_local_storage_util.dart';
+import 'package:moon_event/utils/user_util.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_custom_appbar_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,14 +37,14 @@ class MyApp extends StatelessWidget {
 
 
 
-class MoonBottomNavigationBar extends StatefulWidget {
+class MoonBottomNavigationBar extends ConsumerStatefulWidget {
   const MoonBottomNavigationBar({super.key});
 
   @override
-  State<MoonBottomNavigationBar> createState() => _MoonBottomNavigationBarState();
+  ConsumerState<MoonBottomNavigationBar> createState() => _MoonBottomNavigationBarState();
 }
 
-class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
+class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBar> {
   int _selectedIndex = 0;
   bool isLoggedIn = false;
 
@@ -57,6 +58,7 @@ class _MoonBottomNavigationBarState extends State<MoonBottomNavigationBar> {
     void initState() {
       super.initState();
       _checkLoginStatus();
+      fetchUserData(ref); // Fetch user data when the widget is initialized
     }
     void _onItemTapped(int index) {
       setState(() {

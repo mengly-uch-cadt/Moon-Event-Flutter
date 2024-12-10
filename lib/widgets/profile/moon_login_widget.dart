@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moon_event/main.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
@@ -149,11 +150,8 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                               ),
                             );
                             // ignore: use_build_context_synchronously
-                            Navigator.pop(context);  // Close the login dialog
-                            // Now we explicitly update the screen to show profile information
-                            // Replace with this navigation approach to ensure proper screen update
-                            // ignore: use_build_context_synchronously
-                            Navigator.of(context).popUntil((route) => route.isFirst);
+                            Navigator.push(context, 
+                              MaterialPageRoute(builder: (context) => const MoonBottomNavigationBar()));
                           } else {
                             showDialog(
                               // ignore: use_build_context_synchronously

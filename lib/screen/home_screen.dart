@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:moon_event/dummy_data/dummy.dart';
 import 'package:moon_event/model/category.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
@@ -42,6 +43,19 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     getNewReleaseEvents();
     getAllEvents();
     fetchUserData(ref);
+    // generateData();
+  }
+
+  void generateData()async{
+    for (var event in generatedEvents){
+      Future<ResponseResult> responseResult = eventService.createEvent(event);
+      final result = await responseResult;
+      if(result.isSuccess){
+        print('Event created${event.title}');
+      }else{
+        throw Exception('Failed to create event');
+      }
+    }
   }
 
   void getPopularEvents() async {
