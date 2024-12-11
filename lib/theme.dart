@@ -2,21 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors{
+  // Blue
   static Color primary     = const Color(0xFF2033C4);
-  static Color white       = const Color(0xFFFFFFFF);
-  static Color black       = const Color(0xFF000000);
-  static Color blackAccent = const Color(0xFF1F1F1F);
-  static Color platinum    = const Color(0xFFEFF1F3);
-  static Color gray        = const Color(0xFFD9D9D9);
-  static Color secondary   = const Color(0xFF0F185E);
-  static Color lighterShade   = const Color(0xFF3C4C90);
-  static Color darkLiver   = const Color(0xFF4D4D4D);
-  static Color outerSpace  = const Color(0xFF494949);
-  static Color red         = const Color(0xFFD02828);
-  static Color textBlack   = const Color(0xFF313131);
-  static Color borderInput = const Color(0xFFD5D5D5);
-  static Color cancelInput = const Color(0xFFF7F8F9);
-  static Color star        = const Color(0xFFF5AC00);
+  static Color secondary    = const Color(0xFF0F185E);
+  // Purble
+  // static Color primary      = const Color(0xFFD1C4E9);
+  // static Color secondary    = const Color(0xFF6A1B9A);
+  // Emerald Green
+  // static Color primary      = const Color(0xFF2E7D32);
+  // static Color secondary    = const Color(0xFF155619);
+  // Deep Charcoal
+  // static Color primary      = const Color(0xFFB76E79);
+  // static Color secondary    = const Color(0xFF4A4A4A);
+  static Color white        = const Color(0xFFFFFFFF);
+  static Color black        = const Color(0xFF000000);
+  static Color blackAccent  = const Color(0xFF1F1F1F);
+  static Color platinum     = const Color(0xFFEFF1F3);
+  static Color gray         = const Color(0xFFD9D9D9);
+  static Color lighterShade = const Color(0xFF3C4C90);
+  static Color darkLiver    = const Color(0xFF4D4D4D);
+  static Color outerSpace   = const Color(0xFF494949);
+  static Color red          = const Color(0xFFD02828);
+  static Color textBlack    = const Color(0xFF313131);
+  static Color borderInput  = const Color(0xFFD5D5D5);
+  static Color cancelInput  = const Color(0xFFF7F8F9);
+  static Color star         = const Color(0xFFF5AC00);
 }
 
 class AppTextTheme {

@@ -1,8 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
+import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
@@ -12,7 +16,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:saver_gallery/saver_gallery.dart';
 import 'package:screenshot/screenshot.dart';
 
-class MoonEventDetailsWidget extends StatefulWidget {
+class MoonEventDetailsWidget extends ConsumerStatefulWidget {
   const MoonEventDetailsWidget({
     super.key,
     required this.event,
@@ -24,12 +28,12 @@ class MoonEventDetailsWidget extends StatefulWidget {
   final bool? registerMode;
 
   @override
-  State<MoonEventDetailsWidget> createState() => _MoonEventDetailsWidgetState();
+  ConsumerState<MoonEventDetailsWidget> createState() => _MoonEventDetailsWidgetState();
 }
 
-class _MoonEventDetailsWidgetState extends State<MoonEventDetailsWidget> {
+class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget> {
   final ScreenshotController screenshotController = ScreenshotController();
-
+  late final user;
   // Function to save QR code to gallery using saver_gallery
   Future<void> saveQRCode(String qrCodeData) async {
     // Request storage permission
@@ -68,6 +72,12 @@ class _MoonEventDetailsWidgetState extends State<MoonEventDetailsWidget> {
         SnackBar(content: Text("Error saving QR code: $e")),
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user = ref.read(userProvider);
   }
 
   @override
@@ -219,6 +229,7 @@ class _MoonEventDetailsWidgetState extends State<MoonEventDetailsWidget> {
                         widget.registerMode!
                             ? MoonButtonWidget(
                                 text: "Register",
+                                isDisabled: widget.event.participantsRegistered.contains(user.uid),
                                 onPressed: () async {
                                   EventService eventService = EventService();
                                   final responseResult = await eventService.registerEvent(widget.event.eventUuid);
@@ -246,6 +257,7 @@ class _MoonEventDetailsWidgetState extends State<MoonEventDetailsWidget> {
                               )
                             : MoonButtonWidget(
                                 text: "Join",
+                                isDisabled: widget.event.participantsJoined.contains(user.uid),
                                 onPressed: () async {
                                   EventService eventService = EventService();
                                   final responseResult = await eventService.joinEvent(widget.event.eventUuid);

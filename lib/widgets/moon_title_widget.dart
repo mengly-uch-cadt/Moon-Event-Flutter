@@ -13,6 +13,7 @@ class MoonTitleWidget extends StatelessWidget {
         Text(
           firstTitle.toUpperCase(), 
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: AppColors.secondary,
             fontWeight: FontWeight.w800,
           ),
         ),

@@ -69,7 +69,7 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
     }
 
     Future<void> _checkLoginAndNavigate(int index) async {
-      if (index == 1) {
+      if (index == 1 || index == 2) {
         _checkLoginStatus();
         if (!isLoggedIn) {
           _showLoginDialog();

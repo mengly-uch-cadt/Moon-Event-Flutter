@@ -10,7 +10,7 @@ class MoonButtonWidget extends StatelessWidget {
     this.icon,
     this.textColor,
     this.buttonColor,
-    this.isDisable = false, // Default to not disabled
+    this.isDisabled = false, // Default to not disabled
     this.width,
     this.widthPercentage,
     this.onPressed,
@@ -22,7 +22,7 @@ class MoonButtonWidget extends StatelessWidget {
   final Icon? icon;
   final Color? textColor;
   final Color? buttonColor;
-  final bool? isDisable;
+  final bool isDisabled; // Changed to isDisabled
   final double? width;
   final double? widthPercentage;
   final dynamic Function()? onPressed;
@@ -39,14 +39,12 @@ class MoonButtonWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: buttonColor ?? AppColors.primary,
+        color: isDisabled ? Colors.grey : (buttonColor ?? AppColors.primary),
         borderRadius: BorderRadius.circular(8),
       ),
       width: calculatedWidth,
       child: TextButton(
-        onPressed: isDisable == true
-            ? null
-            : onPressed, // Disable button if isDisable is true
+        onPressed: isDisabled ? null : onPressed, // Disable button if isDisabled is true
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
