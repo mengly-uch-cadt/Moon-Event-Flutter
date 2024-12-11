@@ -182,32 +182,144 @@ class EventService {
     }
   }
 
-  Future<ResponseResult> attendEvent(String eventId) async{
-    try{
+  Future<ResponseResult> registerEvent(String eventId) async {
+    try {
+      // Get the current user
       User? user = _auth.currentUser;
-      DocumentReference eventRef = _firestore.collection('events').doc(eventId);
-      DocumentSnapshot eventSnapshot = await eventRef.get();
-      List participantsRegistered = eventSnapshot['participantsRegistered'] ?? [];
-
-      if(participantsRegistered.contains(user!.uid)){
+      if (user == null) {
         return ResponseResult.failure(
-          message: 'You are already marked as attending this event.',
+          message: 'You must be logged in to attend an event.',
         );
       }
 
-      participantsRegistered.add(user.uid);
+      DocumentReference eventRef = _firestore.collection('events').doc(eventId);
 
-      await eventRef.update({
-        'participantsRegistered': participantsRegistered,
+      // Run a Firestore transaction to safely handle the update
+      return await _firestore.runTransaction((transaction) async {
+        DocumentSnapshot eventSnapshot = await transaction.get(eventRef);
+
+        if (!eventSnapshot.exists) {
+          return ResponseResult.failure(
+            message: 'The event does not exist.',
+          );
+        }
+
+        // Extract event details
+        Map<String, dynamic> eventData = eventSnapshot.data() as Map<String, dynamic>;
+        List participantsRegistered = eventData['participantsRegistered'] ?? [];
+        String startTimeStr = eventData['startTime'];
+        DateTime eventDate = (eventData['date'] as Timestamp).toDate();
+
+        // Combine eventDate and startTime
+        DateTime eventStartTime = DateTime(
+          eventDate.year,
+          eventDate.month,
+          eventDate.day,
+          int.parse(startTimeStr.split(':')[0]),
+          int.parse(startTimeStr.split(':')[1].split(' ')[0]),
+        );
+
+        DateTime now = DateTime.now();
+
+        // Check if the user is already registered
+        if (participantsRegistered.contains(user.uid)) {
+          return ResponseResult.failure(
+            message: 'You are already marked as attending this event.',
+          );
+        }
+
+        // Check if the event has already started
+        if (now.isAfter(eventStartTime)) {
+          return ResponseResult.failure(
+            message: 'You cannot register for an event that has already started.',
+          );
+        }
+
+        // Add the user to participantsRegistered
+        participantsRegistered.add(user.uid);
+
+        // Update the participantsRegistered field in the database
+        transaction.update(eventRef, {'participantsRegistered': participantsRegistered});
+
+        return ResponseResult.success(
+          data: null,
+          message: 'You have successfully RSVP for "${eventData['title']}". We look forward to seeing you!',
+        );
       });
-
-      return ResponseResult.success(
-        data: null,
-        message: 'You have successfully RSVP for "${eventSnapshot['title']}". We look forward to seeing you!',
-      );
-    }catch(e){
+    } catch (e) {
       return ResponseResult.failure(
-        message: e.toString(),
+        message: 'An error occurred: ${e.toString()}',
+      );
+    }
+  }
+
+  Future<ResponseResult> joinEvent(String eventId) async {
+    try {
+      // Get the current user
+      User? user = _auth.currentUser;
+      if (user == null) {
+        return ResponseResult.failure(
+          message: 'You must be logged in to join an event.',
+        );
+      }
+
+      DocumentReference eventRef = _firestore.collection('events').doc(eventId);
+
+      // Run a Firestore transaction
+      return await _firestore.runTransaction((transaction) async {
+        DocumentSnapshot eventSnapshot = await transaction.get(eventRef);
+
+        if (!eventSnapshot.exists) {
+          return ResponseResult.failure(
+            message: 'The event does not exist.',
+          );
+        }
+
+        // Extract event details
+        Map<String, dynamic> eventData = eventSnapshot.data() as Map<String, dynamic>;
+        List participantsJoined = eventData['participantsJoined'] ?? [];
+        String endTimeStr = eventData['endTime'];
+        DateTime eventDate = (eventData['date'] as Timestamp).toDate();
+
+        // Combine eventDate and endTime
+        DateTime eventEndTime = DateTime(
+          eventDate.year,
+          eventDate.month,
+          eventDate.day,
+          int.parse(endTimeStr.split(':')[0]),
+          int.parse(endTimeStr.split(':')[1].split(' ')[0]),
+        );
+
+        DateTime now = DateTime.now();
+
+        // Check if the user is already joined
+        if (participantsJoined.contains(user.uid)) {
+          return ResponseResult.failure(
+            message: 'You have already joined this event.',
+          );
+        }
+
+        // Check if the event has already ended
+        if (now.isAfter(eventEndTime)) {
+          return ResponseResult.failure(
+            message: 'You cannot join an event that has already ended.',
+          );
+        }
+
+        // Add the user to participantsJoined
+        participantsJoined.add(user.uid);
+
+        // Update the participantsJoined field in the database
+        transaction.update(eventRef, {'participantsJoined': participantsJoined});
+
+        return ResponseResult.success(
+          data: null,
+          message: 'You have successfully joined "${eventData['title']}". Enjoy the event!',
+        );
+      });
+    } catch (e) {
+      return ResponseResult.failure(
+        message: 'An error occurred: ${e.toString()}',
       );
     }
   }

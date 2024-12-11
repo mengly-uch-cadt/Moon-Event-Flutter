@@ -112,6 +112,12 @@ class MoonScanScreenState extends State<MoonScanScreen> {
                 return MoonEventDetailsWidget(event: event);
               },
             );
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return MoonEventDetailsWidget(event: event, registerMode: false,);
+              },
+            );
           }else{
             showDialog(
               context: context,
