@@ -24,19 +24,19 @@ class EventService {
     }
   }
 
-  // Update participant count
-  Future<void> updateParticipantCount(String eventUuid) async {
-    DocumentReference eventRef = _firestore.collection('events').doc(eventUuid);
+  // // Update participant count
+  // Future<void> updateParticipantCount(String eventUuid) async {
+  //   DocumentReference eventRef = _firestore.collection('events').doc(eventUuid);
 
-    // Fetch the event to get the current participant list
-    DocumentSnapshot eventSnapshot = await eventRef.get();
-    List participants = eventSnapshot['participants'] ?? [];
+  //   // Fetch the event to get the current participant list
+  //   DocumentSnapshot eventSnapshot = await eventRef.get();
+  //   List participants = eventSnapshot['participants'] ?? [];
 
-    // Update the participant count
-    await eventRef.update({
-      'participantCount': participants.length,
-    });
-  }
+  //   // Update the participant count
+  //   await eventRef.update({
+  //     'participantCount': participants.length,
+  //   });
+  // }
 
   Future<ResponseResult> getEvents({
     bool isAllEvents = false, 
@@ -54,22 +54,24 @@ class EventService {
       };
 
       // Fetch events based on `isAllEvents` flag
-      if (isAllEvents) {
-        eventSnapshot = await _firestore.collection('events')
-          .where("isPublic", isEqualTo: true)
-          .get();
-      } 
-      else if(isPopularEvents){
+      if (isAllEvents || isPopularEvents) {
         DateTime now = DateTime.now();
         DateTime todayStart = DateTime(now.year, now.month, now.day);
-
         eventSnapshot = await _firestore.collection('events')
           .where("isPublic", isEqualTo: true)
           .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
-          .orderBy("participantCount", descending: true)
-          .limit(15)
           .get();
-      }
+      } 
+      // else if(isPopularEvents){
+      //   DateTime now = DateTime.now();
+      //   DateTime todayStart = DateTime(now.year, now.month, now.day);
+
+      //   eventSnapshot = await _firestore.collection('events')
+      //     .where("isPublic", isEqualTo: true)
+      //     .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
+      //     .limit(15)
+      //     .get();
+      // }
       else if(isNewReleaseEvents){
         DateTime now = DateTime.now();
         DateTime todayStart = DateTime(now.year, now.month, now.day);
@@ -81,6 +83,7 @@ class EventService {
           .limit(15)
           .get();
       }
+
 
       // Map events with their associated categories
       List<GetEvent> events = eventSnapshot!.docs.map((doc) {
@@ -105,6 +108,14 @@ class EventService {
           category              : category,
         );
       }).toList();
+      
+      if(isPopularEvents){
+        List<GetEvent> sortedEvents = List<GetEvent>.from(events);
+        sortedEvents.sort((a, b) => b.participantsRegistered.length.compareTo(a.participantsRegistered.length));
+
+        // Store the top 15 sorted events back into the original list
+          events = sortedEvents.take(15).toList();
+      }
       return ResponseResult.success(
         data: events,
         message: 'Events fetched successfully',
@@ -192,7 +203,7 @@ class EventService {
 
       return ResponseResult.success(
         data: null,
-        message: 'You have successfully RSVP\'d for "${eventSnapshot['title']}". We look forward to seeing you!',
+        message: 'You have successfully RSVP for "${eventSnapshot['title']}". We look forward to seeing you!',
       );
     }catch(e){
       return ResponseResult.failure(
