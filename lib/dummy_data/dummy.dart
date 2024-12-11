@@ -10,7 +10,7 @@ List<Event> generatedEvents = [
     location: "San Francisco, CA",
     imageUrl: "1",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1", // Organizer: Uch Mengly6
-    participantsWillAttend: [
+    participantsRegistered: [
       "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Uch Mengly3
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3", // Uch Mengly4
       "VCYZdLohGbU2vqtd5yRPZTTPXln1"  // Uch Mengly5
@@ -20,7 +20,6 @@ List<Event> generatedEvents = [
     ],
     isPublic: true,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc", // Category: Fintech
-    participantCount: 3,
   ),
   Event(
     title: "AI & Machine Learning Summit",
@@ -31,7 +30,7 @@ List<Event> generatedEvents = [
     location: "New York, NY",
     imageUrl: "2",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3", // Organizer: Uch Mengly4
-    participantsWillAttend: [
+    participantsRegistered: [
       "dYDsm4Vogjc4LWLGMaSZCIufQux1", // Uch Mengly8
       "iP8HPYBpQnWIfS3m98jZLZ3MNmW2", // Uch Mengly
       "m18RsrYElTR0tTjyaiuevIIAUjf2"  // Uch Mengly2
@@ -41,7 +40,6 @@ List<Event> generatedEvents = [
     ],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e", // Category: Artificial Intelligence
-    participantCount: 3,
   ),
   Event(
     title: "Cyber Security Forum",
@@ -52,7 +50,7 @@ List<Event> generatedEvents = [
     location: "Los Angeles, CA",
     imageUrl: "3",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Organizer: Uch Mengly3
-    participantsWillAttend: [
+    participantsRegistered: [
       "VCYZdLohGbU2vqtd5yRPZTTPXln1", // Uch Mengly5
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2"  // Uch Mengly7
     ],
@@ -61,7 +59,6 @@ List<Event> generatedEvents = [
     ],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886", // Category: Cyber Security
-    participantCount: 2,
   ),
   Event(
     title: "Blockchain Trends 2024",
@@ -72,7 +69,7 @@ List<Event> generatedEvents = [
     location: "Miami, FL",
     imageUrl: "4",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1", // Uch Mengly6
-    participantsWillAttend: [
+    participantsRegistered: [
       "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1"
@@ -80,7 +77,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc", // Fintech
-    participantCount: 3,
   ),
   Event(
     title: "AI in Healthcare",
@@ -91,7 +87,7 @@ List<Event> generatedEvents = [
     location: "Seattle, WA",
     imageUrl: "5",
     organizerId: "iP8HPYBpQnWIfS3m98jZLZ3MNmW2", // Uch Mengly
-    participantsWillAttend: [
+    participantsRegistered: [
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2",
       "m18RsrYElTR0tTjyaiuevIIAUjf2"
@@ -99,7 +95,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e", // Artificial Intelligence
-    participantCount: 3,
   ),
   Event(
     title: "Cyber Security in Fintech",
@@ -110,14 +105,13 @@ List<Event> generatedEvents = [
     location: "Dallas, TX",
     imageUrl: "6",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Uch Mengly3
-    participantsWillAttend: [
+    participantsRegistered: [
       "dYDsm4Vogjc4LWLGMaSZCIufQux1",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1"
     ],
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886", // Cyber Security
-    participantCount: 2,
   ),
   Event(
     title: "UI/UX Bootcamp",
@@ -128,7 +122,7 @@ List<Event> generatedEvents = [
     location: "Chicago, IL",
     imageUrl: "7",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3", // Uch Mengly4
-    participantsWillAttend: [
+    participantsRegistered: [
       "m18RsrYElTR0tTjyaiuevIIAUjf2",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2"
@@ -136,7 +130,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620", // UI/UX Design
-    participantCount: 3,
   ),
   Event(
     title: "Digital Marketing Workshop",
@@ -147,7 +140,7 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "8",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1", // Uch Mengly5
-    participantsWillAttend: [
+    participantsRegistered: [
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1"
@@ -155,7 +148,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: true,
     categoryId: "e0359913-2024-447a-bfd2-edff6a9a0728", // Digital Marketing
-    participantCount: 3,
   ),
   Event(
     title: "Data Science Hackathon",
@@ -166,7 +158,7 @@ List<Event> generatedEvents = [
     location: "Boston, MA",
     imageUrl: "9",
     organizerId: "m18RsrYElTR0tTjyaiuevIIAUjf2", // Uch Mengly2
-    participantsWillAttend: [
+    participantsRegistered: [
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1"
@@ -174,7 +166,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["CqPG0YgwBzaUgDQaTIE6DdToXHZ2"],
     isPublic: true,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f", // Data Science
-    participantCount: 3,
   ),
   Event(
     title: "AI in Gaming",
@@ -185,7 +176,7 @@ List<Event> generatedEvents = [
     location: "Orlando, FL",
     imageUrl: "10",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3", // Uch Mengly4
-    participantsWillAttend: [
+    participantsRegistered: [
       "dYDsm4Vogjc4LWLGMaSZCIufQux1",
       "iP8HPYBpQnWIfS3m98jZLZ3MNmW2",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2"
@@ -193,7 +184,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e", // Artificial Intelligence
-    participantCount: 3,
   ),
   Event(
     title: "Web Development for Beginners",
@@ -204,7 +194,7 @@ List<Event> generatedEvents = [
     location: "Las Vegas, NV",
     imageUrl: "11",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1", // Uch Mengly5
-    participantsWillAttend: [
+    participantsRegistered: [
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "m18RsrYElTR0tTjyaiuevIIAUjf2"
@@ -212,7 +202,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb", // Web/App Development
-    participantCount: 3,
   ),
   Event(
     title: "The Future of Fintech",
@@ -223,7 +212,7 @@ List<Event> generatedEvents = [
     location: "Houston, TX",
     imageUrl: "12",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Uch Mengly3
-    participantsWillAttend: [
+    participantsRegistered: [
       "dYDsm4Vogjc4LWLGMaSZCIufQux1",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1"
@@ -231,7 +220,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc", // Fintech
-    participantCount: 3,
   ),
   Event(
     title: "Secure Software Development",
@@ -242,7 +230,7 @@ List<Event> generatedEvents = [
     location: "Denver, CO",
     imageUrl: "13",
     organizerId: "iP8HPYBpQnWIfS3m98jZLZ3MNmW2", // Uch Mengly
-    participantsWillAttend: [
+    participantsRegistered: [
       "m18RsrYElTR0tTjyaiuevIIAUjf2",
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "AqsauIfPHxajYR20eiqGHxyDWxl1"
@@ -250,7 +238,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886", // Cyber Security
-    participantCount: 3,
   ),
   Event(
     title: "Mobile App Design Trends 2025",
@@ -261,7 +248,7 @@ List<Event> generatedEvents = [
     location: "Phoenix, AZ",
     imageUrl: "14",
     organizerId: "m18RsrYElTR0tTjyaiuevIIAUjf2", // Uch Mengly2
-    participantsWillAttend: [
+    participantsRegistered: [
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1"
@@ -269,7 +256,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620", // UI/UX Design
-    participantCount: 3,
   ),
   Event(
     title: "Digital Advertising Strategy",
@@ -280,7 +266,7 @@ List<Event> generatedEvents = [
     location: "San Diego, CA",
     imageUrl: "15",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1", // Uch Mengly5
-    participantsWillAttend: [
+    participantsRegistered: [
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "m18RsrYElTR0tTjyaiuevIIAUjf2",
       "AqsauIfPHxajYR20eiqGHxyDWxl1"
@@ -288,7 +274,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "e0359913-2024-447a-bfd2-edff6a9a0728", // Digital Marketing
-    participantCount: 3,
   ),
   // Add 18 more events following the same structure
   Event(
@@ -300,7 +285,7 @@ List<Event> generatedEvents = [
     location: "Atlanta, GA",
     imageUrl: "16",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Uch Mengly3
-    participantsWillAttend: [
+    participantsRegistered: [
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2"
@@ -308,7 +293,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886", // Cyber Security
-    participantCount: 3,
   ),
   Event(
     title: "Web Accessibility Workshop",
@@ -319,7 +303,7 @@ List<Event> generatedEvents = [
     location: "Philadelphia, PA",
     imageUrl: "17",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3", // Uch Mengly4
-    participantsWillAttend: [
+    participantsRegistered: [
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "m18RsrYElTR0tTjyaiuevIIAUjf2"
@@ -327,7 +311,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb", // Web/App Development
-    participantCount: 3,
   ),
   Event(
     title: "AI Ethics Summit",
@@ -338,7 +321,7 @@ List<Event> generatedEvents = [
     location: "Portland, OR",
     imageUrl: "18",
     organizerId: "iP8HPYBpQnWIfS3m98jZLZ3MNmW2", // Uch Mengly
-    participantsWillAttend: [
+    participantsRegistered: [
       "m18RsrYElTR0tTjyaiuevIIAUjf2",
       "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1"
@@ -346,7 +329,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["CqPG0YgwBzaUgDQaTIE6DdToXHZ2"],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e", // Artificial Intelligence
-    participantCount: 3,
   ),
   Event(
     title: "Data Analytics Bootcamp",
@@ -357,7 +339,7 @@ List<Event> generatedEvents = [
     location: "San Antonio, TX",
     imageUrl: "19",
     organizerId: "m18RsrYElTR0tTjyaiuevIIAUjf2", // Uch Mengly2
-    participantsWillAttend: [
+    participantsRegistered: [
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1"
@@ -365,7 +347,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: true,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f", // Data Science
-    participantCount: 3,
   ),
   Event(
     title: "UI/UX Design Tools",
@@ -376,7 +357,7 @@ List<Event> generatedEvents = [
     location: "San Jose, CA",
     imageUrl: "20",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1", // Uch Mengly5
-    participantsWillAttend: [
+    participantsRegistered: [
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "CqPG0YgwBzaUgDQaTIE6DdToXHZ2"
@@ -384,7 +365,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620", // UI/UX Design
-    participantCount: 3,
   ),
   Event(
     title: "Digital Content Creation Masterclass",
@@ -395,7 +375,7 @@ List<Event> generatedEvents = [
     location: "Nashville, TN",
     imageUrl: "21",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Uch Mengly3
-    participantsWillAttend: [
+    participantsRegistered: [
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2"
@@ -403,7 +383,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: true,
     categoryId: "e0359913-2024-447a-bfd2-edff6a9a0728", // Digital Marketing
-    participantCount: 3,
   ),
   // Add 13 more events following this structure
   Event(
@@ -415,7 +394,7 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "22",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3", // Uch Mengly4
-    participantsWillAttend: [
+    participantsRegistered: [
       "m18RsrYElTR0tTjyaiuevIIAUjf2",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2",
       "AqsauIfPHxajYR20eiqGHxyDWxl1"
@@ -423,7 +402,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc", // Fintech
-    participantCount: 3,
   ),
   Event(
     title: "AI Product Design Hackathon",
@@ -434,7 +412,7 @@ List<Event> generatedEvents = [
     location: "Seattle, WA",
     imageUrl: "23",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1", // Uch Mengly6
-    participantsWillAttend: [
+    participantsRegistered: [
       "VCYZdLohGbU2vqtd5yRPZTTPXln1",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1",
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3"
@@ -442,7 +420,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e", // Artificial Intelligence
-    participantCount: 3,
   ),
   Event(
     title: "Data Privacy Regulation Seminar",
@@ -453,7 +430,7 @@ List<Event> generatedEvents = [
     location: "Phoenix, AZ",
     imageUrl: "24",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1", // Uch Mengly5
-    participantsWillAttend: [
+    participantsRegistered: [
       "AqsauIfPHxajYR20eiqGHxyDWxl1",
       "qmqllcFjVPgHc0MV4Q4PfehF3hL2",
       "dYDsm4Vogjc4LWLGMaSZCIufQux1"
@@ -461,7 +438,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886", // Cyber Security
-    participantCount: 3,
   ),
   Event(
     title: "UX Patterns for Mobile Apps",
@@ -472,7 +448,7 @@ List<Event> generatedEvents = [
     location: "Denver, CO",
     imageUrl: "25",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2", // Uch Mengly3
-    participantsWillAttend: [
+    participantsRegistered: [
       "m18RsrYElTR0tTjyaiuevIIAUjf2",
       "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
       "VCYZdLohGbU2vqtd5yRPZTTPXln1"
@@ -480,7 +456,6 @@ List<Event> generatedEvents = [
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620", // UI/UX Design
-    participantCount: 3,
   ),
   // Add 6 more hardcoded examples here
   Event(
@@ -492,11 +467,10 @@ List<Event> generatedEvents = [
     location: "New York, NY",
     imageUrl: "26",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["AqsauIfPHxajYR20eiqGHxyDWxl1", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
+    participantsRegistered: ["AqsauIfPHxajYR20eiqGHxyDWxl1", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "e0359913-2024-447a-bfd2-edff6a9a0728",
-    participantCount: 2,
   ),
   Event(
     title: "Cloud Computing Trends Seminar",
@@ -507,11 +481,10 @@ List<Event> generatedEvents = [
     location: "San Francisco, CA",
     imageUrl: "27",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "m18RsrYElTR0tTjyaiuevIIAUjf2"],
+    participantsRegistered: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "m18RsrYElTR0tTjyaiuevIIAUjf2"],
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: false,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620",
-    participantCount: 2,
   ),
   Event(
     title: "Startup Growth Strategies",
@@ -522,11 +495,10 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "28",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "Blockchain Beyond Cryptocurrency",
@@ -537,11 +509,10 @@ List<Event> generatedEvents = [
     location: "Boston, MA",
     imageUrl: "29",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc",
-    participantCount: 2,
   ),
   Event(
     title: "Future of Artificial Intelligence",
@@ -552,11 +523,10 @@ List<Event> generatedEvents = [
     location: "Seattle, WA",
     imageUrl: "30",
     organizerId: "dYDsm4Vogjc4LWLGMaSZCIufQux1",
-    participantsWillAttend: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e",
-    participantCount: 2,
   ),
   Event(
     title: "Cybersecurity for Small Businesses",
@@ -567,11 +537,10 @@ List<Event> generatedEvents = [
     location: "Los Angeles, CA",
     imageUrl: "31",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886",
-    participantCount: 2,
   ),
   Event(
     title: "Data Science Bootcamp",
@@ -582,11 +551,10 @@ List<Event> generatedEvents = [
     location: "Chicago, IL",
     imageUrl: "32",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: false,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f",
-    participantCount: 2,
   ),
   Event(
     title: "UI/UX Design Principles",
@@ -597,11 +565,10 @@ List<Event> generatedEvents = [
     location: "Miami, FL",
     imageUrl: "33",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
+    participantsRegistered: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620",
-    participantCount: 2,
   ),
   // Continue adding more hardcoded events until 20 total
   Event(
@@ -613,11 +580,10 @@ List<Event> generatedEvents = [
     location: "San Diego, CA",
     imageUrl: "34",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "Ethical Hacking 101",
@@ -628,11 +594,10 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "35",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886",
-    participantCount: 2,
   ),
   Event(
     title: "Data Visualization Masterclass",
@@ -643,11 +608,10 @@ List<Event> generatedEvents = [
     location: "Boston, MA",
     imageUrl: "36",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["AqsauIfPHxajYR20eiqGHxyDWxl1", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
+    participantsRegistered: ["AqsauIfPHxajYR20eiqGHxyDWxl1", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     participantsJoined: ["AqsauIfPHxajYR20eiqGHxyDWxl1"],
     isPublic: true,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f",
-    participantCount: 2,
   ),
   Event(
     title: "Introduction to No-Code Development",
@@ -658,11 +622,10 @@ List<Event> generatedEvents = [
     location: "San Francisco, CA",
     imageUrl: "37",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "AI in Healthcare",
@@ -673,11 +636,10 @@ List<Event> generatedEvents = [
     location: "New York, NY",
     imageUrl: "38",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: false,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e",
-    participantCount: 2,
   ),
   Event(
     title: "Advanced Python Programming",
@@ -688,11 +650,10 @@ List<Event> generatedEvents = [
     location: "Chicago, IL",
     imageUrl: "39",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "m18RsrYElTR0tTjyaiuevIIAUjf2"],
+    participantsRegistered: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "m18RsrYElTR0tTjyaiuevIIAUjf2"],
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f",
-    participantCount: 2,
   ),
   Event(
     title: "Digital Art Creation",
@@ -703,11 +664,10 @@ List<Event> generatedEvents = [
     location: "Seattle, WA",
     imageUrl: "40",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620",
-    participantCount: 2,
   ),
   Event(
     title: "Effective Team Management",
@@ -718,11 +678,10 @@ List<Event> generatedEvents = [
     location: "Miami, FL",
     imageUrl: "41",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1",
-    participantsWillAttend: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
+    participantsRegistered: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: false,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc",
-    participantCount: 2,
   ),
   Event(
     title: "Sustainable Tech Solutions",
@@ -733,11 +692,10 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "42",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "AqsauIfPHxajYR20eiqGHxyDWxl1"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "AqsauIfPHxajYR20eiqGHxyDWxl1"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e",
-    participantCount: 2,
   ),
   Event(
     title: "Game Development Bootcamp",
@@ -748,11 +706,10 @@ List<Event> generatedEvents = [
     location: "San Diego, CA",
     imageUrl: "43",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
+    participantsRegistered: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "Blockchain for Beginners",
@@ -763,11 +720,10 @@ List<Event> generatedEvents = [
     location: "San Francisco, CA",
     imageUrl: "44",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "0a45f0e6-61bb-40f9-9ce6-c5f7c1f941dc",
-    participantCount: 2,
   ),
   Event(
     title: "Cloud Computing Essentials",
@@ -778,11 +734,10 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "45",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
+    participantsRegistered: ["VCYZdLohGbU2vqtd5yRPZTTPXln1", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     participantsJoined: ["VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     isPublic: true,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e",
-    participantCount: 2,
   ),
   Event(
     title: "Cybersecurity and Risk Management",
@@ -793,11 +748,10 @@ List<Event> generatedEvents = [
     location: "Los Angeles, CA",
     imageUrl: "46",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
+    participantsRegistered: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2", "iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: false,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886",
-    participantCount: 2,
   ),
   Event(
     title: "Digital Marketing Bootcamp",
@@ -808,11 +762,10 @@ List<Event> generatedEvents = [
     location: "New York, NY",
     imageUrl: "47",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "AqsauIfPHxajYR20eiqGHxyDWxl1"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "AqsauIfPHxajYR20eiqGHxyDWxl1"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: true,
     categoryId: "e0359913-2024-447a-bfd2-edff6a9a0728",
-    participantCount: 2,
   ),
   Event(
     title: "Mobile App Development for iOS",
@@ -823,11 +776,10 @@ List<Event> generatedEvents = [
     location: "Chicago, IL",
     imageUrl: "48",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
+    participantsRegistered: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3", "dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "Design Thinking Workshop",
@@ -838,11 +790,10 @@ List<Event> generatedEvents = [
     location: "San Francisco, CA",
     imageUrl: "50",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1",
-    participantsWillAttend: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620",
-    participantCount: 2,
   ),
   Event(
     title: "JavaScript Frameworks Deep Dive",
@@ -853,11 +804,10 @@ List<Event> generatedEvents = [
     location: "Los Angeles, CA",
     imageUrl: "51",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "CqPG0YgwBzaUgDQaTIE6DdToXHZ2"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "CqPG0YgwBzaUgDQaTIE6DdToXHZ2"],
     participantsJoined: ["m18RsrYElTR0tTjyaiuevIIAUjf2"],
     isPublic: false,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "AI for Business Leaders",
@@ -868,11 +818,10 @@ List<Event> generatedEvents = [
     location: "Chicago, IL",
     imageUrl: "52",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e",
-    participantCount: 2,
   ),
   Event(
     title: "Cybersecurity Incident Response",
@@ -883,11 +832,10 @@ List<Event> generatedEvents = [
     location: "New York, NY",
     imageUrl: "53",
     organizerId: "CqPG0YgwBzaUgDQaTIE6DdToXHZ2",
-    participantsWillAttend: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: true,
     categoryId: "268614b1-fd0b-4b33-a24d-6162d4df0886",
-    participantCount: 2,
   ),
   Event(
     title: "Advanced Data Science with Python",
@@ -898,11 +846,10 @@ List<Event> generatedEvents = [
     location: "Seattle, WA",
     imageUrl: "54",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: false,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f",
-    participantCount: 2,
   ),
   Event(
     title: "Augmented Reality Development",
@@ -913,11 +860,10 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "55",
     organizerId: "VCYZdLohGbU2vqtd5yRPZTTPXln1",
-    participantsWillAttend: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: true,
     categoryId: "735dc0af-501f-46b7-b975-49a304dc0620",
-    participantCount: 2,
   ),
   Event(
     title: "Building Scalable Web Apps",
@@ -928,11 +874,10 @@ List<Event> generatedEvents = [
     location: "San Francisco, CA",
     imageUrl: "56",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
+    participantsRegistered: ["dYDsm4Vogjc4LWLGMaSZCIufQux1", "VCYZdLohGbU2vqtd5yRPZTTPXln1"],
     participantsJoined: ["dYDsm4Vogjc4LWLGMaSZCIufQux1"],
     isPublic: true,
     categoryId: "1b388593-9fc0-4e12-98e9-85a21f4e07eb",
-    participantCount: 2,
   ),
   Event(
     title: "The Future of Data Science",
@@ -943,11 +888,10 @@ List<Event> generatedEvents = [
     location: "Chicago, IL",
     imageUrl: "57",
     organizerId: "JSv2GoLB3AX2bu7PHtkTe22o7LF3",
-    participantsWillAttend: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
+    participantsRegistered: ["m18RsrYElTR0tTjyaiuevIIAUjf2", "qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     participantsJoined: ["qmqllcFjVPgHc0MV4Q4PfehF3hL2"],
     isPublic: false,
     categoryId: "46219624-d55f-48a4-81a6-c1a22ad0bf4f",
-    participantCount: 2,
   ),
   Event(
     title: "Building AI Models from Scratch",
@@ -958,10 +902,9 @@ List<Event> generatedEvents = [
     location: "Austin, TX",
     imageUrl: "58",
     organizerId: "AqsauIfPHxajYR20eiqGHxyDWxl1",
-    participantsWillAttend: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
+    participantsRegistered: ["iP8HPYBpQnWIfS3m98jZLZ3MNmW2", "JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     participantsJoined: ["JSv2GoLB3AX2bu7PHtkTe22o7LF3"],
     isPublic: true,
     categoryId: "1b34ea8a-bf52-43d3-acaf-38d3ad89bf6e",
-    participantCount: 2,
   ),
 ];

@@ -11,11 +11,10 @@ class GetEvent {
   String location;
   String imageUrl;
   String organizerId;
-  List<String> participantsWillAttend;
+  List<String> participantsRegistered;
   List<String> participantsJoined;
   bool isPublic;
   Category category;
-  int participantCount;
 
   GetEvent({
     required this.eventUuid,
@@ -27,11 +26,10 @@ class GetEvent {
     required this.location,
     required this.imageUrl,
     required this.organizerId,
-    required this.participantsWillAttend,
+    required this.participantsRegistered,
     required this.participantsJoined,
     required this.isPublic,
     required this.category,
-    required this.participantCount,
   });
 
 
@@ -46,11 +44,10 @@ class GetEvent {
       location: data['location'],
       imageUrl: data['imageUrl'],
       organizerId: data['organizerId'],
-      participantsWillAttend: List<String>.from(data['participantsWillAttend']),
+      participantsRegistered: List<String>.from(data['participantsRegistered']),
       participantsJoined: List<String>.from(data['participantsJoined']),
       isPublic: data['isPublic'],
       category: Category.fromMap(data['category'], data['category']['uuid']),
-      participantCount: data['participantCount'] ?? 0,
     );
   }
 }

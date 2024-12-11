@@ -90,20 +90,19 @@ class EventService {
         Category category = categoryMap[categoryId]!;
         // Convert event data to a `GetEvent` object
         return GetEvent(
-          eventUuid: eventData['eventUuid'],
-          title: eventData['title'],
-          description: eventData['description'],
-          date: eventData['date'],
-          startTime: eventData['startTime'],
-          endTime: eventData['endTime'],
-          location: eventData['location'],
-          imageUrl: eventData['imageUrl'],
-          organizerId: eventData['organizerId'],
-          participantsWillAttend: List<String>.from(eventData['participantsWillAttend']),
-          participantsJoined: List<String>.from(eventData['participantsJoined']),
-          isPublic: eventData['isPublic'],
-          category: category,
-          participantCount: eventData['participantCount'] ?? 0,
+          eventUuid             : eventData['eventUuid'],
+          title                 : eventData['title'],
+          description           : eventData['description'],
+          date                  : eventData['date'],
+          startTime             : eventData['startTime'],
+          endTime               : eventData['endTime'],
+          location              : eventData['location'],
+          imageUrl              : eventData['imageUrl'],
+          organizerId           : eventData['organizerId'],
+          participantsRegistered: List<String>.from(eventData['participantsRegistered']),
+          participantsJoined    : List<String>.from(eventData['participantsJoined']),
+          isPublic              : eventData['isPublic'],
+          category              : category,
         );
       }).toList();
       return ResponseResult.success(
@@ -146,20 +145,19 @@ class EventService {
         Category category = categoryMap[categoryId]!;
         // Convert event data to a `GetEvent` object
         return GetEvent(
-          eventUuid: eventData['eventUuid'],
-          title: eventData['title'],
-          description: eventData['description'],
-          date: eventData['date'],
-          startTime: eventData['startTime'],
-          endTime: eventData['endTime'],
-          location: eventData['location'],
-          imageUrl: eventData['imageUrl'],
-          organizerId: eventData['organizerId'],
-          participantsWillAttend: List<String>.from(eventData['participantsWillAttend']),
-          participantsJoined: List<String>.from(eventData['participantsJoined']),
-          isPublic: eventData['isPublic'],
-          category: category,
-          participantCount: eventData['participantCount'] ?? 0,
+          eventUuid             : eventData['eventUuid'],
+          title                 : eventData['title'],
+          description           : eventData['description'],
+          date                  : eventData['date'],
+          startTime             : eventData['startTime'],
+          endTime               : eventData['endTime'],
+          location              : eventData['location'],
+          imageUrl              : eventData['imageUrl'],
+          organizerId           : eventData['organizerId'],
+          participantsRegistered: List<String>.from(eventData['participantsRegistered']),
+          participantsJoined    : List<String>.from(eventData['participantsJoined']),
+          isPublic              : eventData['isPublic'],
+          category              : category,
         );
       }).toList();
       return ResponseResult.success(
@@ -178,18 +176,18 @@ class EventService {
       User? user = _auth.currentUser;
       DocumentReference eventRef = _firestore.collection('events').doc(eventId);
       DocumentSnapshot eventSnapshot = await eventRef.get();
-      List participantsWillAttend = eventSnapshot['participantsWillAttend'] ?? [];
+      List participantsRegistered = eventSnapshot['participantsRegistered'] ?? [];
 
-      if(participantsWillAttend.contains(user!.uid)){
+      if(participantsRegistered.contains(user!.uid)){
         return ResponseResult.failure(
           message: 'You are already marked as attending this event.',
         );
       }
 
-      participantsWillAttend.add(user.uid);
+      participantsRegistered.add(user.uid);
 
       await eventRef.update({
-        'participantsWillAttend': participantsWillAttend,
+        'participantsRegistered': participantsRegistered,
       });
 
       return ResponseResult.success(
@@ -224,20 +222,19 @@ class EventService {
       Category category = categoryMap[categoryId]!;
 
       GetEvent event = GetEvent(
-        eventUuid: eventData['eventUuid'],
-        title: eventData['title'],
-        description: eventData['description'],
-        date: eventData['date'],
-        startTime: eventData['startTime'],
-        endTime: eventData['endTime'],
-        location: eventData['location'],
-        imageUrl: eventData['imageUrl'],
-        organizerId: eventData['organizerId'],
-        participantsWillAttend: List<String>.from(eventData['participantsWillAttend']),
-        participantsJoined: List<String>.from(eventData['participantsJoined']),
-        isPublic: eventData['isPublic'],
-        category: category,
-        participantCount: eventData['participantCount'] ?? 0,
+        eventUuid             : eventData['eventUuid'],
+        title                 : eventData['title'],
+        description           : eventData['description'],
+        date                  : eventData['date'],
+        startTime             : eventData['startTime'],
+        endTime               : eventData['endTime'],
+        location              : eventData['location'],
+        imageUrl              : eventData['imageUrl'],
+        organizerId           : eventData['organizerId'],
+        participantsRegistered: List<String>.from(eventData['participantsRegistered']),
+        participantsJoined    : List<String>.from(eventData['participantsJoined']),
+        isPublic              : eventData['isPublic'],
+        category              : category,
       );
 
       return ResponseResult.success(

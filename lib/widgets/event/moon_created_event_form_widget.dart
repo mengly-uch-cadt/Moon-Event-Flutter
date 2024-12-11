@@ -247,11 +247,10 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                             location              : _locationController.text,
                                             imageUrl              : _imageUrl,
                                             organizerId           : userUid!,
-                                            participantsWillAttend: selectedUIDs,
+                                            participantsRegistered: selectedUIDs,
                                             participantsJoined    : [],
                                             isPublic              : isPublic,
                                             categoryId            : _selectedCategoryId!,
-                                            participantCount      : selectedUIDs.length,
                                           );
 
                                           EventService eventService = EventService();

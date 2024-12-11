@@ -192,7 +192,7 @@ class _MoonEventDetailsWidgetState extends State<MoonEventDetailsWidget> {
                             // ===========================================================
                             // Number of Participants
                             Text(
-                              '${widget.event.participantCount} Participants',
+                              '${widget.event.participantsRegistered.length} Participants',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],

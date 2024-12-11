@@ -11,11 +11,10 @@ class Event {
   String location;
   String imageUrl;
   String organizerId;
-  List<String> participantsWillAttend;
+  List<String> participantsRegistered;
   List<String> participantsJoined;
   bool isPublic;
   String categoryId;
-  int participantCount;
 
   Event({
     required this.title,
@@ -26,11 +25,10 @@ class Event {
     required this.location,
     required this.imageUrl,
     required this.organizerId,
-    required this.participantsWillAttend,
+    required this.participantsRegistered,
     required this.participantsJoined,
     required this.isPublic,
     required this.categoryId,
-    required this.participantCount,
   }):eventUuid = generateUuid();
 
   // Converts an Event object into a Map
@@ -40,16 +38,15 @@ class Event {
       'title'                 : title,
       'description'           : description,
       'date'                  : Timestamp.fromDate(date),
-      'startTime'              : startTime,
+      'startTime'             : startTime,
       'endTime'               : endTime,
       'location'              : location,
       'imageUrl'              : imageUrl,
       'organizerId'           : organizerId,
-      'participantsWillAttend': participantsWillAttend,
+      'participantsRegistered': participantsRegistered,
       'participantsJoined'    : participantsJoined,
       'isPublic'              : isPublic,
       'categoryId'            : categoryId,
-      'participantCount'      : participantCount,
     };
   }
 }
