@@ -3,17 +3,22 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppColors{
   // Blue
-  static Color primary     = const Color(0xFF2033C4);
-  static Color secondary    = const Color(0xFF0F185E);
+  // static Color primary     = const Color(0xFF2033C4);
+  // static Color secondary    = const Color(0xFF0F185E);
   // Purble
   // static Color primary      = const Color(0xFFD1C4E9);
   // static Color secondary    = const Color(0xFF6A1B9A);
   // Emerald Green
   // static Color primary      = const Color(0xFF2E7D32);
   // static Color secondary    = const Color(0xFF155619);
-  // Deep Charcoal
-  // static Color primary      = const Color(0xFFB76E79);
-  // static Color secondary    = const Color(0xFF4A4A4A);
+  // Brown
+  // static Color primary      = const Color(0xFFa47148);
+  // static Color secondary    = const Color(0xFF583101);
+
+  // Purple
+  static Color primary      = const Color(0xFF7b2cbf);
+  static Color secondary    = const Color(0xFF3d0066);
+
   static Color white        = const Color(0xFFFFFFFF);
   static Color black        = const Color(0xFF000000);
   static Color blackAccent  = const Color(0xFF1F1F1F);

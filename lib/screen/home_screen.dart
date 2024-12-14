@@ -1,20 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:moon_event/dummy_data/dummy.dart';
-import 'package:moon_event/model/category.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/state/event_state.dart';
+import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/utils/user_util.dart';
-import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
-import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
-import 'package:moon_event/widgets/event/moon_see_all_event_widget.dart';
 import 'package:moon_event/widgets/home/moon_carousel_widget.dart';
 import 'package:moon_event/widgets/home/moon_list_category_widget.dart';
+import 'package:moon_event/widgets/home/moon_title_see_all_widget.dart';
+import 'package:moon_event/widgets/moon_event_list_widget.dart';
+import 'package:moon_event/widgets/moon_no_event_data_message_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:moon_event/widgets/skeletonizer/moon_event_axis_skeletonizer_widget.dart';
 
 class MoonHomeScreen extends ConsumerStatefulWidget {
   const MoonHomeScreen({super.key});
@@ -25,16 +23,12 @@ class MoonHomeScreen extends ConsumerStatefulWidget {
 
 class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   EventService eventService = EventService();
-  bool _allEventsLoading = true;
-  bool _popluarEventsLoading = true;
-  bool _newReleaseEventsLoading = true;
-  List<GetEvent>? allEventsData;
-  List<GetEvent>? popularEventsData;
-  List<GetEvent>? newReleaseEventsData;
-
-  double halfScreen(BuildContext context) {
-    return MediaQuery.of(context).size.width / 2.25;
-  }
+  bool _allEventsLoading = false;
+  bool _popluarEventsLoading = false;
+  bool _newReleaseEventsLoading = false;
+  late List<GetEvent> allEventsData;
+  late List<GetEvent> popularEventsData;
+  late List<GetEvent> newReleaseEventsData;
 
   @override
   void initState() {
@@ -59,33 +53,71 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   }
 
   void getPopularEvents() async {
+    setState(() {
+      _popluarEventsLoading = true;
+    });
     Future<ResponseResult> responseResult = eventService.getEvents(isPopularEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      popularEventsData = result.data;
-      ref.read(eventProvider.notifier).setPopularEventData(popularEventsData!);
+      if (result.data == null){
+        setState(() {
+          _popluarEventsLoading = false;
+        });
+        return;
+      }
+      ref.read(eventProvider.notifier).setPopularEventData(result.data!);
+      setState(() {
+        _popluarEventsLoading = false;
+      });
     } else {
-      throw Exception(result.message);
+      ScaffoldMessenger(child: 
+        SnackBar(
+          content: Text(result.message),
+          backgroundColor: AppColors.red,
+        )
+      );
     }
   }
 
   void getNewReleaseEvents() async {
+    setState(() {
+      _newReleaseEventsLoading = true;
+    });
     Future<ResponseResult> responseResult = eventService.getEvents(isNewReleaseEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      newReleaseEventsData = result.data;
-      ref.read(eventProvider.notifier).setNewReleaseEventData(newReleaseEventsData!);
+      if (result.data == null){
+        setState(() {
+          _newReleaseEventsLoading = false;
+        });
+        return;
+      }
+      ref.read(eventProvider.notifier).setNewReleaseEventData(result.data!);
+      setState(() {
+        _newReleaseEventsLoading = false;
+      });
     } else {
       throw Exception(result.message);
     }
   }
   
   void getAllEvents() async {
+    setState(() {
+      _allEventsLoading = true;
+    });
     Future<ResponseResult> responseResult = eventService.getEvents(isAllEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      allEventsData = result.data;
-      ref.read(eventProvider.notifier).setAllEventData(allEventsData!);
+      if (result.data == null){
+        setState(() {
+          _allEventsLoading = false;
+        });
+        return;
+      }
+      ref.read(eventProvider.notifier).setAllEventData(result.data!);
+      setState(() {
+        _allEventsLoading = false;
+      });
     } else {
       throw Exception(result.message);
     }
@@ -97,11 +129,6 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     final allEventsData = eventState.allEvents;
     final popularEventsData = eventState.popularEvents;
     final newReleaseEventsData = eventState.newReleaseEvents;
-
-    // loading events
-    _allEventsLoading = allEventsData == null;
-    _popluarEventsLoading = popularEventsData == null;
-    _newReleaseEventsLoading = newReleaseEventsData == null;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -131,40 +158,18 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     // ===========================================================
                     // Popular Events  
                     // ===========================================================
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const MoonTitleWidget(
-                          firstTitle: "Popular",
-                          secondTitle: "Events",
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context, 
-                              builder: (ctx)=> 
-                                MoonSeeAllEventWidget(
-                                  events: popularEventsData!, 
-                                  moonTitleWidget: const MoonTitleWidget(
-                                    firstTitle: "Popular", 
-                                    secondTitle: "Events"
-                                  ),
-                                )
-                            );
-                          },
-                          child: Text(
-                            "See All", 
-                            style: Theme.of(context).textTheme.bodyMedium
-                          )
-                        ),
-                      ],
+                    MoonTitleSeeAllWidget(
+                      firstTitle: "Popular",
+                      secondTitle: "Events",
+                      events: popularEventsData!,
                     ),
                     // Show skeleton or events based on loading state and data length
-                    _popluarEventsLoading
-                      ? _buildSkeleton() // Show skeleton while loading
-                      : (popularEventsData == null || popularEventsData.isEmpty
-                          ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                          : _buildEventsList(popularEventsData, _popluarEventsLoading)),
+                    _popluarEventsLoading 
+                      ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
+                      : (popularEventsData.isEmpty
+                            ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
+                          : MoonEventListWidget(events: popularEventsData,)),
+
                     _popluarEventsLoading 
                       ? Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -178,39 +183,17 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     // ===========================================================
                     //  New Events  
                     // ===========================================================
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const MoonTitleWidget(
-                          firstTitle: "New",
-                          secondTitle: "Events",
-                        ),
-                        TextButton(onPressed: () {
-                          showDialog(
-                            context: context, 
-                            builder: (ctx)=> 
-                              MoonSeeAllEventWidget(
-                                events: newReleaseEventsData!, 
-                                moonTitleWidget: const MoonTitleWidget(
-                                  firstTitle: "New", 
-                                  secondTitle: "Events"
-                                ),
-                              )
-                          );
-                        },
-                        child: Text(
-                          "See All", 
-                          style: Theme.of(context).textTheme.bodyMedium
-                          )
-                        ),
-                      ],
+                    MoonTitleSeeAllWidget(
+                      firstTitle: "New",
+                      secondTitle: "Events",
+                      events: newReleaseEventsData!,
                     ),
                      // Show skeleton or events based on loading state and data length
                     _newReleaseEventsLoading
-                        ? _buildSkeleton() // Show skeleton while loading
-                        : (newReleaseEventsData == null || newReleaseEventsData.isEmpty
-                            ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                            : _buildEventsList(newReleaseEventsData, _newReleaseEventsLoading)),
+                      ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
+                        : (newReleaseEventsData.isEmpty
+                            ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
+                            : MoonEventListWidget(events: newReleaseEventsData,)),
                     const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -223,40 +206,17 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     // ===========================================================
                     // All Events
                     // ===========================================================
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const MoonTitleWidget(
-                          firstTitle: "All",
-                          secondTitle: "Events",
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context, 
-                              builder: (ctx)=> 
-                                MoonSeeAllEventWidget(
-                                  events: allEventsData!, 
-                                  moonTitleWidget: const MoonTitleWidget(
-                                    firstTitle: "All", 
-                                    secondTitle: "Events"
-                                  ),
-                                )
-                            );
-                          },
-                          child: Text(
-                            "See All",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                      ],
+                    MoonTitleSeeAllWidget(
+                      firstTitle: "All",
+                      secondTitle: "Events",
+                      events: allEventsData!,
                     ),
                     // Show skeleton or events based on loading state and data length
                     _allEventsLoading
-                        ? _buildSkeleton() // Show skeleton while loading
-                        : (allEventsData == null || allEventsData.isEmpty
-                            ? _buildNoDataMessage()  // Show 'No Available Data' if no events
-                            : _buildEventsList(allEventsData, _allEventsLoading)),
+                      ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
+                        : (allEventsData.isEmpty
+                            ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
+                            : MoonEventListWidget(events: allEventsData,)),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -264,78 +224,6 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // Widget to show the skeleton loader while fetching data
-  Widget _buildSkeleton() {
-    return Skeletonizer(
-      enabled: true,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: List.generate(3, (index) {
-            return SizedBox(
-              width: halfScreen(context),
-              child: MoonEventCardWidget(
-                   event: GetEvent(
-                    title: '',
-                    description: '',
-                    location: '',
-                    date: Timestamp.now(),
-                    startTime: '',
-                    endTime: '',
-                    category: Category(category: '', uuid: '', icon: ''),
-                    imageUrl: '', 
-                    eventUuid: '', 
-                    organizerId: '', 
-                    participantsRegistered: [], 
-                    participantsJoined: [], 
-                    isPublic: false
-                ),
-              ),
-            );
-          }),
-        ),
-      ),
-    );
-  }
-
-  // Widget to show the "No Available Data" message when no events are present
-  Widget _buildNoDataMessage() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          'No available events.',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEventsList(List<GetEvent> events, bool enabled) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: events.map((event) {
-          return SizedBox(
-            width: halfScreen(context),
-            child: GestureDetector(
-              onTap: () {
-                // Navigate to event details screen
-                showDialog(
-                  context: context, 
-                  builder: (ctx) => MoonEventDetailsWidget(event: event)
-                );
-              },
-              child: MoonEventCardWidget(
-                event: event,
-              ),
-            ),
-          );
-        }).toList(),
       ),
     );
   }

@@ -14,11 +14,11 @@ class MoonEventGridViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      controller: _scrollController, // ScrollController is now nullable
+      controller: _scrollController ?? null, // ScrollController is now nullable
       shrinkWrap: true, // Prevent the GridView from taking up all available space
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // Display two cards per row
-        childAspectRatio: 0.74, // Adjust this ratio to fit your card size
+        childAspectRatio: 0.60, // Adjust this ratio to fit your card size
       ),
       itemCount: events.length,
       itemBuilder: (context, index) {

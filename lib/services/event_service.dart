@@ -24,20 +24,6 @@ class EventService {
     }
   }
 
-  // // Update participant count
-  // Future<void> updateParticipantCount(String eventUuid) async {
-  //   DocumentReference eventRef = _firestore.collection('events').doc(eventUuid);
-
-  //   // Fetch the event to get the current participant list
-  //   DocumentSnapshot eventSnapshot = await eventRef.get();
-  //   List participants = eventSnapshot['participants'] ?? [];
-
-  //   // Update the participant count
-  //   await eventRef.update({
-  //     'participantCount': participants.length,
-  //   });
-  // }
-
   Future<ResponseResult> getEvents({
     bool isAllEvents = false, 
     bool isPopularEvents = false,
@@ -62,16 +48,7 @@ class EventService {
           .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
           .get();
       } 
-      // else if(isPopularEvents){
-      //   DateTime now = DateTime.now();
-      //   DateTime todayStart = DateTime(now.year, now.month, now.day);
 
-      //   eventSnapshot = await _firestore.collection('events')
-      //     .where("isPublic", isEqualTo: true)
-      //     .where("date", isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
-      //     .limit(15)
-      //     .get();
-      // }
       else if(isNewReleaseEvents){
         DateTime now = DateTime.now();
         DateTime todayStart = DateTime(now.year, now.month, now.day);
@@ -117,6 +94,7 @@ class EventService {
           events = sortedEvents.take(15).toList();
       }
       return ResponseResult.success(
+        // data: null,
         data: events,
         message: 'Events fetched successfully',
       );
@@ -140,13 +118,13 @@ class EventService {
           message: 'No events found',
         );
       }
+      
       // Fetch all categories once to map them
       QuerySnapshot categorySnapshot = await _firestore.collection('categories').get();
       Map<String, Category> categoryMap = {
         for (var doc in categorySnapshot.docs)
           doc.id: Category.fromMap(doc.data() as Map<String, dynamic>, doc.id),
       };
-
 
       // Map events with their associated categories
       List<GetEvent> events = eventSnapshot.docs.map((doc) {
@@ -224,7 +202,7 @@ class EventService {
         // Check if the user is already registered
         if (participantsRegistered.contains(user.uid)) {
           return ResponseResult.failure(
-            message: 'You are already marked as attending this event.',
+            message: 'You are already marked as registerd this event.',
           );
         }
 
@@ -365,6 +343,126 @@ class EventService {
         message: 'Event fetched successfully',
       );
 
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<ResponseResult> getRegisterEvents() async {
+    try {
+      User? user = _auth.currentUser;
+      DateTime now = DateTime.now();
+      DateTime todayStart = DateTime(now.year, now.month, now.day);
+
+      QuerySnapshot eventSnapshot = await _firestore.collection('events')
+        .where('participantsRegistered', arrayContains: user!.uid)
+        .where('isPublic', isEqualTo: true)
+        .where('date', isGreaterThanOrEqualTo: Timestamp.fromDate(todayStart))
+        .orderBy('date', descending: false)
+        .get();
+
+      // Fetch all categories once to map them
+      QuerySnapshot categorySnapshot = await _firestore.collection('categories').get();
+      Map<String, Category> categoryMap = {
+        for (var doc in categorySnapshot.docs)
+          doc.id: Category.fromMap(doc.data() as Map<String, dynamic>, doc.id),
+      };
+
+      if (eventSnapshot.docs.isEmpty) {
+        return ResponseResult.success(
+          data: [],
+          message: 'No events found',
+        );
+      }
+
+      // Map events with their associated categories
+      List<GetEvent> events = eventSnapshot.docs.map((doc) {
+        Map<String, dynamic> eventData = doc.data() as Map<String, dynamic>;
+        String categoryId = eventData['categoryId'];
+        // Find the matching category from the categoryMap
+        Category category = categoryMap[categoryId]!;
+        // Convert event data to a `GetEvent` object
+        return GetEvent(
+          eventUuid             : eventData['eventUuid'],
+          title                 : eventData['title'],
+          description           : eventData['description'],
+          date                  : eventData['date'],
+          startTime             : eventData['startTime'],
+          endTime               : eventData['endTime'],
+          location              : eventData['location'],
+          imageUrl              : eventData['imageUrl'],
+          organizerId           : eventData['organizerId'],
+          participantsRegistered: List<String>.from(eventData['participantsRegistered']),
+          participantsJoined    : List<String>.from(eventData['participantsJoined']),
+          isPublic              : eventData['isPublic'],
+          category              : category,
+        );
+      }).toList();
+
+      return ResponseResult.success(
+        data: events,
+        message: 'Events fetched successfully',
+      );
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<ResponseResult> getJoinedEvents() async{
+    try {
+      User? user = _auth.currentUser;
+      QuerySnapshot eventSnapshot = await _firestore.collection('events')
+        .where('participantsJoined', arrayContains: user!.uid)
+        .where('isPublic', isEqualTo: true)
+        .orderBy('date', descending: true)
+        .get();
+
+      // Fetch all categories once to map them
+      QuerySnapshot categorySnapshot = await _firestore.collection('categories').get();
+      Map<String, Category> categoryMap = {
+        for (var doc in categorySnapshot.docs)
+          doc.id: Category.fromMap(doc.data() as Map<String, dynamic>, doc.id),
+      };
+
+      if (eventSnapshot.docs.isEmpty) {
+        return ResponseResult.success(
+          data: [],
+          message: 'No events found',
+        );
+      }
+
+      // Map events with their associated categories
+      List<GetEvent> events = eventSnapshot.docs.map((doc) {
+        Map<String, dynamic> eventData = doc.data() as Map<String, dynamic>;
+        String categoryId = eventData['categoryId'];
+        // Find the matching category from the categoryMap
+        Category category = categoryMap[categoryId]!;
+        // Convert event data to a `GetEvent` object
+        return GetEvent(
+          eventUuid             : eventData['eventUuid'],
+          title                 : eventData['title'],
+          description           : eventData['description'],
+          date                  : eventData['date'],
+          startTime             : eventData['startTime'],
+          endTime               : eventData['endTime'],
+          location              : eventData['location'],
+          imageUrl              : eventData['imageUrl'],
+          organizerId           : eventData['organizerId'],
+          participantsRegistered: List<String>.from(eventData['participantsRegistered']),
+          participantsJoined    : List<String>.from(eventData['participantsJoined']),
+          isPublic              : eventData['isPublic'],
+          category              : category,
+        );
+      }).toList();
+
+      return ResponseResult.success(
+        data: events,
+        message: 'Events fetched successfully',
+      );
     } catch (e) {
       return ResponseResult.failure(
         message: e.toString(),
