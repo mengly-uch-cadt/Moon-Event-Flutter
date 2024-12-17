@@ -4,17 +4,15 @@ import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
 
 class MoonEventGridViewWidget extends StatelessWidget {
-  const MoonEventGridViewWidget({super.key, required this.events, ScrollController? scrollController, this.isCreator = false})
-      : _scrollController = scrollController; // Assign the ScrollController to the private variable
-  
+  const MoonEventGridViewWidget({super.key, required this.events,  this.scrollController, this.isCreator = false});  
   final List<GetEvent> events;
-  final ScrollController? _scrollController; // Make it nullable
+  final ScrollController? scrollController; // Make it nullable
   final bool? isCreator;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      controller: _scrollController ?? null, // ScrollController is now nullable
+      controller: scrollController ?? null, // ScrollController is now nullable
       shrinkWrap: true, // Prevent the GridView from taking up all available space
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // Display two cards per row

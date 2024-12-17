@@ -19,7 +19,7 @@ class MoonRegisterEventWidget extends ConsumerStatefulWidget {
 
 class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidget> {
   EventService eventService = EventService();
-  bool isLoading = false;
+  bool isLoadingRegister = false;
   @override
   void initState() {
     super.initState();
@@ -28,7 +28,7 @@ class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidge
 
   Future<void> getRegisterEvents() async {
     setState(() {
-      isLoading = true; // Start loading
+      isLoadingRegister = true; // Start loading
     });
     try{
       Future<ResponseResult> responseResult = eventService.getRegisterEvents();
@@ -53,19 +53,22 @@ class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidge
         ),
       );
     } finally{
-      isLoading = false;
+      isLoadingRegister = false;
     }
   }
+
+
  @override
   Widget build(BuildContext context) {
     final events = ref.watch(eventProvider);
     final eventsData = events.registerEvents ?? [];
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Center(
           child: 
-            isLoading == true ? 
+            isLoadingRegister == true ? 
             const SizedBox(
               height: 60.0, // Set the desired height
               width: 60.0,  // Set the desired width
@@ -104,7 +107,7 @@ class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidge
                       child: GridView.builder(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // Display two cards per row
-                          childAspectRatio: 0.60, // Adjust this ratio to fit your card size
+                          childAspectRatio: 0.70, // Adjust this ratio to fit your card size
                         ),
                         itemCount: eventsData.length,
                         itemBuilder: (context, index) {
