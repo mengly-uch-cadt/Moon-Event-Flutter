@@ -99,7 +99,6 @@ class _MoonJoinedEventWidgetState extends ConsumerState<MoonJoinedEventWidget> {
                       ],
                     ),
                   ),
-                  // MoonEventGridViewWidget(events: eventsData),
                   Expanded(
                     child: GridView.builder(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
