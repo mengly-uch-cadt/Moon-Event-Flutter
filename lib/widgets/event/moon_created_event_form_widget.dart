@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -137,6 +139,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                         return null;
                       },
                     ),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         Expanded(
@@ -258,7 +261,6 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
                                           if (responseResult.isSuccess) {
                                             showDialog(
-                                              // ignore: use_build_context_synchronously
                                               context: context,
                                               builder: (ctx) => MoonAlertWidget(
                                                 icon: Icons.check_circle_outline,
@@ -268,14 +270,12 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                               ),
                                             ).then((value) {
                                               Navigator.pushReplacement(
-                                                // ignore: use_build_context_synchronously
                                                 context,
                                                 MaterialPageRoute(builder: (context) => const MyApp()),
                                               );
                                             });
                                           } else {
                                             showDialog(
-                                              // ignore: use_build_context_synchronously
                                               context: context,
                                               builder: (ctx) => const MoonAlertWidget(
                                                 icon: Icons.error_outline,
@@ -287,7 +287,6 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                           }
                                         } catch (e) {
                                           showDialog(
-                                            // ignore: use_build_context_synchronously
                                             context: context,
                                             builder: (ctx) => const MoonAlertWidget(
                                               icon: Icons.error_outline,

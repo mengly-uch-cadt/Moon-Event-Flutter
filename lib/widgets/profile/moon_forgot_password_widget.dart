@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/theme.dart';
@@ -62,7 +64,6 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
                     AuthService().forgotPassword(_emailController.text).then((responseResult) {
                       if(responseResult.isSuccess){
                         showDialog(
-                          // ignore: use_build_context_synchronously
                           context: context,
                           builder: (context) => MoonAlertWidget(
                             icon: Icons.check_circle_outline,
@@ -73,7 +74,6 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
                         );
                       }else{
                         showDialog(
-                          // ignore: use_build_context_synchronously
                           context: context,
                           builder: (context) => MoonAlertWidget(
                             icon: Icons.error_outline,
@@ -85,7 +85,6 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
                       }
                     }).catchError((e) {
                       showDialog(
-                        // ignore: use_build_context_synchronously
                         context: context,
                         builder: (context) => MoonAlertWidget(
                           icon: Icons.error_outline,

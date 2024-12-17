@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,7 +45,7 @@ class _MoonListCategoryWidgetState
       });
     } else {
       // Handle the error if the API request fails
-      // ignore: use_build_context_synchronously
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(responseResult.message)),
       );
@@ -87,7 +89,7 @@ class _MoonListCategoryWidgetState
                         onTap: () async {
                           final filteredEvents = await filterEventByCategory(categoryData[index].uuid);
                           showDialog(
-                            // ignore: use_build_context_synchronously
+                            
                             context: context, 
                             builder: (ctx)=> MoonSeeAllEventWidget(
                               events: filteredEvents, 

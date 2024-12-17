@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/model/user.dart';
@@ -78,7 +80,6 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
               authService.forgotPassword(null).then((responseResult) {
                 if(responseResult.isSuccess){
                   showDialog(
-                    // ignore: use_build_context_synchronously
                     context:context, 
                     builder: (ctx) =>   MoonAlertWidget(
                       icon: Icons.check_circle_outline,
@@ -90,7 +91,6 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
                 }
                 else{
                   showDialog(
-                    // ignore: use_build_context_synchronously
                     context:context, 
                     builder: (ctx) => MoonAlertWidget(
                       icon: Icons.error_outline,

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/model/user.dart';
@@ -88,7 +90,6 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
         final updatedUser = responseResult.data as User;
         ref.read(userProvider.notifier).setUserData(updatedUser);
         showDialog(
-          // ignore: use_build_context_synchronously
           context: context, 
           builder: (ctx) => MoonAlertWidget(
               icon: Icons.check_circle_outline,
@@ -99,7 +100,6 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
         );
       } else {
         showDialog(
-          // ignore: use_build_context_synchronously
           context:context, 
           builder: (ctx) => MoonAlertWidget(
             icon: Icons.error_outline,
@@ -111,7 +111,6 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
       }
     } catch (e) {
      showDialog(
-          // ignore: use_build_context_synchronously
           context:context, 
           builder: (ctx) => MoonAlertWidget(
             icon: Icons.error_outline,

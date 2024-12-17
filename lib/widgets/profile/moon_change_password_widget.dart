@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
@@ -101,7 +103,6 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
                     ).then((responseResult) {
                       if (responseResult.isSuccess) {
                         showDialog(
-                          // ignore: use_build_context_synchronously
                           context: context, 
                           builder: (ctx) => const MoonAlertWidget(
                             icon: Icons.check_circle_outline,
@@ -112,7 +113,6 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
                         );
                       } else {
                         showDialog(
-                          // ignore: use_build_context_synchronously
                           context: context, 
                           builder: (ctx) => MoonAlertWidget(
                             icon: Icons.error_outline,
@@ -124,7 +124,6 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
                       }
                     }).catchError((error) {
                       showDialog(
-                        // ignore: use_build_context_synchronously
                         context: context, 
                         builder: (ctx) => MoonAlertWidget(
                           icon: Icons.error_outline,

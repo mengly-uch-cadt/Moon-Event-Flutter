@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:moon_event/main.dart';
 import 'package:moon_event/model/user.dart';
@@ -160,7 +162,6 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                             if (responseResult.isSuccess) {
                               saveLoginState(responseResult.data!.uid);
                               showDialog(
-                                // ignore: use_build_context_synchronously
                                 context: context, 
                                 builder: (context) => MoonAlertWidget(
                                   icon: Icons.check_circle_outline,
@@ -169,12 +170,10 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                                   typeError: false,
                                 ),    
                               ).then((_) {
-                                // ignore: use_build_context_synchronously
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const MyApp()));
                               });
                             } else {
                               showDialog(
-                                // ignore: use_build_context_synchronously
                                 context: context, 
                                 builder: (context) => MoonAlertWidget(
                                   icon: Icons.error_outline,
