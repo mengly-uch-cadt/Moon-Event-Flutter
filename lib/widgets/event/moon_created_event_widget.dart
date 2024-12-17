@@ -10,7 +10,6 @@ import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/event/moon_created_event_form_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
-import 'package:moon_event/widgets/event/moon_event_grid_view_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonCreatedEventWidget extends ConsumerStatefulWidget {
