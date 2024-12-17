@@ -95,44 +95,50 @@ class MoonScanScreenState extends State<MoonScanScreen> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+    void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        String eventId = result!.code!;
-        responseResult = eventService.getEventById(eventId);
-        responseResult!.then((value) {
-          if(value.isSuccess){
-            reassemble();
-            GetEvent event = value.data!;
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return MoonEventDetailsWidget(event: event);
-              },
-            );
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return MoonEventDetailsWidget(event: event, registerMode: false,);
-              },
-            );
-          }else{
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return MoonAlertWidget(
-                  icon: Icons.error_outline,
-                  title: 'Error',
-                  description: value.message,
-                  typeError: true,
-                );
-              },
-            );
-          }
+      if (result == null) {
+        setState(() {
+          result = scanData;
+          String eventId = result!.code!;
+          responseResult = eventService.getEventById(eventId);
+          responseResult!.then((value) {
+            if (value.isSuccess) {
+              controller.pauseCamera();
+              GetEvent event = value.data!;
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return MoonEventDetailsWidget(event: event, registerMode: false);
+                },
+              ).then((_) {
+                controller.resumeCamera();
+                setState(() {
+                  result = null;
+                });
+              });
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return MoonAlertWidget(
+                    icon: Icons.error_outline,
+                    title: 'Error',
+                    description: value.message,
+                    typeError: true,
+                  );
+                },
+              ).then((_) {
+                controller.resumeCamera();
+                setState(() {
+                  result = null;
+                });
+              });
+            }
+          });
         });
-      });
+      }
     });
   }
 

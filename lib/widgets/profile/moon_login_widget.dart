@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:moon_event/main.dart';
 import 'package:moon_event/services/auth_service.dart';
@@ -14,8 +16,8 @@ import 'package:moon_event/widgets/profile/moon_forgot_password_widget.dart';
 import 'package:moon_event/widgets/profile/moon_register_widget.dart';
 
 class MoonLoginWidget extends ConsumerStatefulWidget {
-  const MoonLoginWidget({super.key});
-
+  const MoonLoginWidget({super.key, this.isFromEventDetails = false});
+  final bool? isFromEventDetails;
   @override
   ConsumerState<MoonLoginWidget> createState() => _MoonLoginWidgetState();
 }
@@ -34,7 +36,6 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
 
   void onLoginSuccess(String userId) async {
     await saveLoginState(userId);
-    // ignore: use_build_context_synchronously
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -129,6 +130,9 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                       ],
                     ),
                     const SizedBox(height: 10),
+                    // ===========================================================
+                    // Login Button
+                    // ===========================================================
                     MoonButtonWidget(
                       text: "Login",
                       onPressed: () async {
@@ -142,19 +146,23 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                             final String userId = responseResult.data.uid;
                             onLoginSuccess(userId);
                             ref.read(userProvider.notifier).setUserData(responseResult.data);
-                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(responseResult.message),
                                 backgroundColor: AppColors.secondary,
                               ),
                             );
-                            // ignore: use_build_context_synchronously
+                            // Still continue on event details page
+                            if (widget.isFromEventDetails == true) {
+                              Navigator.pop(context);
+                              return;
+                            }
+                            // Navigate to home screen
                             Navigator.push(context, 
-                              MaterialPageRoute(builder: (context) => const MoonBottomNavigationBar()));
+                              MaterialPageRoute(builder: (context) => const MoonBottomNavigationBar())
+                            );
                           } else {
                             showDialog(
-                              // ignore: use_build_context_synchronously
                               context:context, 
                               builder: (ctx) => MoonAlertWidget(
                                 icon: Icons.error_outline,

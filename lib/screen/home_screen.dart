@@ -26,9 +26,9 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   bool _allEventsLoading = false;
   bool _popluarEventsLoading = false;
   bool _newReleaseEventsLoading = false;
-  late List<GetEvent> allEventsData;
-  late List<GetEvent> popularEventsData;
-  late List<GetEvent> newReleaseEventsData;
+  List<GetEvent> allEventsData = [];
+  List<GetEvent> popularEventsData= [];
+  List<GetEvent> newReleaseEventsData= [];
 
   @override
   void initState() {
@@ -126,9 +126,9 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final eventState = ref.watch(eventProvider);
-    final allEventsData = eventState.allEvents;
-    final popularEventsData = eventState.popularEvents;
-    final newReleaseEventsData = eventState.newReleaseEvents;
+    final allEventsData = eventState.allEvents ?? [];
+    final popularEventsData = eventState.popularEvents ?? [];
+    final newReleaseEventsData = eventState.newReleaseEvents ?? [];
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -161,7 +161,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     MoonTitleSeeAllWidget(
                       firstTitle: "Popular",
                       secondTitle: "Events",
-                      events: popularEventsData!,
+                      events: popularEventsData.isNotEmpty ? popularEventsData : [],
                     ),
                     // Show skeleton or events based on loading state and data length
                     _popluarEventsLoading 
@@ -186,7 +186,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     MoonTitleSeeAllWidget(
                       firstTitle: "New",
                       secondTitle: "Events",
-                      events: newReleaseEventsData!,
+                      events: newReleaseEventsData.isNotEmpty ? newReleaseEventsData : [],
                     ),
                      // Show skeleton or events based on loading state and data length
                     _newReleaseEventsLoading
@@ -209,7 +209,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     MoonTitleSeeAllWidget(
                       firstTitle: "All",
                       secondTitle: "Events",
-                      events: allEventsData!,
+                      events: allEventsData.isNotEmpty ? allEventsData : [],
                     ),
                     // Show skeleton or events based on loading state and data length
                     _allEventsLoading

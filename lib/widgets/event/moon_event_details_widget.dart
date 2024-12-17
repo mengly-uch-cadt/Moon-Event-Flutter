@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unrelated_type_equality_checks, prefer_typing_uninitialized_variables
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -11,6 +11,7 @@ import 'package:moon_event/theme.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
+import 'package:moon_event/widgets/profile/moon_login_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:saver_gallery/saver_gallery.dart';
@@ -34,6 +35,9 @@ class MoonEventDetailsWidget extends ConsumerStatefulWidget {
 class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget> {
   final ScreenshotController screenshotController = ScreenshotController();
   late final user;
+  bool registerSuccess = false;
+  bool joinSuccess = false;
+
   // Function to save QR code to gallery using saver_gallery
   Future<void> saveQRCode(String qrCodeData) async {
     // Request storage permission
@@ -56,9 +60,8 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
 
     // Save image to gallery using saver_gallery
     try {
-      final result = await SaverGallery.saveImage(Uint8List.fromList(image), skipIfExists: true, fileName: 'qr_code_${qrCodeData}');
+      final result = await SaverGallery.saveImage(Uint8List.fromList(image), skipIfExists: true, fileName: 'qr_code_$qrCodeData');
       if (result == true) {
-        print("QR Code saved to gallery!");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("QR Code saved to gallery!")),
         );
@@ -82,6 +85,9 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
 
   @override
   Widget build(BuildContext context) {
+    
+    // watch the user state
+    final currentUser = ref.watch(userProvider);
     return Scaffold(
       appBar: AppBar(
         title: const MoonTitleWidget(firstTitle: "Event", secondTitle: "Details"),
@@ -226,99 +232,80 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                     )
                   : Column(
                       children: [
-                        if(user != null && widget.event.participantsRegistered.contains(user.uid))
+                        // Show message if user is already registered or joined the event
+                        if (currentUser != null && widget.registerMode == true && (registerSuccess || widget.event.participantsRegistered.contains(currentUser.uid)))
                           Text(
-                            "You are already marked as registerd this event.", 
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)
+                            "You are already marked as registered for this event.",
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
                           ),
-                        if(user != null && !widget.event.participantsJoined.contains(user.uid))
+                        if (currentUser != null && widget.registerMode == false && (joinSuccess || widget.event.participantsJoined.contains(currentUser.uid)))
                           Text(
-                            "You have already joined this event.", 
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)
+                            "You have already joined this event.",
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
                           ),
-                        widget.registerMode!
-                            ? MoonButtonWidget(
-                                text: "Register",
-                                isDisabled: user == null ? false : widget.event.participantsRegistered.contains(user.uid),
-                                onPressed: () async {
-                                  if (user == null) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => const MoonAlertWidget(
-                                      icon: Icons.error_outline,
-                                      title: "Error",
-                                      description: "Please login to register for the event",
-                                      typeError: true,
-                                      ),
-                                    );
-                                    return;
-                                  }
-                                  EventService eventService = EventService();
-                                  final responseResult = await eventService.registerEvent(widget.event.eventUuid);
-                                  if (responseResult.isSuccess) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => MoonAlertWidget(
-                                    icon: Icons.check_circle_outline,
-                                    title: 'Success',
-                                    description: responseResult.message,
-                                    ),
-                                  );
-                                  } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) => MoonAlertWidget(
+                        const SizedBox(height: 8),
+                        // Show button to register or join the event
+                        MoonButtonWidget(
+                          text: widget.registerMode == true ? "Register" : "Join",
+                          isDisabled: widget.registerMode == true
+                            ? (registerSuccess || (currentUser != null && widget.event.participantsRegistered.contains(currentUser.uid)))
+                            : (joinSuccess || (currentUser != null && widget.event.participantsJoined.contains(currentUser.uid))),
+                          onPressed: () async {
+                            if (currentUser == null) {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => MoonAlertWidget(
                                     icon: Icons.error_outline,
                                     title: "Error",
-                                    description: responseResult.message,
+                                    description: "Please login to ${widget.registerMode == true ? 'register for' : 'join'} the event.",
                                     typeError: true,
-                                    ),
+                                  ),
+                                ).then((_) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => const MoonLoginWidget(isFromEventDetails: true,),
                                   );
-                                  }
-                                },
-                              )
-                            : MoonButtonWidget(
-                                text: "Join",
-                                isDisabled: user == null ? false : widget.event.participantsJoined.contains(user.uid),
-                                onPressed: () async {
-                                  if (user == null) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => const MoonAlertWidget(
-                                      icon: Icons.error_outline,
-                                      title: "Error",
-                                      description: "Please login to register for the event",
-                                      typeError: true,
-                                      ),
-                                    );
-                                    return;
-                                  }
-                                  EventService eventService = EventService();
-                                  final responseResult = await eventService.joinEvent(widget.event.eventUuid);
-                                  if (responseResult.isSuccess) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => MoonAlertWidget(
-                                        icon: Icons.check_circle_outline,
-                                        title: 'Success',
-                                        description: responseResult.message,
-                                      ),
-                                    );
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => MoonAlertWidget(
-                                        icon: Icons.error_outline,
-                                        title: "Error",
-                                        description: responseResult.message,
-                                        typeError: true,
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
+                                });
+                                return;
+                            }
+
+                            EventService eventService = EventService();
+                            final responseResult = widget.registerMode == true
+                                ? await eventService.registerEvent(widget.event.eventUuid)
+                                : await eventService.joinEvent(widget.event.eventUuid);
+
+                            if (responseResult.isSuccess) {
+                              setState(() {
+                                if (widget.registerMode == true) {
+                                  registerSuccess = true;
+                                } else {
+                                  joinSuccess = true;
+                                }
+                              });
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => MoonAlertWidget(
+                                  icon: Icons.check_circle_outline,
+                                  title: 'Success',
+                                  description: responseResult.message,
+                                ),
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) => MoonAlertWidget(
+                                  icon: Icons.error_outline,
+                                  title: "Error",
+                                  description: responseResult.message,
+                                  typeError: true,
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
+
             ],
           ),
         ),

@@ -17,7 +17,7 @@ class AppColors{
 
   // Purple
   static Color primary      = const Color(0xFF7b2cbf);
-  static Color secondary    = const Color(0xFF3d0066);
+  static Color secondary    = const Color(0xFF240046);
 
   static Color white        = const Color(0xFFFFFFFF);
   static Color black        = const Color(0xFF000000);
