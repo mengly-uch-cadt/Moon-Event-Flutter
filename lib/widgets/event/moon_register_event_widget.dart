@@ -107,7 +107,7 @@ class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidge
                       child: GridView.builder(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // Display two cards per row
-                          childAspectRatio: 0.64, // Adjust this ratio to fit your card size
+                          childAspectRatio: 0.65, // Adjust this ratio to fit your card size
                         ),
                         itemCount: eventsData.length,
                         itemBuilder: (context, index) {

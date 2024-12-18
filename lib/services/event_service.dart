@@ -24,6 +24,20 @@ class EventService {
     }
   }
 
+  Future<ResponseResult> updateEvent(Map<String, dynamic> event) async {
+    try {
+      await _firestore.collection('events').doc(event['eventUuid']).update(event);
+      return ResponseResult.success(
+        data: event,
+        message: 'Event updated successfully',
+      );
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
   Future<ResponseResult> getEvents({
     bool isAllEvents = false, 
     bool isPopularEvents = false,
@@ -468,5 +482,5 @@ class EventService {
         message: e.toString(),
       );
     }
-  }
+  }  
 }

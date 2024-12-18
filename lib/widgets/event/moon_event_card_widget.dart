@@ -6,10 +6,12 @@ import 'package:moon_event/theme.dart';
 class MoonEventCardWidget extends StatelessWidget {
   const MoonEventCardWidget({
     super.key, 
-    required this.event
+    required this.event,
+    this.isCreator = false,
   });
 
   final GetEvent  event;
+  final bool? isCreator;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -108,7 +110,6 @@ class MoonEventCardWidget extends StatelessWidget {
                   // Category
                   const SizedBox(height: 4),
                   SizedBox(
-                    height: 20,
                     child: Text(
                       event.category.category,
                       style: Theme.of(context).textTheme.bodySmall,
@@ -116,10 +117,11 @@ class MoonEventCardWidget extends StatelessWidget {
                       overflow: TextOverflow.ellipsis, // Ellipsis for long text
                     ),
                   ),
-                  // Text(
-                  //   "Category: ${event.category.category}",
-                  //   style: Theme.of(context).textTheme.bodySmall,
-                  // ),
+                  if(isCreator != null && isCreator!)
+                    Text(
+                      'Public Event: ${event.isPublic ? 'Yes' : 'No'}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                 ],
               ),
             )

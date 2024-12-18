@@ -275,25 +275,42 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                           _isLoading = true;
                                         });
 
+                                        ResponseResult responseResult;
                                         try {
-                                          final event = Event(
-                                            title                 : _titleController.text,
-                                            description           : _descriptionController.text,
-                                            date                  : DateTime.parse(_dateController.text),
-                                            startTime             : _startTimeController.text,
-                                            endTime               : _endTimeController.text,
-                                            location              : _locationController.text,
-                                            imageUrl              : _imageUrl,
-                                            organizerId           : userUid!,
-                                            participantsRegistered: selectedUIDs,
-                                            participantsJoined    : [],
-                                            isPublic              : isPublic,
-                                            categoryId            : _selectedCategoryId!,
-                                          );
-
                                           EventService eventService = EventService();
-                                          ResponseResult responseResult = await eventService.createEvent(event);
-
+                                          if(widget.isEdit!) {
+                                            Map<String, dynamic> event = {
+                                              'eventUuid'             : eventUuid,
+                                              'title'                 : _titleController.text,
+                                              'description'           : _descriptionController.text,
+                                              'date'                  : DateTime.parse(_dateController.text),
+                                              'startTime'             : _startTimeController.text,
+                                              'endTime'               : _endTimeController.text,
+                                              'location'              : _locationController.text,
+                                              'imageUrl'              : _imageUrl,
+                                              'organizerId'           : userUid!,
+                                              'participantsRegistered': selectedUIDs,
+                                              'isPublic'              : isPublic,
+                                              'categoryId'            : _selectedCategoryId!,
+                                            };
+                                            responseResult = await eventService.updateEvent(event);
+                                          } else {
+                                            final event = Event(
+                                              title                 : _titleController.text,
+                                              description           : _descriptionController.text,
+                                              date                  : DateTime.parse(_dateController.text),
+                                              startTime             : _startTimeController.text,
+                                              endTime               : _endTimeController.text,
+                                              location              : _locationController.text,
+                                              imageUrl              : _imageUrl,
+                                              organizerId           : userUid!,
+                                              participantsRegistered: selectedUIDs,
+                                              participantsJoined    : [],
+                                              isPublic              : isPublic,
+                                              categoryId            : _selectedCategoryId!,
+                                            );
+                                           responseResult= await eventService.createEvent(event);
+                                          }
                                           if (responseResult.isSuccess) {
                                             showDialog(
                                               context: context,
@@ -312,10 +329,10 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                           } else {
                                             showDialog(
                                               context: context,
-                                              builder: (ctx) => const MoonAlertWidget(
+                                              builder: (ctx) => MoonAlertWidget(
                                                 icon: Icons.error_outline,
                                                 title: 'Error',
-                                                description: 'Failed to create the event. Please try again.',
+                                                description: responseResult.message,
                                                 typeError: true,
                                               ),
                                             );
