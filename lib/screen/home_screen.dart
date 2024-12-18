@@ -33,11 +33,11 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   @override
   void initState() {
     super.initState();
+    generateData();
     getPopularEvents();
     getNewReleaseEvents();
     getAllEvents();
     fetchUserData(ref);
-    generateData();
   }
 
   void generateData()async{

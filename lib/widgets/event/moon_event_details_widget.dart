@@ -8,6 +8,7 @@ import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/widgets/event/moon_created_event_form_widget.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
@@ -91,9 +92,25 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
     return Scaffold(
       appBar: AppBar(
         title: const MoonTitleWidget(firstTitle: "Event", secondTitle: "Details"),
+        actions: [
+          if (widget.isCreator!)
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => MoonCreatedEventFormWidget(
+                    event: widget.event,
+                    isEdit: true,
+                  ),
+                );
+              },
+
+            ),
+        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 0, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: SingleChildScrollView(
           child: Column(
             children: [

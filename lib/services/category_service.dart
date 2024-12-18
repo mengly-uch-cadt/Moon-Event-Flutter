@@ -9,8 +9,6 @@ class CategoryService {
       final snapshot = await _firestore.collection('categories').get();
       List<Category> categories = snapshot.docs.map((doc) {
         // Pass the document ID (`doc.id`) to the Category constructor
-  
-
 
         return Category.fromMap(doc.data(), doc.id);
       }).toList();

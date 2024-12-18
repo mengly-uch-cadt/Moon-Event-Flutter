@@ -469,5 +469,4 @@ class EventService {
       );
     }
   }
-
 }

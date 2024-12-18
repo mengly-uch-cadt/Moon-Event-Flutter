@@ -5,26 +5,32 @@ import 'package:moon_event/model/get_user.dart';
 
 class MoonEmailParticipantsInputWidget extends StatefulWidget {
   final List<GetUser> userList; // List of GetUser objects
+  final List<String>? preSelectedUIDs; // Pre-selected UIDs for edit mode
   final Function(List<String>) onParticipantsChanged; // Callback for UID list
 
   const MoonEmailParticipantsInputWidget({
     super.key,
     required this.userList,
+    this.preSelectedUIDs,
     required this.onParticipantsChanged,
   });
 
   @override
-  State<MoonEmailParticipantsInputWidget> createState() => _MoonEmailParticipantsInputWidgetState();
+  State<MoonEmailParticipantsInputWidget> createState() =>
+      _MoonEmailParticipantsInputWidgetState();
 }
 
-class _MoonEmailParticipantsInputWidgetState extends State<MoonEmailParticipantsInputWidget> {
+class _MoonEmailParticipantsInputWidgetState
+    extends State<MoonEmailParticipantsInputWidget> {
   final TextEditingController _inputController = TextEditingController();
-  final List<String> _selectedUIDs = []; // Track selected UIDs
+  late List<String> _selectedUIDs; // Track selected UIDs
   late List<GetUser> _filteredSuggestions;
 
   @override
   void initState() {
     super.initState();
+    // Initialize with pre-selected UIDs or empty
+    _selectedUIDs = widget.preSelectedUIDs ?? [];
     _filteredSuggestions = widget.userList; // Initialize suggestions with the user list
   }
 
@@ -60,13 +66,17 @@ class _MoonEmailParticipantsInputWidgetState extends State<MoonEmailParticipants
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 10),
         // Selected Participants (as Chips)
         Wrap(
-          spacing: 8.0,
-          runSpacing: 4.0,
+          spacing: 0,
+          runSpacing: 0,
           children: _selectedUIDs.map((uid) {
-            // Find the corresponding email for the UID
-            final user = widget.userList.firstWhere((user) => user.uid == uid);
+            // Find the corresponding email for the UID or handle missing user
+            final user = widget.userList.firstWhere(
+              (user) => user.uid == uid,
+              orElse: () => GetUser(uid: uid, email: "Unknown"),
+            );
             return Chip(
               label: Text(user.email),
               onDeleted: () => _removeUser(uid),

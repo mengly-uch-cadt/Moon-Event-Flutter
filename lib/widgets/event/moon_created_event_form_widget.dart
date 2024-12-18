@@ -1,10 +1,12 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:moon_event/main.dart';
 import 'package:moon_event/model/event.dart';
+import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/model/get_user.dart';
 import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/services/user_service.dart';
@@ -22,8 +24,10 @@ import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonCreatedEventFormWidget extends ConsumerStatefulWidget {
-  const MoonCreatedEventFormWidget({super.key});
-
+  const MoonCreatedEventFormWidget({super.key, this.event, this.isEdit = false});
+  final GetEvent? event;
+  final bool? isEdit;
+  
   @override
   ConsumerState<MoonCreatedEventFormWidget> createState() =>
       _MoonCreatedEventFormWidgetState();
@@ -38,11 +42,12 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
-  final String _imageUrl = '${(Random().nextInt(46) + 1)}';
+  String _imageUrl = '${(Random().nextInt(46) + 1)}';
   String? _selectedCategoryId;
   bool isPublic = false;
   bool _isLoading = false;
   List<GetUser> users = [];
+  String eventUuid = '';
 
   // For selected participants (User IDs)
   List<String> selectedUIDs = [];
@@ -50,9 +55,31 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
   @override
   void initState() {
     super.initState();
+    if (widget.isEdit! && widget.event != null) {
+      _initializeFieldsForEditing();
+    }
     getUserMap();
   }
 
+  void _initializeFieldsForEditing() {
+    if (widget.event == null) return; // Safeguard against null events
+    final event = widget.event!;
+    final eventDate = event.date.toDate();
+    
+    eventUuid = event.eventUuid;
+    _titleController.text = event.title;
+    _descriptionController.text = event.description;
+    _dateController.text = DateFormat('yyyy-MM-dd').format(eventDate);
+    _startTimeController.text = event.startTime;
+    _endTimeController.text = event.endTime;
+    _locationController.text = event.location;
+    _imageUrl = event.imageUrl;
+    _selectedCategoryId = event.category.uuid;
+    isPublic = event.isPublic;
+    selectedUIDs = event.participantsRegistered;
+  }
+
+  
   void handleToggle(bool value) {
     setState(() {
       isPublic = value;
@@ -76,29 +103,36 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
     final usersData = ref.watch(getUsersProvider);
     final categories = ref.watch(categoryProvider);
     final user = ref.watch(userProvider);
-    final userUid = user?.uid;
+    
+    if (user == null || usersData == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final userUid = user.uid;
 
     void handleParticipantsChange(List<String> participants) {
       setState(() {
         selectedUIDs = participants;
       });
     }
-
+    
     return Scaffold(
       appBar: AppBar(
-        title: const MoonTitleWidget(firstTitle: "Create", secondTitle: "Event"),
+        title: MoonTitleWidget(
+          firstTitle: widget.isEdit! ? "Edit" : "Create",
+          secondTitle: "Event",
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: 
-          user == null
-              ? const Center(child: CircularProgressIndicator())
-              :Form(
+          Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 10),
                     // Title Field
                     MoonTextFieldWidget(
                       controller: _titleController,
@@ -203,11 +237,12 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    // const SizedBox(height: 10),
                     // Participants Input
                     MoonEmailParticipantsInputWidget(
-                      userList: usersData!,
+                      userList: usersData,
                       onParticipantsChanged: handleParticipantsChange,
+                      preSelectedUIDs: selectedUIDs,
                     ),
                     const SizedBox(height: 10),
                     // Public Event Toggle
@@ -231,7 +266,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                       child: _isLoading
                           ? const CircularProgressIndicator()
                           : MoonButtonWidget(
-                              text: "Create Event",
+                              text: widget.isEdit! ?  "Edit Event" :"Create Event",
                               onPressed: _isLoading
                                   ? null
                                   : () async {
@@ -304,6 +339,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                     },
                             ),
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
