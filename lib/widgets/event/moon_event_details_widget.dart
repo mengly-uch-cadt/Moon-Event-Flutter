@@ -213,11 +213,28 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                             ),
                             const SizedBox(height: 4),
                             // ===========================================================
-                            // Number of Participants
-                            Text(
-                              '${widget.event.participantsRegistered.length} Participants',
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
+                            if(widget.isCreator!)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // ===========================================================
+                                  // Number of Participants
+                                  Text(
+                                    '${widget.event.participantsRegistered.length} Participants registered',
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '${widget.event.participantsJoined.length} Participants joined',
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Public Event: ${widget.event.isPublic ? 'Yes' : 'No'}',
+                                    style: Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              )
                           ],
                         ),
                       )

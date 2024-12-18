@@ -103,7 +103,7 @@ class _MoonJoinedEventWidgetState extends ConsumerState<MoonJoinedEventWidget> {
                     child: GridView.builder(
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Display two cards per row
-                        childAspectRatio: 0.70, // Adjust this ratio to fit your card size
+                        childAspectRatio: 0.64, // Adjust this ratio to fit your card size
                       ),
                       itemCount: eventsData.length,
                       itemBuilder: (context, index) {

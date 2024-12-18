@@ -104,6 +104,22 @@ class MoonEventCardWidget extends StatelessWidget {
                     "${event.startTime}-${event.endTime}",
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
+                  // ===========================================================
+                  // Category
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: 20,
+                    child: Text(
+                      event.category.category,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      maxLines: 1, // Maximum of 2 lines for the title
+                      overflow: TextOverflow.ellipsis, // Ellipsis for long text
+                    ),
+                  ),
+                  // Text(
+                  //   "Category: ${event.category.category}",
+                  //   style: Theme.of(context).textTheme.bodySmall,
+                  // ),
                 ],
               ),
             )
