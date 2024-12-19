@@ -10,28 +10,33 @@ import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/event/moon_created_event_form_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_card_widget.dart';
 import 'package:moon_event/widgets/event/moon_event_details_widget.dart';
+import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonCreatedEventWidget extends ConsumerStatefulWidget {
   const MoonCreatedEventWidget({super.key});
 
   @override
-  ConsumerState<MoonCreatedEventWidget> createState() => _MoonCreatedEventWidgetState();
+  ConsumerState<MoonCreatedEventWidget> createState() =>
+      _MoonCreatedEventWidgetState();
 }
 
-class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget> {
+class _MoonCreatedEventWidgetState
+    extends ConsumerState<MoonCreatedEventWidget> {
   final ScrollController _scrollController = ScrollController();
   EventService eventService = EventService();
   bool _isBottom = false; // Track if the scroll is at the bottom
   bool _isLoading = false; // Track loading state
   List<GetEvent> userEventsData = []; // List of GetEvent objects
+  final Set<String> selectedEventIds = {}; // Store IDs of selected events
 
   @override
   void initState() {
     super.initState();
     getEventByUser();
     _scrollController.addListener(() {
-      final isBottom = _scrollController.offset >= _scrollController.position.maxScrollExtent;
+      final isBottom =
+          _scrollController.offset >= _scrollController.position.maxScrollExtent;
       if (isBottom != _isBottom) {
         setState(() {
           _isBottom = isBottom;
@@ -45,7 +50,8 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
       _isLoading = true; // Start loading
     });
     try {
-      Future<ResponseResult> responseResult = eventService.getEventsByUserUid();
+      Future<ResponseResult> responseResult =
+          eventService.getEventsByUserUid();
       final result = await responseResult;
       if (result.isSuccess) {
         userEventsData = result.data;
@@ -67,17 +73,62 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
     }
   }
 
+  Future<void> deleteSelectedEvents() async {
+    setState(() {
+      _isLoading = true;
+    });
+    ResponseResult responseResult;
+    try {
+      responseResult = await eventService.deleteEvents(selectedEventIds);
+      // Refresh event list
+      getEventByUser();
+      selectedEventIds.clear();
+      showDialog(
+        context: context,
+        builder: (ctx) => MoonAlertWidget(
+          icon: Icons.check_circle_outline,
+          title: 'Success',
+          description: responseResult.message,
+          typeError: false,
+        ),
+      );
+    } catch (e) {
+      showDialog(context: context, builder: 
+        (ctx) => MoonAlertWidget(
+          icon: Icons.error_outline, 
+          title:  'Error', 
+          description: e.toString()
+        )
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final eventsData = ref.watch(eventProvider);
     final events = eventsData.userEvents ?? [];
 
     return Scaffold(
+      // appBar: selectedEventIds.isNotEmpty
+      //     ? AppBar(
+      //         title: Text('${selectedEventIds.length} selected', style: Theme.of(context).textTheme.bodyLarge,),
+      //         actions: [
+      //           IconButton(
+      //             icon: const Icon(Icons.delete),
+      //             onPressed: deleteSelectedEvents,
+      //           ),
+      //         ],
+      //       )
+      //     : null,
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: _isLoading // Show loading indicator while data is being fetched
+            child: _isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
@@ -86,7 +137,8 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.event, size: 100, color: AppColors.gray),
+                            Icon(Icons.event,
+                                size: 100, color: AppColors.gray),
                             const SizedBox(height: 16),
                             Text(
                               'No events found',
@@ -96,59 +148,113 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                         ),
                       )
                     : Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const MoonTitleWidget(firstTitle: "Created", secondTitle: "Events"),
-                              Text(
-                                "Calendar",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: GridView.builder(
-                            controller: _scrollController, // ScrollController is now nullable
-                            shrinkWrap: true, // Prevent the GridView from taking up all available space
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, // Display two cards per row
-                              childAspectRatio: 0.63, // Adjust this ratio to fit your card size
-                            ),
-                            itemCount: events.length,
-                            itemBuilder: (context, index) {
-                              final event = events[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  // showDialog(
-                                  //   context: context, 
-                                  //   builder: (ctx) => MoonEventDetailsWidget(event: event, isCreator: true),
-                                  // );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MoonEventDetailsWidget(event: event, isCreator: true),
-                                    ),
-                                  );
-                                },
-                                child: MoonEventCardWidget(
-                                  event: event,
-                                  isCreator: true,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 6),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const MoonTitleWidget(
+                                    firstTitle: "Created",
+                                    secondTitle: "Events"),
+                                Text(
+                                  "Calendar",
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                              );
-                            },
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    ),
+                          if (selectedEventIds.isNotEmpty)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${selectedEventIds.length} selected',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                IconButton(
+                                  onPressed: deleteSelectedEvents, 
+                                  icon: const Icon(Icons.delete),
+                                  color: AppColors.primary,
+                                ),
+                              ],
+                            ),
+                          Expanded(
+                            child: GridView.builder(
+                              controller: _scrollController,
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.63,
+                              ),
+                              itemCount: events.length,
+                              itemBuilder: (context, index) {
+                                final event = events[index];
+                                final isSelected =
+                                    selectedEventIds.contains(event.eventUuid);
+                                return GestureDetector(
+                                  onTap: selectedEventIds.isNotEmpty
+                                      ? () {
+                                          setState(() {
+                                            if (isSelected) {
+                                              selectedEventIds.remove(event.eventUuid);
+                                            } else {
+                                              selectedEventIds.add(event.eventUuid);
+                                            }
+                                          });
+                                        }
+                                      : () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MoonEventDetailsWidget(
+                                                      event: event,
+                                                      isCreator: true),
+                                            ),
+                                          );
+                                        },
+                                  onLongPress: () {
+                                    setState(() {
+                                      selectedEventIds.add(event.eventUuid);
+                                    });
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      MoonEventCardWidget(
+                                        event: event,
+                                        isCreator: true,
+                                      ),
+                                      if (isSelected)
+                                        Positioned.fill(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Container(
+                                              color: Colors.black
+                                                  .withOpacity(0.5),
+                                              child: const Icon(
+                                                Icons.check,
+                                                color: Colors.white,
+                                                size: 48,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
           ),
-          if (!_isBottom) // Show the FAB only if not at the bottom
+          if (!_isBottom)
             Positioned(
-              bottom: 16.0, // Adjust the vertical position
-              right: 16.0, // Adjust the horizontal position
+              bottom: 16.0,
+              right: 16.0,
               child: FloatingActionButton(
                 onPressed: () {
                   showDialog(
@@ -156,8 +262,7 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                     builder: (ctx) => const MoonCreatedEventFormWidget(),
                   );
                 },
-                backgroundColor: AppColors.primary, // Set the background color
-                focusColor: AppColors.primary,
+                backgroundColor: AppColors.primary,
                 tooltip: 'Create New Event',
                 child: Icon(
                   Icons.add,

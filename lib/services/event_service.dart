@@ -38,6 +38,24 @@ class EventService {
     }
   }
 
+  Future<ResponseResult> deleteEvents(Set<String> eventIds) async {
+    try {
+      WriteBatch batch = _firestore.batch();
+      for (var eventId in eventIds) {
+        batch.delete(_firestore.collection('events').doc(eventId));
+      }
+      await batch.commit();
+      return ResponseResult.success(
+        data: null,
+        message: 'Events deleted successfully',
+      );
+    } catch (e) {
+      return ResponseResult.failure(
+        message: e.toString(),
+      );
+    }
+  }
+
   Future<ResponseResult> getEvents({
     bool isAllEvents = false, 
     bool isPopularEvents = false,
@@ -124,6 +142,7 @@ class EventService {
       User? user = _auth.currentUser;
       QuerySnapshot eventSnapshot = await _firestore.collection('events')
         .where('organizerId', isEqualTo: user!.uid)
+        .orderBy('date', descending: true)
         .get();
 
       if(eventSnapshot.docs.isEmpty){
