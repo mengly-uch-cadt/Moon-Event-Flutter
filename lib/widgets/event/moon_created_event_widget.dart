@@ -83,15 +83,25 @@ class _MoonCreatedEventWidgetState
       // Refresh event list
       getEventByUser();
       selectedEventIds.clear();
-      showDialog(
-        context: context,
-        builder: (ctx) => MoonAlertWidget(
-          icon: Icons.check_circle_outline,
-          title: 'Success',
-          description: responseResult.message,
-          typeError: false,
-        ),
-      );
+      if (responseResult.isSuccess){
+        showDialog(
+          context: context,
+          builder: (ctx) => MoonAlertWidget(
+            icon: Icons.check_circle_outline,
+            title: 'Success',
+            description: responseResult.message,
+            typeError: false,
+          ),
+        );
+      }else{
+        showDialog(context: context, builder: 
+          (ctx) => MoonAlertWidget(
+            icon: Icons.error_outline, 
+            title:  'Error', 
+            description: responseResult.message
+          )
+        );
+      }
     } catch (e) {
       showDialog(context: context, builder: 
         (ctx) => MoonAlertWidget(
@@ -113,17 +123,6 @@ class _MoonCreatedEventWidgetState
     final events = eventsData.userEvents ?? [];
 
     return Scaffold(
-      // appBar: selectedEventIds.isNotEmpty
-      //     ? AppBar(
-      //         title: Text('${selectedEventIds.length} selected', style: Theme.of(context).textTheme.bodyLarge,),
-      //         actions: [
-      //           IconButton(
-      //             icon: const Icon(Icons.delete),
-      //             onPressed: deleteSelectedEvents,
-      //           ),
-      //         ],
-      //       )
-      //     : null,
       body: Stack(
         children: [
           Padding(
