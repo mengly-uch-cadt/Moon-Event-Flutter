@@ -123,9 +123,15 @@ class _MoonCreatedEventWidgetState extends ConsumerState<MoonCreatedEventWidget>
                               final event = events[index];
                               return GestureDetector(
                                 onTap: () {
-                                  showDialog(
-                                    context: context, 
-                                    builder: (ctx) => MoonEventDetailsWidget(event: event, isCreator: true),
+                                  // showDialog(
+                                  //   context: context, 
+                                  //   builder: (ctx) => MoonEventDetailsWidget(event: event, isCreator: true),
+                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MoonEventDetailsWidget(event: event, isCreator: true),
+                                    ),
                                   );
                                 },
                                 child: MoonEventCardWidget(

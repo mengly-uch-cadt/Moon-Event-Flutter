@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:moon_event/main.dart';
 import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/model/get_user.dart';
@@ -321,10 +320,13 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                                 typeError: false,
                                               ),
                                             ).then((value) {
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => const MyApp()),
-                                              );
+                                              // Navigator.of(context).pop();
+                                              // Navigator.popUntil(context, (route) => route.isFirst);
+                                              // Navigator.push(context, MaterialPageRoute(builder: (context) => const MoonEventScreen()));
+                                              // Navigator.
+                                              Navigator.pop(context);  // Pops the first screen
+                                              Navigator.pop(context);  // Pops the second screen
+
                                             });
                                           } else {
                                             showDialog(
