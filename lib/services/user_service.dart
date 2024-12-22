@@ -42,15 +42,15 @@ class UserService {
   }) async {
     try {
       // Upload the profile image and get the URL
-      // String profileImageUrl = await uploadProfileImage(profileImage);
-      String profileImageUrl = '';
+      String profileImageUrl = await uploadProfileImage(profileImage);
+      // String profileImageUrl = '';
 
       // Update user information in Firestore
       await _firestore.collection('users').doc(uid).update({
         'firstName': firstName,
         'lastName': lastName,
         'bio': bio,
-        'profileImageUrl': profileImageUrl,
+        'profilePictureUrl': profileImageUrl,
       });
 
       User updateUser = User.update(

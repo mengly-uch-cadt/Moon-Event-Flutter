@@ -30,6 +30,8 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
   final ImagePicker _picker = ImagePicker();
   final UserService _userService = UserService();
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -55,70 +57,76 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
 
     final user = ref.read(userProvider);
     if (user == null) {
-      const MoonAlertWidget(
-        icon: Icons.error_outline,
-        title: 'Error',
-        description: 'User data is not available.',
-        typeError: true,
+      showDialog(
+        context: context,
+        builder: (ctx) => const MoonAlertWidget(
+          icon: Icons.error_outline,
+          title: 'Error',
+          description: 'User data is not available.',
+          typeError: true,
+        ),
       );
-
       return;
     }
 
-    try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
+    setState(() {
+      _isLoading = true;
+    });
 
+    try {
       ResponseResult responseResult = await _userService.updateUserInformation(
         uid: user.uid!,
         firstName: _firstNameController.text,
         lastName: _lastNameController.text,
-        bio: _bioController.text,
-        profileImage: _image != null ? File(_image!.path) : File(''), // Use a placeholder if no image selected
-        email: user.email,
+        bio: _bioController.text.isEmpty ? '' : _bioController.text,
+        profileImage: _image != null ? File(_image!.path) : File(''), // Use a placeholder if no image selected        email: user.email,
         notificationsEnabled: user.notificationsEnabled,
+        email: user.email,
       );
+
+      setState(() {
+        _isLoading = false;
+      });
 
       if (responseResult.isSuccess) {
         final updatedUser = responseResult.data as User;
         ref.read(userProvider.notifier).setUserData(updatedUser);
         showDialog(
-          context: context, 
+          context: context,
           builder: (ctx) => MoonAlertWidget(
-              icon: Icons.check_circle_outline,
-              title: 'Success',
-              description: responseResult.message,
-              typeError: false,
-            )
-        );
+            icon: Icons.check_circle_outline,
+            title: 'Success',
+            description: responseResult.message,
+            typeError: false,
+          ),
+        ).then((_) {
+          Navigator.of(context).pop();
+        });
       } else {
         showDialog(
-          context:context, 
+          context: context,
           builder: (ctx) => MoonAlertWidget(
             icon: Icons.error_outline,
             title: 'Error',
             description: responseResult.message,
             typeError: true,
-          )
+          ),
         );
       }
     } catch (e) {
-     showDialog(
-          context:context, 
-          builder: (ctx) => MoonAlertWidget(
-            icon: Icons.error_outline,
-            title: 'Error',
-            description: e.toString(),
-            typeError: true,
-          )
-        );
+      setState(() {
+        _isLoading = false;
+      });
+
+      showDialog(
+        context: context,
+        builder: (ctx) => MoonAlertWidget(
+          icon: Icons.error_outline,
+          title: 'Error',
+          description: e.toString(),
+          typeError: true,
+        ),
+      );
     }
   }
 
@@ -126,87 +134,101 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    MoonTitleWidget(firstTitle: "Edit", secondTitle: "Profile"),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MoonTitleWidget(firstTitle: "Edit", secondTitle: "Profile"),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey[200],
+                          image: _image != null
+                              ? DecorationImage(
+                                  image: FileImage(File(_image!.path)),
+                                  fit: BoxFit.cover,
+                                )
+                              : ref.read(userProvider)?.profilePictureUrl != null
+                                  ? DecorationImage(
+                                      image: NetworkImage(ref.read(userProvider)!.profilePictureUrl!),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : null,
+                        ),
+                        child: _image == null && ref.read(userProvider)?.profilePictureUrl == null
+                            ? Icon(
+                                Icons.camera_alt,
+                                size: 50,
+                                color: Colors.grey[700],
+                              )
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    MoonTextFieldWidget(
+                      controller: _firstNameController,
+                      labelText: "Firstname",
+                      hintText: "Enter your firstname",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your firstname';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    MoonTextFieldWidget(
+                      controller: _lastNameController,
+                      labelText: 'Lastname',
+                      hintText: "Enter your lastname",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your lastname';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    MoonTextFieldWidget(
+                      controller: _bioController,
+                      labelText: 'Bio',
+                      hintText: "Enter your bio",
+                    ),
+                    const SizedBox(height: 20),
+                    MoonButtonWidget(
+                      onPressed: _onSave,
+                      text: "Save",
+                    ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[200],
-                      image: _image != null
-                          ? DecorationImage(image: FileImage(File(_image!.path)), fit: BoxFit.cover)
-                          : null,
-                    ),
-                    child: _image == null
-                        ? Icon(
-                            Icons.camera_alt,
-                            size: 50,
-                            color: Colors.grey[700],
-                          )
-                        : null,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                MoonTextFieldWidget(
-                  controller: _firstNameController,
-                  labelText: "Firstname",
-                  hintText: "Enter your firstname",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your firstname';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                MoonTextFieldWidget(
-                  controller: _lastNameController,
-                  labelText: 'Lastname',
-                  hintText: "Enter your lastname",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your lastname';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                MoonTextFieldWidget(
-                  controller: _bioController,
-                  labelText: 'Bio',
-                  hintText: "Enter your bio",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your bio';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                MoonButtonWidget(
-                  onPressed: _onSave,
-                  text: "Save",
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          if (_isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }
+
 }
