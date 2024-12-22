@@ -135,18 +135,20 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: widget.event.imageUrl.isEmpty
-                              ? Image.asset(
-                                  'assets/images/default-placeholder.jpg', // Default placeholder image
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 300,
-                                )
-                              : Image.asset(
-                                  'assets/images/${widget.event.imageUrl}.jpg',
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 200,
-                                ),
+                              ? AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: Image.asset(
+                                    'assets/images/default-placeholder.jpg', // Default placeholder image
+                                    fit: BoxFit.cover,
+                                  ),
+                              )
+                              : AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: Image.asset(
+                                    'assets/images/${widget.event.imageUrl}.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
+                              ),
                         ),
                       ),
                       Padding(
