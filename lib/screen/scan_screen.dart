@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/theme.dart';
@@ -26,8 +27,6 @@ class MoonScanScreenState extends State<MoonScanScreen> {
   bool frontCamera = false;
   Future<dynamic>? responseResult;
 
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
   @override
   void reassemble() {
     super.reassemble();
@@ -40,13 +39,66 @@ class MoonScanScreenState extends State<MoonScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double maxHeight = MediaQuery.of(context).size.height;
+    final double height = MediaQuery.of(context).size.height * 0.2; // Top and bottom overlay height
+    final double rowHeight = maxHeight - (height * 2); // Remaining height for Row
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          QRView(
-            key: qrKey,
-            onQRViewCreated: _onQRViewCreated,
+          // QRView for scanning the QR code
+          Positioned.fill(
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: _onQRViewCreated,
+            ),
           ),
+
+          // Overlay outside the QR code scanning box (dark areas around the box)
+          Positioned.fill(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: height,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    // Left overlay (dark area to the left of the box)
+                    Container(
+                      height: rowHeight * 0.635,  // Responsive height calculation
+                      width: MediaQuery.of(context).size.width * 0.1,  // Adjust left overlay width
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                    SizedBox(
+                      height: rowHeight * 0.635,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Lottie.asset(
+                        'assets/qr_code_logo/scanning_animation.json', // Replace with your Lottie file path
+                        width: 200, // Set the width of the animation
+                        height: 200, // Set the height of the animation
+                        fit: BoxFit.fill, // Adjust how the animation fits the box
+                      ),
+                    ),
+                    // Right overlay (dark area to the right of the box)
+                    Container(
+                      height: rowHeight * 0.635,  // Responsive height calculation
+                      width: MediaQuery.of(context).size.width * 0.1,  // Adjust right overlay width
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ],
+                ),
+                Container(
+                  height: height,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ],
+            ),
+          ),
+
+          // Flash and Camera Control Buttons
           Positioned(
             bottom: 10,
             left: 10,
@@ -56,11 +108,11 @@ class MoonScanScreenState extends State<MoonScanScreen> {
               children: <Widget>[
                 Expanded(
                   flex: 5,
-                    child: MoonButtonWidget(
+                  child: MoonButtonWidget(
                     onPressed: () {
                       controller?.toggleFlash();
                       setState(() {
-                      flashOn = !flashOn;
+                        flashOn = !flashOn;
                       });
                     },
                     text: 'Flash',
@@ -68,10 +120,10 @@ class MoonScanScreenState extends State<MoonScanScreen> {
                       flashOn ? Icons.flash_on : Icons.flash_off,
                     ),
                     textColor: flashOn ? AppColors.star : AppColors.white,
-                    ),
+                  ),
                 ),
                 const SizedBox(width: 10),
-                 Expanded(
+                Expanded(
                   flex: 5,
                   child: MoonButtonWidget(
                     onPressed: () {
@@ -80,7 +132,7 @@ class MoonScanScreenState extends State<MoonScanScreen> {
                         frontCamera = !frontCamera;
                       });
                     },
-                    text: frontCamera? 'Front Camera':"Back Camera",
+                    text: frontCamera ? 'Front Camera' : "Back Camera",
                     icon: const Icon(
                       Icons.flip_camera_ios_outlined,
                       color: Colors.white,
@@ -95,7 +147,7 @@ class MoonScanScreenState extends State<MoonScanScreen> {
     );
   }
 
-    void _onQRViewCreated(QRViewController controller) {
+  void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       if (result == null) {
@@ -148,3 +200,4 @@ class MoonScanScreenState extends State<MoonScanScreen> {
     super.dispose();
   }
 }
+

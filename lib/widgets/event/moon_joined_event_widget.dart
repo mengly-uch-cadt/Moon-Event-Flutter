@@ -101,9 +101,9 @@ class _MoonJoinedEventWidgetState extends ConsumerState<MoonJoinedEventWidget> {
                   ),
                   Expanded(
                     child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2, // Display two cards per row
-                        childAspectRatio: 0.65, // Adjust this ratio to fit your card size
+                        childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.5), // Adjust this ratio to fit your card size dynamically
                       ),
                       itemCount: eventsData.length,
                       itemBuilder: (context, index) {
@@ -122,6 +122,7 @@ class _MoonJoinedEventWidgetState extends ConsumerState<MoonJoinedEventWidget> {
                       },
                     ),
                   ),
+                  const SizedBox(height: 10),
                 ],
               )
           

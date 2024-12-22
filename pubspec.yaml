@@ -59,6 +59,7 @@ dependencies:
   permission_handler: ^11.3.1
   file_picker: ^8.1.4
   saver_gallery: ^4.0.1
+  lottie: ^3.2.0
   # screenshot: ^1.6.1
   # image_gallery_saver: ^1.7.1
   # share_plus: ^6.3.0
@@ -92,6 +93,8 @@ flutter:
     - assets/icons/
     - assets/logo/logo_white_no_bg.png
     - assets/logo/
+    - assets/qr_code_logo/logo.png
+    - assets/qr_code_logo/scanning_animation.json
     - assets/banners/
     - assets/images/
 

@@ -39,17 +39,20 @@ class MoonEventCardWidget extends StatelessWidget {
                     // ignore: unnecessary_null_comparison
                     child: 
                       event.imageUrl.isEmpty
-                      ?  Image.asset(
-                          'assets/images/default-placeholder.jpg', // Default placeholder image
+                      ? AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.asset(
+                            'assets/images/default-placeholder.jpg', // Default placeholder image
+                            fit: BoxFit.cover,
+                          ),
+                      )
+                      : AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.asset(
+                          'assets/images/${event.imageUrl}.jpg',
                           fit: BoxFit.cover,
                           width: double.infinity,
-                          height: 100,
-                        )
-                      : Image.asset(
-                        'assets/images/${event.imageUrl}.jpg',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 100,
+                        ),
                       )
                   ),
                 ),

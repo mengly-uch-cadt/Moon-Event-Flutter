@@ -46,7 +46,7 @@ class MoonCarouselWidgetState extends State<MoonCarouselWidget> {
                       'assets/banners/${imageList[index]}',
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      height: 250,
+                      height: double.infinity,
                     ),
                   ),
                 ],

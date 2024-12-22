@@ -191,7 +191,7 @@ class MoonCategory extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         SizedBox(
-          height: 36,
+          height: 50,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(categoryWords.length, (index) {

@@ -254,6 +254,11 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                               data: widget.event.eventUuid, // UUID for QR code
                               size: 200.0, // QR code size
                               backgroundColor: Colors.white,
+                              embeddedImage: const AssetImage('assets/qr_code_logo/logo.png'), // Embedded image in QR code
+                              embeddedImageStyle: const QrEmbeddedImageStyle(
+                                size: Size(30, 30),  // Adjust size of the embedded image
+                              ),
+                              errorCorrectionLevel: QrErrorCorrectLevel.H, // Set high error correction
                             ),
                           ),
                         ),

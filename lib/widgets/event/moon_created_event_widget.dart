@@ -183,10 +183,9 @@ class _MoonCreatedEventWidgetState
                             child: GridView.builder(
                               controller: _scrollController,
                               shrinkWrap: true,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.63,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, // Display two cards per row
+                                childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.5), // Adjust this ratio to fit your card size dynamically
                               ),
                               itemCount: events.length,
                               itemBuilder: (context, index) {
@@ -247,6 +246,7 @@ class _MoonCreatedEventWidgetState
                               },
                             ),
                           ),
+                          const SizedBox(height: 10),
                         ],
                       ),
           ),
