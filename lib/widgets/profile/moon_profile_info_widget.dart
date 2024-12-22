@@ -32,7 +32,7 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MoonTitleWidget(firstTitle: 'Profile', secondTitle: 'Info'),
+              MoonTitleWidget(firstTitle: 'Profile', secondTitle: 'Information'),
             ],
           ),
           const SizedBox(height: 20),
