@@ -54,47 +54,16 @@ class MoonScanScreenState extends State<MoonScanScreen> {
             ),
           ),
 
-          // Overlay outside the QR code scanning box (dark areas around the box)
           Positioned.fill(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: height,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    // Left overlay (dark area to the left of the box)
-                    Container(
-                      height: rowHeight * 0.635,  // Responsive height calculation
-                      width: MediaQuery.of(context).size.width * 0.1,  // Adjust left overlay width
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                    SizedBox(
-                      height: rowHeight * 0.635,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Lottie.asset(
-                        'assets/qr_code_logo/scanning_animation.json', // Replace with your Lottie file path
-                        width: 200, // Set the width of the animation
-                        height: 200, // Set the height of the animation
-                        fit: BoxFit.fill, // Adjust how the animation fits the box
+            child: Center(
+              child: SizedBox(
+                        height: rowHeight * 0.635,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Lottie.asset(
+                          'assets/qr_code_logo/scanning_animation.json', // Replace with your Lottie file path
+                          fit: BoxFit.fill, // Adjust how the animation fits the box
+                        ),
                       ),
-                    ),
-                    // Right overlay (dark area to the right of the box)
-                    Container(
-                      height: rowHeight * 0.635,  // Responsive height calculation
-                      width: MediaQuery.of(context).size.width * 0.1,  // Adjust right overlay width
-                      color: Colors.black.withOpacity(0.5),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: height,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ],
             ),
           ),
 

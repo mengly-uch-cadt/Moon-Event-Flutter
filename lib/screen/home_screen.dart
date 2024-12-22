@@ -141,7 +141,10 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
-              const MoonCarouselWidget(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: MoonCarouselWidget(),
+              ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
