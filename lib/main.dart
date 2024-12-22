@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +13,7 @@ import 'package:moon_event/utils/user_util.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_custom_appbar_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:moon_event/widgets/profile/moon_login_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,15 +92,22 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
     void _showLoginDialog() {
       showDialog(
         context: context,
-        builder: (BuildContext context) {
-          return const MoonAlertWidget(
-            icon: Icons.error_outline,
-            title: 'Error',
-            description: 'Please log in before accessing the event.',
-            typeError: true,
+          builder: (BuildContext context) {
+            return const MoonAlertWidget(
+              icon: Icons.error_outline,
+              title: 'Error',
+              description: 'Please log in before accessing the event.',
+              cancelText: 'Go to login',
+              typeError: true,
+            );
+          },
+        ).then((_) {
+          showDialog(
+            context: context,
+            builder: (ctx) => const MoonLoginWidget(isFromEventDetails: true,),
           );
-        },
-      );
+        });
+      // );
     }
 
     @override

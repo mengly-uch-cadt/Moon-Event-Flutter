@@ -292,6 +292,7 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                                     icon: Icons.error_outline,
                                     title: "Error",
                                     description: "Please login to ${widget.registerMode == true ? 'register for' : 'join'} the event.",
+                                    cancelText: 'Go to login',
                                     typeError: true,
                                   ),
                                 ).then((_) {
