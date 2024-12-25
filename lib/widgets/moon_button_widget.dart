@@ -41,12 +41,12 @@ class MoonButtonWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDisabled || isProcessing == true ? Colors.grey : (buttonColor ?? AppColors.primary),
+        color: isDisabled == true? Colors.grey : (buttonColor ?? AppColors.primary),
         borderRadius: BorderRadius.circular(8),
       ),
       width: calculatedWidth,
       child: TextButton(
-        onPressed: isDisabled || isProcessing == true ? null : onPressed, // Disable button if isDisabled or isProcessing is true
+        onPressed: isDisabled == true ? null : onPressed, // Disable button if isDisabled or isProcessing is true
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
