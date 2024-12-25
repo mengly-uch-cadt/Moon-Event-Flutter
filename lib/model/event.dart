@@ -9,7 +9,7 @@ class Event {
   String startTime;
   String endTime;
   String location;
-  String imageUrl;
+  String? imageUrl;
   String organizerId;
   List<String> participantsRegistered;
   List<String> participantsJoined;
@@ -23,7 +23,7 @@ class Event {
     required this.startTime,
     required this.endTime,
     required this.location,
-    required this.imageUrl,
+    this.imageUrl = '',
     required this.organizerId,
     required this.participantsRegistered,
     required this.participantsJoined,

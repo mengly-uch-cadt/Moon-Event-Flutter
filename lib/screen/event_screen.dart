@@ -33,7 +33,7 @@ class _MoonEventScreenState extends State<MoonEventScreen> {
             color: AppColors.secondary,
             child: Row(
               children: [
-                _buildNavItem("Register", 0),
+                _buildNavItem("Registered", 0),
                 _buildNavItem("Joined", 1),
                 _buildNavItem("Created", 2),
               ],
