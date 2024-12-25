@@ -38,6 +38,7 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
   late final user;
   bool registerSuccess = false;
   bool joinSuccess = false;
+  bool isProcessing = false;
 
   // Function to save QR code to gallery using saver_gallery
   Future<void> saveQRCode(String qrCodeData) async {
@@ -319,12 +320,16 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                                 });
                                 return;
                             }
-
+                            setState(() {
+                              isProcessing = true;
+                            });
                             EventService eventService = EventService();
                             final responseResult = widget.registerMode == true
                                 ? await eventService.registerEvent(widget.event.eventUuid)
                                 : await eventService.joinEvent(widget.event.eventUuid);
-
+                            setState(() {
+                              isProcessing = false;
+                            });
                             if (responseResult.isSuccess) {
                               setState(() {
                                 if (widget.registerMode == true) {
@@ -353,6 +358,7 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                               );
                             }
                           },
+                          isProcessing: isProcessing,
                         ),
                       ],
                     ),
