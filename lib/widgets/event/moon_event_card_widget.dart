@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/theme.dart';
+import 'package:moon_event/widgets/skeletonizer/moon_image_sketelonizer_widget.dart';
 
 class MoonEventCardWidget extends StatelessWidget {
   const MoonEventCardWidget({
@@ -46,22 +47,29 @@ class MoonEventCardWidget extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                       )
-                      : event.imageUrl.startsWith('http') 
+                        : event.imageUrl.startsWith('http') 
                         ? AspectRatio(
                             aspectRatio: 16 / 9,
                             child: Image.network(
                               event.imageUrl,
                               fit: BoxFit.cover,
                               width: double.infinity,
+                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return const MoonImageSketelonizerWidget();
+                                }
+                              },
                             ),
-                          ) 
+                          )
                           : AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: Image.asset(
-                              'assets/images/${event.imageUrl}.jpg',
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
+                          aspectRatio: 16 / 9,
+                          child: Image.asset(
+                            'assets/images/${event.imageUrl}.jpg',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
                           )
                   ),
                 ),
@@ -80,7 +88,7 @@ class MoonEventCardWidget extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
-                          maxLines: 2, // Maximum of 2 lines for the title
+                          maxLines: 1, // Maximum of 2 lines for the title
                           overflow: TextOverflow.ellipsis, // Ellipsis for long text
                         ),
                       ),

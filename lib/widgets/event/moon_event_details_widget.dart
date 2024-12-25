@@ -142,13 +142,22 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                                     fit: BoxFit.cover,
                                   ),
                               )
-                              : AspectRatio(
-                                aspectRatio: 16 / 9,
-                                child: Image.asset(
-                                    'assets/images/${widget.event.imageUrl}.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
-                              ),
+                              : widget.event.imageUrl.startsWith('http') 
+                                ? AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Image.network(
+                                      widget.event.imageUrl,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ),
+                                  )
+                                : AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Image.asset(
+                                        'assets/images/${widget.event.imageUrl}.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                  )
                         ),
                       ),
                       Padding(

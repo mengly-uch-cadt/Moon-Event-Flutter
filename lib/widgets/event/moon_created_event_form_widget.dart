@@ -1,8 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
-import 'dart:math';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
@@ -11,6 +12,7 @@ import 'package:moon_event/services/event_service.dart';
 import 'package:moon_event/services/user_service.dart';
 import 'package:moon_event/state/category_state.dart';
 import 'package:moon_event/state/user_state.dart';
+import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/response_result_util.dart';
 import 'package:moon_event/widgets/input/moon_date_picker_widget.dart';
 import 'package:moon_event/widgets/input/moon_dropdown_input_widget.dart';
@@ -21,6 +23,8 @@ import 'package:moon_event/widgets/input/moon_toggle_button.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
+
+import '../../state/event_state.dart';
 
 class MoonCreatedEventFormWidget extends ConsumerStatefulWidget {
   const MoonCreatedEventFormWidget({super.key, this.event, this.isEdit = false});
@@ -41,7 +45,10 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
-  String _imageUrl = '${(Random().nextInt(46) + 1)}';
+  String _imageUrl = '';
+  XFile? _image;
+  final ImagePicker _picker = ImagePicker();
+  // String _imageUrl = '${(Random().nextInt(46) + 1)}';
   String? _selectedCategoryId;
   bool isPublic = false;
   bool _isLoading = false;
@@ -50,7 +57,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
   // For selected participants (User IDs)
   List<String> selectedUIDs = [];
-
+  
   @override
   void initState() {
     super.initState();
@@ -97,6 +104,40 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
     });
   }
 
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _image = pickedFile;
+      });
+    }
+  }
+
+  void getEventByUser() async {
+    setState(() {
+      _isLoading = true; // Start loading
+    });
+    try {
+      final eventService = EventService();
+      Future<ResponseResult> responseResult =
+          eventService.getEventsByUserUid();
+      final result = await responseResult;
+      if (result.isSuccess) {
+        ref.read(eventProvider.notifier).setUserEventData(result.data);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+          backgroundColor: AppColors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false; // End loading
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final usersData = ref.watch(getUsersProvider);
@@ -123,7 +164,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 0, left: 16, right: 16, bottom: 16),
         child: 
           Form(
               key: _formKey,
@@ -131,6 +172,41 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Create a Image Picker Widget for create and update event
+                    GestureDetector(
+                      onTap: () async {
+                      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                      if (pickedFile != null) {
+                        setState(() {
+                        _imageUrl = pickedFile.path;
+                        _image = pickedFile;
+                        });
+                      }
+                      },
+                        child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Container(
+                          decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: _image == null
+                          ? (_imageUrl.isEmpty
+                            ? const Center(child: Text("Tap to select an image"))
+                            : ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: _imageUrl.startsWith('http')
+                              ? Image.network(_imageUrl, fit: BoxFit.cover)
+                              : Image.asset('assets/images/$_imageUrl.jpg', fit: BoxFit.cover),
+                            )
+                            )
+                          : ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(File(_image!.path), fit: BoxFit.cover),
+                            ),
+                        ),
+                        ),
+                    ),
                     const SizedBox(height: 10),
                     // Title Field
                     MoonTextFieldWidget(
@@ -292,7 +368,15 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                               'isPublic'              : isPublic,
                                               'categoryId'            : _selectedCategoryId!,
                                             };
-                                            responseResult = await eventService.updateEvent(event);
+                                            File? updatedImageFile = _image != null ? File(_image!.path) : null;
+
+                                            responseResult = await eventService.updateEvent(
+                                              event,
+                                              updatedImageFile,
+                                            );
+                                            if (responseResult.isSuccess){
+                                              getEventByUser();
+                                            }
                                           } else {
                                             final event = Event(
                                               title                 : _titleController.text,
@@ -308,7 +392,7 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                               isPublic              : isPublic,
                                               categoryId            : _selectedCategoryId!,
                                             );
-                                           responseResult= await eventService.createEvent(event);
+                                           responseResult= await eventService.createEvent(event, _image != null ? File(_image!.path) : File(''));
                                           }
                                           if (responseResult.isSuccess) {
                                             showDialog(
@@ -320,12 +404,8 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                                 typeError: false,
                                               ),
                                             ).then((value) {
-                                              // Navigator.of(context).pop();
-                                              // Navigator.popUntil(context, (route) => route.isFirst);
-                                              // Navigator.push(context, MaterialPageRoute(builder: (context) => const MoonEventScreen()));
-                                              // Navigator.
                                               Navigator.pop(context);  // Pops the first screen
-                                              // Navigator.pop(context);  // Pops the second screen
+                                              Navigator.pop(context);  // Pops the second screen
 
                                             });
                                           } else {
@@ -342,10 +422,10 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                                         } catch (e) {
                                           showDialog(
                                             context: context,
-                                            builder: (ctx) => const MoonAlertWidget(
+                                            builder: (ctx) => MoonAlertWidget(
                                               icon: Icons.error_outline,
                                               title: 'Error',
-                                              description: 'An unexpected error occurred. Please try again.',
+                                              description: e.toString(),
                                               typeError: true,
                                             ),
                                           );

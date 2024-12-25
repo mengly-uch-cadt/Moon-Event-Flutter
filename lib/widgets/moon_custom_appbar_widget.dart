@@ -5,6 +5,7 @@ import 'package:moon_event/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/moon_notification_widget.dart';
+import 'package:moon_event/widgets/skeletonizer/moon_profile_skeletonizer_widget.dart';
 
 class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidget {
   final double appBarHeight; // Custom height
@@ -25,9 +26,10 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
         ? '${user!.firstName} ${user.lastName}'
         : 'Guest';
 
-    final userProfilePicture = user?.profilePictureUrl != null && user!.profilePictureUrl!.isNotEmpty
-        ? NetworkImage(user.profilePictureUrl!)
-        : const AssetImage('assets/profiles/female_profile.jpg') as ImageProvider;
+    // final userProfilePicture = user?.profilePictureUrl != null && user!.profilePictureUrl!.isNotEmpty
+    //     ? NetworkImage(user.profilePictureUrl!)
+    //     : const AssetImage('assets/profiles/female_profile.jpg') as ImageProvider;
+    final userProfilePictureUrl = user?.profilePictureUrl;
 
     return Container(
       color: AppColors.secondary, // Background color
@@ -44,8 +46,34 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                   // Profile image
                   CircleAvatar(
                     radius: 24,
-                    backgroundImage: userProfilePicture,
+                    backgroundColor: AppColors.gray, // Set background to transparent
+                    child: userProfilePictureUrl != null && userProfilePictureUrl.isNotEmpty
+                      ? ClipOval(
+                        child: Image.network(
+                          userProfilePictureUrl,
+                          fit: BoxFit.cover,
+                          width: 48,
+                          height: 48,
+                          loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                          return child; // Image is ready
+                          } else {
+                          // Skeleton during loading
+                          return MoonProfileSkeletonizerWidget();
+                          }
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                          // Fallback in case of an error
+                          return const CircleAvatar(
+                          radius: 24,
+                          backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                          );
+                          },
+                        ),
+                        )
+                      : MoonProfileSkeletonizerWidget(),
                   ),
+
                   const SizedBox(width: 10),
                   // Welcome back text
                   Column(

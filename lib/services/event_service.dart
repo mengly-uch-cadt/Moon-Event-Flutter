@@ -1,17 +1,51 @@
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:moon_event/model/category.dart';
 import 'package:moon_event/model/event.dart';
 import 'package:moon_event/model/get_event.dart';
 import 'package:moon_event/utils/response_result_util.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as path;
 
 class EventService {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<ResponseResult> createEvent(Event event) async {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
+  // Upload Event image to Firebase Storage and get the URL
+  Future<String> uploadProfileImage(File imageFile) async {
+    try {
+      // Get the file name and create a reference to Firebase Storage
+      String fileName = path.basename(imageFile.path);
+      Reference storageRef = _storage.ref().child('events/$fileName');
+
+      // Upload the image to Firebase Storage
+      UploadTask uploadTask = storageRef.putFile(imageFile);
+      TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
+
+      // Get the download URL of the uploaded image
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<ResponseResult> createEvent( Event event, File? imageFile ) async {
     try{
+      if (imageFile == null) {
+        return ResponseResult.failure(
+          message: 'Please select an image for the event',
+        );
+      }
+      // Upload the event image and get the URL
+      String imageUrl = await uploadProfileImage(imageFile!);
+      event.imageUrl = imageUrl;
       await _firestore.collection('events').doc(event.eventUuid).set(event.toMap());
       return ResponseResult.success(
         data: event,
@@ -24,8 +58,12 @@ class EventService {
     }
   }
 
-  Future<ResponseResult> updateEvent(Map<String, dynamic> event) async {
+  Future<ResponseResult> updateEvent(Map<String, dynamic> event, File? imageFile) async {
     try {
+      if (imageFile != null) {
+        String imageUrl = await uploadProfileImage(imageFile);
+        event['imageUrl'] = imageUrl;
+      }
       await _firestore.collection('events').doc(event['eventUuid']).update(event);
       return ResponseResult.success(
         data: event,
