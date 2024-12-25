@@ -36,22 +36,35 @@ class UserService {
     required String firstName,
     required String lastName,
     required String bio,
-    required File profileImage,
+    File? profileImage,
     required String email,
     required bool notificationsEnabled,
   }) async {
     try {
-      // Upload the profile image and get the URL
-      String profileImageUrl = await uploadProfileImage(profileImage);
-      // String profileImageUrl = '';
+      // Initialize profileImageUrl
+      String profileImageUrl = '';
 
-      // Update user information in Firestore
-      await _firestore.collection('users').doc(uid).update({
+      // Check if profileImage is provided and upload it
+      if (profileImage != null) {
+        profileImageUrl = await uploadProfileImage(profileImage);
+      }
+
+      // Create a map to hold the updated user information
+      Map<String, dynamic> updatedData = {
         'firstName': firstName,
         'lastName': lastName,
         'bio': bio,
-        'profilePictureUrl': profileImageUrl,
-      });
+        'email': email,
+        'notificationsEnabled': notificationsEnabled,
+      };
+
+      // Add profilePictureUrl to the map if a new profile image was uploaded
+      if (profileImageUrl.isNotEmpty) {
+        updatedData['profilePictureUrl'] = profileImageUrl;
+      }
+
+      // Update user information in Firestore
+      await _firestore.collection('users').doc(uid).update(updatedData);
 
       User updateUser = User.update(
         uid: uid,

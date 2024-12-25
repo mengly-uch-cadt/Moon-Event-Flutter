@@ -44,7 +44,7 @@ class EventService {
         );
       }
       // Upload the event image and get the URL
-      String imageUrl = await uploadProfileImage(imageFile!);
+      String imageUrl = await uploadProfileImage(imageFile);
       event.imageUrl = imageUrl;
       await _firestore.collection('events').doc(event.eventUuid).set(event.toMap());
       return ResponseResult.success(

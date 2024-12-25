@@ -30,8 +30,7 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
   final ImagePicker _picker = ImagePicker();
   final UserService _userService = UserService();
 
-  bool _isLoading = false;
-
+  bool _isProcessing = false;
   @override
   void initState() {
     super.initState();
@@ -69,28 +68,38 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
-
     try {
-      ResponseResult responseResult = await _userService.updateUserInformation(
-        uid: user.uid!,
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        bio: _bioController.text.isEmpty ? '' : _bioController.text,
-        profileImage: _image != null ? File(_image!.path) : File(''), // Use a placeholder if no image selected        email: user.email,
-        notificationsEnabled: user.notificationsEnabled,
-        email: user.email,
-      );
-
       setState(() {
-        _isLoading = false;
+        _isProcessing = true;
       });
+      ResponseResult responseResult;
+      if (_image != null) {
+        responseResult = await _userService.updateUserInformation(
+          uid: user.uid!,
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          bio: _bioController.text.isEmpty ? '' : _bioController.text,
+          profileImage: File(_image!.path),
+          email: user.email,
+          notificationsEnabled: user.notificationsEnabled,
+        );
+      } else {
+        responseResult = await _userService.updateUserInformation(
+          uid: user.uid!,
+          firstName: _firstNameController.text,
+          lastName: _lastNameController.text,
+          bio: _bioController.text.isEmpty ? '' : _bioController.text,
+          email: user.email,
+          notificationsEnabled: user.notificationsEnabled,
+        );
+      }
 
       if (responseResult.isSuccess) {
         final updatedUser = responseResult.data as User;
         ref.read(userProvider.notifier).setUserData(updatedUser);
+        setState(() {
+          _isProcessing = false;
+        });
         showDialog(
           context: context,
           builder: (ctx) => MoonAlertWidget(
@@ -103,6 +112,9 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
           Navigator.of(context).pop();
         });
       } else {
+        setState(() {
+          _isProcessing = false;
+        });
         showDialog(
           context: context,
           builder: (ctx) => MoonAlertWidget(
@@ -115,7 +127,7 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
       }
     } catch (e) {
       setState(() {
-        _isLoading = false;
+        _isProcessing = false;
       });
 
       showDialog(
@@ -213,19 +225,13 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
                     MoonButtonWidget(
                       onPressed: _onSave,
                       text: "Save",
+                      isProcessing: _isProcessing,
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          if (_isLoading)
-            Container(
-              color: Colors.black.withOpacity(0.5),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
         ],
       ),
     );

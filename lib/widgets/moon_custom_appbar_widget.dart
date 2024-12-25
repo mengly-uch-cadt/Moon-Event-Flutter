@@ -55,23 +55,26 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                           width: 48,
                           height: 48,
                           loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                          return child; // Image is ready
-                          } else {
-                          // Skeleton during loading
-                          return MoonProfileSkeletonizerWidget();
-                          }
+                            if (loadingProgress == null) {
+                              return child; // Image is ready
+                            } else {
+                              // Skeleton during loading
+                              return const MoonProfileSkeletonizerWidget();
+                            }
                           },
                           errorBuilder: (context, error, stackTrace) {
-                          // Fallback in case of an error
-                          return const CircleAvatar(
-                          radius: 24,
-                          backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
-                          );
+                            // Fallback in case of an error
+                            return const CircleAvatar(
+                              radius: 24,
+                              backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                            );
                           },
                         ),
                         )
-                      : MoonProfileSkeletonizerWidget(),
+                      : const CircleAvatar(
+                          radius: 24,
+                          backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                        ),
                   ),
 
                   const SizedBox(width: 10),

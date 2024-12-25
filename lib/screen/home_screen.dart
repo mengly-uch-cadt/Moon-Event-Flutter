@@ -173,15 +173,13 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                             ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
                           : MoonEventListWidget(events: popularEventsData,)),
 
-                    _popluarEventsLoading 
-                      ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
-                          Text("Check out the most popular events happening right now. Don't miss the chance to be part of these exciting experiences!", style: Theme.of(context).textTheme.bodyMedium,)
-                        ],
-                      )
-                      : const SizedBox(),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
+                        Text("Check out the most popular events happening right now. Don't miss the chance to be part of these exciting experiences!", style: Theme.of(context).textTheme.bodyMedium,)
+                      ],
+                    ),
                     const SizedBox(height: 20),
                     // ===========================================================
                     //  New Events  
@@ -202,7 +200,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
-                        Text("Enroll now and take the first step towards mastering [subject/topic].", style: Theme.of(context).textTheme.bodyMedium,)
+                        Text("Stay ahead of the curve with the latest events. Enroll now and be the first to experience new and exciting opportunities!", style: Theme.of(context).textTheme.bodyMedium,)
                       ],
                     ),
                     const SizedBox(height: 20),

@@ -15,7 +15,8 @@ class MoonButtonWidget extends StatelessWidget {
     this.widthPercentage,
     this.onPressed,
     this.textStyle,
-    this.position = Position.left, // Default position to left
+    this.position = Position.left, 
+    this.isProcessing = false, // Default position to left
   });
 
   final String? text;
@@ -28,6 +29,7 @@ class MoonButtonWidget extends StatelessWidget {
   final dynamic Function()? onPressed;
   final TextStyle? textStyle;
   final Position? position;
+  final bool? isProcessing;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +41,12 @@ class MoonButtonWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDisabled ? Colors.grey : (buttonColor ?? AppColors.primary),
+        color: isDisabled || isProcessing == true ? Colors.grey : (buttonColor ?? AppColors.primary),
         borderRadius: BorderRadius.circular(8),
       ),
       width: calculatedWidth,
       child: TextButton(
-        onPressed: isDisabled ? null : onPressed, // Disable button if isDisabled is true
+        onPressed: isDisabled || isProcessing == true ? null : onPressed, // Disable button if isDisabled or isProcessing is true
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -56,13 +58,19 @@ class MoonButtonWidget extends StatelessWidget {
               const SizedBox(width: 8),
             ],
             if (text != null) ...[
-              Text(
-                text ?? '',
-                style: textStyle ??
-                    Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: textColor ?? AppColors.white,
-                        ),
-              ),
+              isProcessing == true 
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(),
+                  )
+                : Text(
+                    text ?? '',
+                    style: textStyle ??
+                      Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: textColor ?? AppColors.white,
+                      ),
+                  ),
             ],
             if (icon != null && position == Position.right) ...[
               const SizedBox(width: 8),
