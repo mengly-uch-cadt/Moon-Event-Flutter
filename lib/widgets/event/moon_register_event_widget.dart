@@ -32,10 +32,15 @@ class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidge
     });
     try{
       Future<ResponseResult> responseResult = eventService.getRegisterEvents();
+      setState(() {
+        isLoadingRegister = false; // Stop loading
+      });
       final result = await responseResult;
+      if (result.data.isEmpty){
+        return;
+      }
       if(result.isSuccess){
-        var registerEventsData = result.data;
-        ref.read(eventProvider.notifier).setRegisterEventData(registerEventsData);
+        ref.read(eventProvider.notifier).setRegisterEventData(result.data);
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

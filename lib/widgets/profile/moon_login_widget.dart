@@ -26,7 +26,7 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  bool isProcessing = false;
   @override
   void dispose() {
     _emailController.dispose();
@@ -137,11 +137,17 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                       text: "Login",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            isProcessing = true;
+                          });
                           AuthService authService = AuthService();
                           ResponseResult responseResult = await authService.login(
                             email: _emailController.text,
                             password: _passwordController.text,
                           );
+                          setState(() {
+                            isProcessing = false;
+                          });
                           if (responseResult.isSuccess) {
                             final String userId = responseResult.data.uid;
                             onLoginSuccess(userId);
@@ -173,6 +179,9 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                             );
                           }
                         } else {
+                          setState(() {
+                            isProcessing = false;
+                          });
                           // Show an error or leave it to validators to handle
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -182,6 +191,7 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                           );
                         }
                       },
+                      isProcessing: isProcessing,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

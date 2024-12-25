@@ -33,9 +33,14 @@ class _MoonJoinedEventWidgetState extends ConsumerState<MoonJoinedEventWidget> {
     try {
       Future<ResponseResult> responseResult = eventService.getJoinedEvents();
       final result = await responseResult;
+      setState(() {
+        isLoadingJoined = false; // Stop loading
+      });
+      if (result.data.isEmpty){
+        return;
+      }
       if(result.isSuccess){
-        var joinedEventsData = result.data;
-        ref.read(eventProvider.notifier).setJoinedEventData(joinedEventsData);
+        ref.read(eventProvider.notifier).setJoinedEventData(result.data);
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

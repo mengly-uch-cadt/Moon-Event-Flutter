@@ -22,6 +22,7 @@ class MoonProfileInfoWidget extends ConsumerStatefulWidget {
 
 class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
   User? user;
+  bool isForgotPasswordProcessing = false;
   @override
   Widget build(BuildContext context) {
     user = ref.watch(userProvider);
@@ -47,23 +48,26 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
                   userProfilePictureUrl,
                   fit: BoxFit.cover,
                   loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                  return child; // Image is ready
-                  } else {
-                  // Skeleton during loading
-                  return const MoonProfileSkeletonizerWidget();
-                  }
+                    if (loadingProgress == null) {
+                      return child; // Image is ready
+                    } else {
+                    // Skeleton during loading
+                      return const MoonProfileSkeletonizerWidget();
+                    }
                   },
                   errorBuilder: (context, error, stackTrace) {
-                  // Fallback in case of an error
-                  return const CircleAvatar(
-                  radius: 100,
-                  backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
-                  );
+                    // Fallback in case of an error
+                    return const CircleAvatar(
+                      radius: 100,
+                      backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                    );
                   },
                 ),
                 )
-              : const MoonProfileSkeletonizerWidget(),
+              : const CircleAvatar(
+                  radius: 100,
+                  backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                ),
           ),
           const SizedBox(height: 20),
           Text(
@@ -99,8 +103,14 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
           MoonButtonWidget(
             text: 'Forgot Password',
             onPressed: () {
+              setState(() {
+                isForgotPasswordProcessing = true;
+              });
               AuthService authService = AuthService();
               authService.forgotPassword(null).then((responseResult) {
+                setState(() {
+                  isForgotPasswordProcessing = false;
+                });
                 if(responseResult.isSuccess){
                   showDialog(
                     context:context, 
@@ -125,6 +135,7 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
                 }
               });
             },
+            isProcessing: isForgotPasswordProcessing, 
           ),
           const SizedBox(height: 10),
         ],

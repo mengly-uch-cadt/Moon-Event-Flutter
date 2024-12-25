@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:moon_event/services/auth_service.dart';
 import 'package:moon_event/widgets/moon_alert_widget.dart';
 import 'package:moon_event/widgets/input/moon_password_field_widget.dart';
+import 'package:moon_event/widgets/moon_button_widget.dart';
 import 'package:moon_event/widgets/moon_title_widget.dart';
 
 class MoonChangePasswordWidget extends StatefulWidget {
@@ -19,6 +20,7 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _conPasswordController = TextEditingController();
+  bool isProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,15 +94,20 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
               ),
               
               const SizedBox(height: 20),
-              ElevatedButton(
+              MoonButtonWidget(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final AuthService authService = AuthService();
-
+                    setState(() {
+                      isProcessing = true;
+                    });
                     authService.changePassword(
                       currentPassword: _oldPasswordController.text,
                       newPassword: _newPasswordController.text,
                     ).then((responseResult) {
+                      setState(() {
+                        isProcessing = false;
+                      });
                       if (responseResult.isSuccess) {
                         showDialog(
                           context: context, 
@@ -123,6 +130,9 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
                         );
                       }
                     }).catchError((error) {
+                      setState(() {
+                        isProcessing = false;
+                      });
                       showDialog(
                         context: context, 
                         builder: (ctx) => MoonAlertWidget(
@@ -135,7 +145,8 @@ class _MoonChangePasswordWidgetState extends State<MoonChangePasswordWidget> {
                     });
                   }
                 },
-                child: const Text('Change Password'),
+                text: 'Change Password',
+                isProcessing: isProcessing,
               ),
             ],
           ),

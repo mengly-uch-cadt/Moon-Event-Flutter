@@ -50,12 +50,16 @@ class _MoonCreatedEventWidgetState
       _isLoading = true; // Start loading
     });
     try {
-      Future<ResponseResult> responseResult =
-          eventService.getEventsByUserUid();
+      Future<ResponseResult> responseResult = eventService.getEventsByUserUid();
+      setState(() {
+        _isLoading = false; // End loading
+      });
       final result = await responseResult;
+      if (result.data.isEmpty) {
+        return;
+      }
       if (result.isSuccess) {
-        userEventsData = result.data;
-        ref.read(eventProvider.notifier).setUserEventData(userEventsData);
+        ref.read(eventProvider.notifier).setUserEventData(result.data);
       } else {
         throw Exception('Failed to get events by user');
       }

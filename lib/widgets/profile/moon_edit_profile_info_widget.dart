@@ -93,13 +93,12 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
           notificationsEnabled: user.notificationsEnabled,
         );
       }
-
+      setState(() {
+        _isProcessing = false;
+      });
       if (responseResult.isSuccess) {
         final updatedUser = responseResult.data as User;
         ref.read(userProvider.notifier).setUserData(updatedUser);
-        setState(() {
-          _isProcessing = false;
-        });
         showDialog(
           context: context,
           builder: (ctx) => MoonAlertWidget(
@@ -112,9 +111,6 @@ class _MoonEditProfileInfoWidgetState extends ConsumerState<MoonEditProfileInfoW
           Navigator.of(context).pop();
         });
       } else {
-        setState(() {
-          _isProcessing = false;
-        });
         showDialog(
           context: context,
           builder: (ctx) => MoonAlertWidget(

@@ -27,7 +27,7 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
   final TextEditingController _emailController           = TextEditingController();
   final TextEditingController _passwordController        = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-
+  bool isProcessing = false;
   @override
   void dispose() {
     _firstNameController.dispose();
@@ -149,6 +149,9 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                       text: "Register",
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            isProcessing = true;
+                          });
                           AuthService authService = AuthService();
                           User user = User.register(
                             email: _emailController.text, 
@@ -159,6 +162,9 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                               user: user,
                               password: _passwordController.text,
                             );
+                            setState(() {
+                              isProcessing = false;
+                            });
                             if (responseResult.isSuccess) {
                               saveLoginState(responseResult.data!.uid);
                               showDialog(
@@ -184,6 +190,9 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                               );
                             }
                         } else {
+                          setState(() {
+                            isProcessing = false;
+                          });
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: const Text('Please fix the errors in the form'),
@@ -192,6 +201,7 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                           );
                         }
                       },
+                      isProcessing: isProcessing,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

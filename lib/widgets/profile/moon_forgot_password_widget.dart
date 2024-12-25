@@ -18,7 +18,7 @@ class MoonForgotPasswordWidget extends StatefulWidget {
 class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
-
+  bool isProcessing = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +61,13 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
                 text: "Send Email",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      isProcessing = true;
+                    });
                     AuthService().forgotPassword(_emailController.text).then((responseResult) {
+                      setState(() {
+                        isProcessing = false;
+                      });
                       if(responseResult.isSuccess){
                         showDialog(
                           context: context,
@@ -84,6 +90,9 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
                         );
                       }
                     }).catchError((e) {
+                      setState(() {
+                        isProcessing = false;
+                      });
                       showDialog(
                         context: context,
                         builder: (context) => MoonAlertWidget(
@@ -96,6 +105,7 @@ class _MoonForgotPasswordWidgetState extends State<MoonForgotPasswordWidget> {
                     });
                   }
                 },
+                isProcessing: isProcessing,
               ),
             ],
           ),

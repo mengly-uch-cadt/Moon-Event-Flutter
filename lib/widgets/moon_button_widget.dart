@@ -59,10 +59,12 @@ class MoonButtonWidget extends StatelessWidget {
             ],
             if (text != null) ...[
               isProcessing == true 
-                ? const SizedBox(
+                ? SizedBox(
                     width: 16,
                     height: 16,
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: textColor ?? AppColors.white,
+                    ),
                   )
                 : Text(
                     text ?? '',

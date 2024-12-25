@@ -47,7 +47,6 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
 
   String _imageUrl = '';
   XFile? _image;
-  final ImagePicker _picker = ImagePicker();
   // String _imageUrl = '${(Random().nextInt(46) + 1)}';
   String? _selectedCategoryId;
   bool isPublic = false;
@@ -102,15 +101,6 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
         });
       }
     });
-  }
-
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _image = pickedFile;
-      });
-    }
   }
 
   void getEventByUser() async {
@@ -337,107 +327,120 @@ class _MoonCreatedEventFormWidgetState extends ConsumerState<MoonCreatedEventFor
                     ),
                     const SizedBox(height: 10),
                     // Submit Button
-                    Center(
-                      child: _isLoading
-                          ? const CircularProgressIndicator()
-                          : MoonButtonWidget(
-                              text: widget.isEdit! ?  "Edit Event" :"Create Event",
-                              onPressed: _isLoading
-                                  ? null
-                                  : () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        setState(() {
-                                          _isLoading = true;
-                                        });
-
-                                        ResponseResult responseResult;
-                                        try {
-                                          EventService eventService = EventService();
-                                          if(widget.isEdit!) {
-                                            Map<String, dynamic> event = {
-                                              'eventUuid'             : eventUuid,
-                                              'title'                 : _titleController.text,
-                                              'description'           : _descriptionController.text,
-                                              'date'                  : DateTime.parse(_dateController.text),
-                                              'startTime'             : _startTimeController.text,
-                                              'endTime'               : _endTimeController.text,
-                                              'location'              : _locationController.text,
-                                              'imageUrl'              : _imageUrl,
-                                              'organizerId'           : userUid!,
-                                              'participantsRegistered': selectedUIDs,
-                                              'isPublic'              : isPublic,
-                                              'categoryId'            : _selectedCategoryId!,
-                                            };
-                                            File? updatedImageFile = _image != null ? File(_image!.path) : null;
-
-                                            responseResult = await eventService.updateEvent(
-                                              event,
-                                              updatedImageFile,
-                                            );
-                                            if (responseResult.isSuccess){
-                                              getEventByUser();
-                                            }
-                                          } else {
-                                            final event = Event(
-                                              title                 : _titleController.text,
-                                              description           : _descriptionController.text,
-                                              date                  : DateTime.parse(_dateController.text),
-                                              startTime             : _startTimeController.text,
-                                              endTime               : _endTimeController.text,
-                                              location              : _locationController.text,
-                                              imageUrl              : _imageUrl,
-                                              organizerId           : userUid!,
-                                              participantsRegistered: selectedUIDs,
-                                              participantsJoined    : [],
-                                              isPublic              : isPublic,
-                                              categoryId            : _selectedCategoryId!,
-                                            );
-                                           responseResult= await eventService.createEvent(event, _image != null ? File(_image!.path) : File(''));
+                    MoonButtonWidget(
+                            text: widget.isEdit! ?  "Edit Event" :"Create Event",
+                            onPressed: _isLoading
+                                ? null
+                                : () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      ResponseResult responseResult;
+                                      try {
+                                        EventService eventService = EventService();
+                                        if(widget.isEdit!) {
+                                          Map<String, dynamic> event = {
+                                            'eventUuid'             : eventUuid,
+                                            'title'                 : _titleController.text,
+                                            'description'           : _descriptionController.text,
+                                            'date'                  : DateTime.parse(_dateController.text),
+                                            'startTime'             : _startTimeController.text,
+                                            'endTime'               : _endTimeController.text,
+                                            'location'              : _locationController.text,
+                                            'imageUrl'              : _imageUrl,
+                                            'organizerId'           : userUid!,
+                                            'participantsRegistered': selectedUIDs,
+                                            'isPublic'              : isPublic,
+                                            'categoryId'            : _selectedCategoryId!,
+                                          };
+                                          File? updatedImageFile = _image != null ? File(_image!.path) : null;
+                    
+                                          responseResult = await eventService.updateEvent(
+                                            event,
+                                            updatedImageFile,
+                                          );
+                                          if (responseResult.isSuccess){
+                                            getEventByUser();
                                           }
-                                          if (responseResult.isSuccess) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (ctx) => MoonAlertWidget(
-                                                icon: Icons.check_circle_outline,
-                                                title: 'Success',
-                                                description: responseResult.message,
-                                                typeError: false,
-                                              ),
-                                            ).then((value) {
-                                              Navigator.pop(context);  // Pops the first screen
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        } else {
+                                          final event = Event(
+                                            title                 : _titleController.text,
+                                            description           : _descriptionController.text,
+                                            date                  : DateTime.parse(_dateController.text),
+                                            startTime             : _startTimeController.text,
+                                            endTime               : _endTimeController.text,
+                                            location              : _locationController.text,
+                                            imageUrl              : _imageUrl,
+                                            organizerId           : userUid!,
+                                            participantsRegistered: selectedUIDs,
+                                            participantsJoined    : [],
+                                            isPublic              : isPublic,
+                                            categoryId            : _selectedCategoryId!,
+                                          );
+                                          responseResult= await eventService.createEvent(event, _image != null ? File(_image!.path) : File(''));
+                                          if (responseResult.isSuccess){
+                                            getEventByUser();
+                                          }
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        }
+                                        if (responseResult.isSuccess) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (ctx) => MoonAlertWidget(
+                                              icon: Icons.check_circle_outline,
+                                              title: 'Success',
+                                              description: responseResult.message,
+                                              typeError: false,
+                                            ),
+                                          ).then((value) {
+                                            Navigator.pop(context);  
+                                            if (widget.isEdit == true){
                                               Navigator.pop(context);  // Pops the second screen
-
-                                            });
-                                          } else {
-                                            showDialog(
-                                              context: context,
-                                              builder: (ctx) => MoonAlertWidget(
-                                                icon: Icons.error_outline,
-                                                title: 'Error',
-                                                description: responseResult.message,
-                                                typeError: true,
-                                              ),
-                                            );
-                                          }
-                                        } catch (e) {
+                                            }// Pops the first screen
+                    
+                                          });
+                                        } else {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
                                           showDialog(
                                             context: context,
                                             builder: (ctx) => MoonAlertWidget(
                                               icon: Icons.error_outline,
                                               title: 'Error',
-                                              description: e.toString(),
+                                              description: responseResult.message,
                                               typeError: true,
                                             ),
                                           );
-                                        } finally {
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
                                         }
+                                      } catch (e) {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) => MoonAlertWidget(
+                                            icon: Icons.error_outline,
+                                            title: 'Error',
+                                            description: e.toString(),
+                                            typeError: true,
+                                          ),
+                                        );
+                                      } finally {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
                                       }
-                                    },
-                            ),
-                    ),
+                                    }
+                                  },
+                            isProcessing: _isLoading,
+                          ),
                     const SizedBox(height: 20),
                   ],
                 ),
