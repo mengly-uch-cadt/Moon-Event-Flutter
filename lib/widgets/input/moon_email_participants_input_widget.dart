@@ -123,7 +123,7 @@ class _MoonEmailParticipantsInputWidgetState
           Container(
             height: 150,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.getCardColor(context),
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),

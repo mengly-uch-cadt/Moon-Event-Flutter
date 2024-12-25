@@ -121,11 +121,11 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDarkMode ? AppColors.getBackgroundColor(context) : Colors.transparent,
+      backgroundColor:  Colors.transparent,
       body: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
-        color: isDarkMode ? AppColors.getBackgroundColor(context) : Colors.transparent,
+        color: Colors.transparent,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

@@ -18,9 +18,10 @@ class AppColors{
   static Color cancelInput    = const Color(0xFFF7F8F9);
   static Color star           = const Color(0xFFF5AC00);
   static Color darkRed        = const Color(0xFF8B0000);
-  static Color backgroundDark = const Color(0xFF1a1a1a);
+  static Color backgroundDark = const Color(0xFF0d0d0d);
   static Color darkBlue       = const Color(0xFF000099);
   static Color textGray       = const Color(0xFFb3b3b3);
+  
   static Color getBackgroundColor(BuildContext context) {
     final brightness = Theme.of(context).brightness;  // Use Theme brightness instead
     return brightness == Brightness.dark ? AppColors.black : AppColors.white;
@@ -35,7 +36,7 @@ class AppColors{
   // Method to get dynamic secondary color based on the theme
   static Color getSecondaryColor(BuildContext context) {
     final brightness = Theme.of(context).brightness;
-    return brightness == Brightness.dark ? AppColors.darkBlue : AppColors.secondary; // Dark Red for dark mode
+    return brightness == Brightness.dark ? AppColors.secondary : AppColors.secondary; // Dark Red for dark mode
   }
 
   // Method to get dynamic card color 

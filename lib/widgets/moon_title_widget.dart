@@ -13,7 +13,7 @@ class MoonTitleWidget extends StatelessWidget {
         Text(
           firstTitle.toUpperCase(), 
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            color: AppColors.getSecondaryColor(context),
+            color: isTwoColors == true ? AppColors.primary : null,
             fontWeight: FontWeight.w800,
           ),
         ),
@@ -22,7 +22,7 @@ class MoonTitleWidget extends StatelessWidget {
           secondTitle.toUpperCase(), 
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w800,
-            color: isTwoColors == true ? AppColors.primary : null,
+            color: AppColors.getSecondaryColor(context),
           ),
         ),
       ],

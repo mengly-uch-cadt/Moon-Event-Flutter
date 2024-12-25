@@ -22,26 +22,6 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-// class MyApp extends ConsumerWidget  {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context,  WidgetRef ref) {
-//     final themeMode = ref.watch(themeModeProvider);
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Moon Event',
-//       theme: primaryTheme.copyWith(
-//         textTheme: AppTextTheme.getTextTheme(context), // Apply the text theme here
-//       ), // Apply the theme from theme.dart
-//       darkTheme: darkTheme,
-//       themeMode: themeMode, // Use themeMode from provider
-//       home: const MoonBottomNavigationBar(),
-//     );
-//   }
-// }
-
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -134,7 +114,7 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
     @override
     Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MoonCustomAppBarWidget(),
+      appBar: MoonCustomAppBarWidget(onPressed: () => _onItemTapped(3),),
       backgroundColor: AppColors.getSecondaryColor(context),
       body: Container(
         decoration: BoxDecoration(
