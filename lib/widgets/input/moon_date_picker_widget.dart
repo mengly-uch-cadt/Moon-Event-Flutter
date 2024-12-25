@@ -34,7 +34,7 @@ class MoonDatePickerWidget extends StatelessWidget {
               fontFamily: GoogleFonts.kantumruyPro().fontFamily,
               fontWeight: FontWeight.w400,
               fontSize: 18,
-              color: AppColors.textBlack,
+              color: AppColors.getTextColor(context),
             ),
             hintText: hintText,
             hintStyle: TextStyle(
@@ -71,7 +71,7 @@ class MoonDatePickerWidget extends StatelessWidget {
                     colorScheme: ColorScheme.light(
                       primary: AppColors.primary, // Header background color
                       onPrimary: Colors.white, // Header text color
-                      onSurface: AppColors.textBlack, // Text color
+                      onSurface: AppColors.getTextColor(context), // Text color
                     ),
                     textButtonTheme: TextButtonThemeData(
                       style: TextButton.styleFrom(

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moon_event/model/get_event.dart';
@@ -27,29 +29,16 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
   bool _popluarEventsLoading = false;
   bool _newReleaseEventsLoading = false;
   List<GetEvent> allEventsData = [];
-  List<GetEvent> popularEventsData= [];
-  List<GetEvent> newReleaseEventsData= [];
+  List<GetEvent> popularEventsData = [];
+  List<GetEvent> newReleaseEventsData = [];
 
   @override
   void initState() {
     super.initState();
-    generateData();
     getPopularEvents();
     getNewReleaseEvents();
     getAllEvents();
     fetchUserData(ref);
-  }
-
-  void generateData()async{
-    // for (var event in generatedEvents){
-    //   Future<ResponseResult> responseResult = eventService.createEvent(event);
-    //   final result = await responseResult;
-    //   if(result.isSuccess){
-    //     print('Event created${event.title}');
-    //   }else{
-    //     throw Exception('Failed to create event');
-    //   }
-    // }
   }
 
   void getPopularEvents() async {
@@ -59,7 +48,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     Future<ResponseResult> responseResult = eventService.getEvents(isPopularEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      if (result.data == null){
+      if (result.data == null) {
         setState(() {
           _popluarEventsLoading = false;
         });
@@ -70,11 +59,11 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
         _popluarEventsLoading = false;
       });
     } else {
-      ScaffoldMessenger(child: 
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result.message),
           backgroundColor: AppColors.red,
-        )
+        ),
       );
     }
   }
@@ -86,7 +75,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     Future<ResponseResult> responseResult = eventService.getEvents(isNewReleaseEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      if (result.data == null){
+      if (result.data == null) {
         setState(() {
           _newReleaseEventsLoading = false;
         });
@@ -100,7 +89,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
       throw Exception(result.message);
     }
   }
-  
+
   void getAllEvents() async {
     setState(() {
       _allEventsLoading = true;
@@ -108,7 +97,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     Future<ResponseResult> responseResult = eventService.getEvents(isAllEvents: true);
     final result = await responseResult;
     if (result.isSuccess) {
-      if (result.data == null){
+      if (result.data == null) {
         setState(() {
           _allEventsLoading = false;
         });
@@ -129,13 +118,14 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     final allEventsData = eventState.allEvents ?? [];
     final popularEventsData = eventState.popularEvents ?? [];
     final newReleaseEventsData = eventState.newReleaseEvents ?? [];
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: isDarkMode ? AppColors.getBackgroundColor(context) : Colors.transparent,
       body: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height,
-        color: Colors.transparent,
+        color: isDarkMode ? AppColors.getBackgroundColor(context) : Colors.transparent,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -159,7 +149,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     const MoonListCategoryWidget(),
                     const SizedBox(height: 20),
                     // ===========================================================
-                    // Popular Events  
+                    // Popular Events
                     // ===========================================================
                     MoonTitleSeeAllWidget(
                       firstTitle: "Popular",
@@ -167,31 +157,36 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                       events: popularEventsData.isNotEmpty ? popularEventsData : [],
                     ),
                     // Show skeleton or events based on loading state and data length
-                    _popluarEventsLoading 
-                      ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
-                      : (popularEventsData.isEmpty
+                    _popluarEventsLoading
+                        ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
+                        : (popularEventsData.isEmpty
                             ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
-                          : MoonEventListWidget(events: popularEventsData,)),
-
+                            : MoonEventListWidget(events: popularEventsData,)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
-                        Text("Check out the most popular events happening right now. Don't miss the chance to be part of these exciting experiences!", style: Theme.of(context).textTheme.bodyMedium,)
+                        Text(
+                          "Don't Miss Out!",
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        Text(
+                          "Check out the most popular events happening right now. Don't miss the chance to be part of these exciting experiences!",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
                     // ===========================================================
-                    //  New Events  
+                    // New Events
                     // ===========================================================
                     MoonTitleSeeAllWidget(
                       firstTitle: "New",
                       secondTitle: "Events",
                       events: newReleaseEventsData.isNotEmpty ? newReleaseEventsData : [],
                     ),
-                     // Show skeleton or events based on loading state and data length
+                    // Show skeleton or events based on loading state and data length
                     _newReleaseEventsLoading
-                      ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
+                        ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
                         : (newReleaseEventsData.isEmpty
                             ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
                             : MoonEventListWidget(events: newReleaseEventsData,)),
@@ -199,8 +194,14 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text("Don't Miss Out!", style: Theme.of(context).textTheme.headlineMedium,), 
-                        Text("Stay ahead of the curve with the latest events. Enroll now and be the first to experience new and exciting opportunities!", style: Theme.of(context).textTheme.bodyMedium,)
+                        Text(
+                          "Don't Miss Out!",
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        Text(
+                          "Stay ahead of the curve with the latest events. Enroll now and be the first to experience new and exciting opportunities!",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -214,7 +215,7 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
                     ),
                     // Show skeleton or events based on loading state and data length
                     _allEventsLoading
-                      ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
+                        ? const MoonEventAxisSkeletonizerWidget() // Show skeleton while loading
                         : (allEventsData.isEmpty
                             ? const MoonNoEventDataMessageWidget() // Show 'No Available Data' if no events
                             : MoonEventListWidget(events: allEventsData,)),

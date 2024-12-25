@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:moon_event/state/theme_state.dart';
 import 'package:moon_event/state/user_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,18 +22,19 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
     // Watch the user state
     final user = ref.watch(userProvider);
 
+    // Watch the theme mode state
+    final themeMode = ref.watch(themeModeProvider);
+    final isDarkMode = themeMode == ThemeMode.dark;
+
     // Check if user is null and provide a fallback
     final userName = (user?.firstName != null && user?.lastName != null)
         ? '${user!.firstName} ${user.lastName}'
         : 'Guest';
 
-    // final userProfilePicture = user?.profilePictureUrl != null && user!.profilePictureUrl!.isNotEmpty
-    //     ? NetworkImage(user.profilePictureUrl!)
-    //     : const AssetImage('assets/profiles/female_profile.jpg') as ImageProvider;
     final userProfilePictureUrl = user?.profilePictureUrl;
 
     return Container(
-      color: AppColors.secondary, // Background color
+      color: AppColors.getSecondaryColor(context), // Background color
       height: appBarHeight, // Set custom height
       padding: const EdgeInsets.fromLTRB(20, 30, 10, 0),
       child: Column(
@@ -46,35 +48,35 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                   // Profile image
                   CircleAvatar(
                     radius: 24,
-                    backgroundColor: AppColors.gray, // Set background to transparent
+                    backgroundColor: AppColors.gray,
                     child: userProfilePictureUrl != null && userProfilePictureUrl.isNotEmpty
-                      ? ClipOval(
-                        child: Image.network(
-                          userProfilePictureUrl,
-                          fit: BoxFit.cover,
-                          width: 48,
-                          height: 48,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child; // Image is ready
-                            } else {
-                              // Skeleton during loading
-                              return const MoonProfileSkeletonizerWidget();
-                            }
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            // Fallback in case of an error
-                            return const CircleAvatar(
-                              radius: 24,
-                              backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
-                            );
-                          },
-                        ),
-                        )
-                      : const CircleAvatar(
-                          radius: 24,
-                          backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
-                        ),
+                        ? ClipOval(
+                            child: Image.network(
+                              userProfilePictureUrl,
+                              fit: BoxFit.cover,
+                              width: 48,
+                              height: 48,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child; // Image is ready
+                                } else {
+                                  // Skeleton during loading
+                                  return const MoonProfileSkeletonizerWidget();
+                                }
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const CircleAvatar(
+                                  radius: 24,
+                                  backgroundImage:
+                                      AssetImage('assets/profiles/female_profile.jpg'),
+                                );
+                              },
+                            ),
+                          )
+                        : const CircleAvatar(
+                            radius: 24,
+                            backgroundImage: AssetImage('assets/profiles/female_profile.jpg'),
+                          ),
                   ),
 
                   const SizedBox(width: 10),
@@ -91,7 +93,7 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                             ),
                       ),
                       Text(
-                        userName, 
+                        userName,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -102,7 +104,7 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                   ),
                 ],
               ),
-              // Notification and globe icons
+              // Notification and dark mode toggle
               Row(
                 children: [
                   IconButton(
@@ -114,19 +116,32 @@ class MoonCustomAppBarWidget extends ConsumerWidget implements PreferredSizeWidg
                     ),
                     onPressed: () {
                       if (ref.read(userProvider) == null) {
-                        showDialog(context: context, builder: (ctx) => 
-                          const MoonAlertWidget(
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => const MoonAlertWidget(
                             icon: Icons.error_outline,
                             title: 'Error',
                             description: 'Please log in to create an event.',
                             typeError: true,
-                          ));
+                          ),
+                        );
                         return;
                       }
                       showDialog(
-                        context: context, 
+                        context: context,
                         builder: (ctx) => const MoonNotificationWidget(),
                       );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                      color: AppColors.white,
+                    ),
+                    onPressed: () {
+                      // Toggle the theme mode
+                      final newMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
+                      ref.read(themeModeProvider.notifier).state = newMode;
                     },
                   ),
                 ],

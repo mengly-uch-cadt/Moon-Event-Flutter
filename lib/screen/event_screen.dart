@@ -30,7 +30,7 @@ class _MoonEventScreenState extends State<MoonEventScreen> {
           ),
           // Custom Bar with Buttons
           Container(
-            color: AppColors.secondary,
+            color: AppColors.getSecondaryColor(context),
             child: Row(
               children: [
                 _buildNavItem("Registered", 0),
@@ -71,7 +71,7 @@ class _MoonEventScreenState extends State<MoonEventScreen> {
           padding: const EdgeInsets.symmetric(vertical: 15),
           color: isSelected
               ? AppColors.primary
-              : AppColors.secondary.withOpacity(0.5),
+              : AppColors.getSecondaryColor(context),
           child: Center(
             child: Text(
               title,

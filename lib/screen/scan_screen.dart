@@ -57,13 +57,13 @@ class MoonScanScreenState extends State<MoonScanScreen> {
           Positioned.fill(
             child: Center(
               child: SizedBox(
-                        height: rowHeight * 0.635,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Lottie.asset(
-                          'assets/qr_code_logo/scanning_animation.json', // Replace with your Lottie file path
-                          fit: BoxFit.fill, // Adjust how the animation fits the box
-                        ),
-                      ),
+                height: rowHeight * 0.635,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Lottie.asset(
+                  'assets/qr_code_logo/scanning_animation.json', // Replace with your Lottie file path
+                  fit: BoxFit.fill, // Adjust how the animation fits the box
+                ),
+              ),
             ),
           ),
 
@@ -75,7 +75,7 @@ class MoonScanScreenState extends State<MoonScanScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Expanded(
+                Flexible(
                   flex: 5,
                   child: MoonButtonWidget(
                     onPressed: () {
@@ -84,7 +84,7 @@ class MoonScanScreenState extends State<MoonScanScreen> {
                         flashOn = !flashOn;
                       });
                     },
-                    text: 'Flash',
+                    // text: 'Flash',
                     icon: Icon(
                       flashOn ? Icons.flash_on : Icons.flash_off,
                     ),
@@ -92,7 +92,7 @@ class MoonScanScreenState extends State<MoonScanScreen> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Expanded(
+                Flexible(
                   flex: 5,
                   child: MoonButtonWidget(
                     onPressed: () {
@@ -101,7 +101,7 @@ class MoonScanScreenState extends State<MoonScanScreen> {
                         frontCamera = !frontCamera;
                       });
                     },
-                    text: frontCamera ? 'Front Camera' : "Back Camera",
+                    // text: frontCamera ? 'Front Camera' : "Back Camera",
                     icon: const Icon(
                       Icons.flip_camera_ios_outlined,
                       color: Colors.white,
@@ -169,4 +169,3 @@ class MoonScanScreenState extends State<MoonScanScreen> {
     super.dispose();
   }
 }
-

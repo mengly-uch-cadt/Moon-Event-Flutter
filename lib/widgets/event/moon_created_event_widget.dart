@@ -132,9 +132,11 @@ class _MoonCreatedEventWidgetState
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: _isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
+                ? const SizedBox(
+                  height: 60,
+                  width: 60,
+                  child: CircularProgressIndicator(),
+                ) 
                 : events.isEmpty
                     ? Center(
                         child: Column(

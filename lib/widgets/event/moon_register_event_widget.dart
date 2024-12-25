@@ -70,7 +70,7 @@ class _MoonRegisterEventWidgetState extends ConsumerState<MoonRegisterEventWidge
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Center(
           child: 
             isLoadingRegister == true ? 

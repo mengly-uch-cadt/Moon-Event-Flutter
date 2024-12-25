@@ -68,7 +68,7 @@ class _MoonListCategoryWidgetState
     return Container(
       height: 150,
       decoration: BoxDecoration(
-        color: AppColors.white, // Set color inside BoxDecoration
+        color: AppColors.getCardColor(context), // Set color inside BoxDecoration
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: Colors.grey.shade300,

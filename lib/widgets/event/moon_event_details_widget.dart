@@ -118,7 +118,7 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
               Card(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: AppColors.getCardColor(context),
                     border: Border.all(
                       color: Colors.grey,
                       width: 0.5,
@@ -265,7 +265,7 @@ class _MoonEventDetailsWidgetState extends ConsumerState<MoonEventDetailsWidget>
                             child: QrImageView(
                               data: widget.event.eventUuid, // UUID for QR code
                               size: 200.0, // QR code size
-                              backgroundColor: Colors.white,
+                              backgroundColor: AppColors.white,
                               embeddedImage: const AssetImage('assets/qr_code_logo/logo.png'), // Embedded image in QR code
                               embeddedImageStyle: const QrEmbeddedImageStyle(
                                 size: Size(30, 30),  // Adjust size of the embedded image

@@ -33,14 +33,14 @@ class MoonDropdownInputWidget extends StatelessWidget {
           fontFamily: GoogleFonts.kantumruyPro().fontFamily,
           fontWeight: FontWeight.w400,
           fontSize: 18,
-          color: AppColors.textBlack, // Adjust to your AppColors
+          color: AppColors.getTextColor(context), // Adjust to your AppColors
         ),
         hintText: hintText,
         hintStyle: TextStyle(
           fontFamily: GoogleFonts.kantumruyPro().fontFamily,
           fontWeight: FontWeight.w100,
           fontSize: 16,
-          color: AppColors.textBlack, // Adjust to your AppColors
+          color: AppColors.getTextColor(context), // Adjust to your AppColors
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.gray), // Adjust to your AppColors
@@ -64,7 +64,7 @@ class MoonDropdownInputWidget extends StatelessWidget {
               fontFamily: GoogleFonts.kantumruyPro().fontFamily,
               fontWeight: FontWeight.w400,
               fontSize: 16,
-              color: AppColors.textBlack,
+              color: AppColors.getTextColor(context),
             ),
           ),
         );

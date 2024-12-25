@@ -66,7 +66,7 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                       'Login',
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.secondary),
+                          color: AppColors.getSecondaryColor(context)),
                     ),
                     const SizedBox(height: 25),
                     MoonTextFieldWidget(
@@ -154,8 +154,8 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                             ref.read(userProvider.notifier).setUserData(responseResult.data);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(responseResult.message),
-                                backgroundColor: AppColors.secondary,
+                                content: Text(responseResult.message, style: TextStyle(color: AppColors.getTextColor(context))),
+                                backgroundColor: AppColors.getSecondaryColor(context),
                               ),
                             );
                             // Still continue on event details page
@@ -185,8 +185,8 @@ class _MoonLoginWidgetState extends ConsumerState<MoonLoginWidget> {
                           // Show an error or leave it to validators to handle
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('Please fix the errors in the form'),
-                              backgroundColor: AppColors.secondary,
+                              content: Text('Please fix the errors in the form', style: TextStyle(color: AppColors.getTextColor(context))),
+                              backgroundColor: AppColors.getSecondaryColor(context),
                             ),
                           );
                         }

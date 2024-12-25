@@ -47,13 +47,13 @@ class _MoonPasswordFormFieldWidgetState extends State<MoonPasswordFormFieldWidge
         labelStyle: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 18,
-          color: AppColors.textBlack,
+          color: AppColors.getTextColor(context),
         ),
         hintStyle: TextStyle(
           fontFamily: GoogleFonts.kantumruyPro().fontFamily,
           fontWeight: FontWeight.w100, // Set font weight to normal
           fontSize: 16,
-          color: AppColors.textBlack, // Adjust to your AppAppColors
+          color: AppColors.getTextColor(context), // Adjust to your AppAppColors
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.gray),

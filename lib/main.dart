@@ -7,6 +7,7 @@ import 'package:moon_event/screen/home_screen.dart';
 import 'package:moon_event/screen/event_screen.dart';
 import 'package:moon_event/screen/profile_screen.dart';
 import 'package:moon_event/screen/scan_screen.dart';
+import 'package:moon_event/state/theme_state.dart';
 import 'package:moon_event/theme.dart';
 import 'package:moon_event/utils/secure_local_storage_util.dart';
 import 'package:moon_event/utils/user_util.dart';
@@ -21,19 +22,39 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+// class MyApp extends ConsumerWidget  {
+//   const MyApp({super.key});
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context,  WidgetRef ref) {
+//     final themeMode = ref.watch(themeModeProvider);
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Moon Event',
+//       theme: primaryTheme.copyWith(
+//         textTheme: AppTextTheme.getTextTheme(context), // Apply the text theme here
+//       ), // Apply the theme from theme.dart
+//       darkTheme: darkTheme,
+//       themeMode: themeMode, // Use themeMode from provider
+//       home: const MoonBottomNavigationBar(),
+//     );
+//   }
+// }
+
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider); // Watch theme mode state
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Moon Event',
-      theme: primaryTheme.copyWith(
-        textTheme: AppTextTheme.getTextTheme(context), // Apply the text theme here
-      ), // Apply the theme from theme.dart
-
+      theme: primaryTheme,
+      darkTheme: darkTheme,
+      themeMode: themeMode, // Switch theme mode here based on the themeModeProvider
       home: const MoonBottomNavigationBar(),
     );
   }
@@ -114,10 +135,10 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
     Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MoonCustomAppBarWidget(),
-      backgroundColor: AppColors.secondary,
+      backgroundColor: AppColors.getSecondaryColor(context),
       body: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.getBackgroundColor(context),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(16),
             topRight: Radius.circular(16),
@@ -131,38 +152,43 @@ class _MoonBottomNavigationBarState extends ConsumerState<MoonBottomNavigationBa
           BottomNavigationBarItem(
             icon: svg.SvgPicture.asset(
               'assets/icons/home.svg',
-              color: _selectedIndex == 0 ? AppColors.primary : AppColors.textBlack,
-              ),
+              color: _selectedIndex == 0 ? AppColors.primary : AppColors.getTextColor(context),
+            ),
             label: 'Home',
+            backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.blackAccent : AppColors.white, // Set background color based on theme
           ),
           BottomNavigationBarItem(
             icon: svg.SvgPicture.asset(
               'assets/icons/event.svg',
-              color: _selectedIndex == 1 ? AppColors.primary : AppColors.textBlack,
-              ),
+              color: _selectedIndex == 1 ? AppColors.primary : AppColors.getTextColor(context),
+            ),
             label: 'My Event',
+            backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.blackAccent : AppColors.white, // Set background color based on theme
           ),
           BottomNavigationBarItem(
             icon: svg.SvgPicture.asset(
               'assets/icons/scan.svg',
-              color: _selectedIndex == 2 ? AppColors.primary : AppColors.textBlack,
-              ),
+              color: _selectedIndex == 2 ? AppColors.primary : AppColors.getTextColor(context),
+            ),
             label: 'Scan',
+            backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.blackAccent : AppColors.white, // Set background color based on theme
           ),
           BottomNavigationBarItem(
-            icon:  svg.SvgPicture.asset(
+            icon: svg.SvgPicture.asset(
               'assets/icons/profile.svg',
-              color: _selectedIndex == 3 ? AppColors.primary : AppColors.textBlack,
-              ),
+              color: _selectedIndex == 3 ? AppColors.primary : AppColors.getTextColor(context),
+            ),
             label: 'Profile',
+            backgroundColor: Theme.of(context).brightness == Brightness.dark ? AppColors.blackAccent : AppColors.white, // Set background color based on theme
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: AppColors.textBlack,
+        unselectedItemColor: AppColors.getTextColor(context), // Dynamically change color based on theme
         showUnselectedLabels: true,
         onTap: _checkLoginAndNavigate,
-      ),
+      )
+
     );
   }
 }

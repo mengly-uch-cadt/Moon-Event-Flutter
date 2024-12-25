@@ -20,7 +20,7 @@ class MoonEventCardWidget extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: AppColors.getCardColor(context),
               border: Border.all(
                 color: Colors.grey,
                 width: 0.5,

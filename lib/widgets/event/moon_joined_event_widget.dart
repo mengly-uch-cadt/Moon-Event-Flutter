@@ -67,7 +67,7 @@ class _MoonJoinedEventWidgetState extends ConsumerState<MoonJoinedEventWidget> {
     final eventsData = events.joinedEvents ?? [];
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Center(
           child: isLoadingJoined == true ?
             const SizedBox(

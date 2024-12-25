@@ -79,7 +79,7 @@ class MoonCarouselWidgetState extends State<MoonCarouselWidget> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: _currentIndex == index
-                    ? AppColors.secondary
+                    ? AppColors.getSecondaryColor(context)
                     : AppColors.gray,
               ),
             );

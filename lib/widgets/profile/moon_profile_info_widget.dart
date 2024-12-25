@@ -74,7 +74,7 @@ class _MoonProfileInfoWidgetState extends ConsumerState<MoonProfileInfoWidget> {
             '${user?.firstName} ${user?.lastName}',
             style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.secondary
+                color: AppColors.primary,
               ),
           ),
           const SizedBox(height: 15),

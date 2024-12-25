@@ -36,14 +36,14 @@ class MoonTextFieldWidget extends StatelessWidget {
           fontFamily: GoogleFonts.kantumruyPro().fontFamily,
           fontWeight: FontWeight.w400,
           fontSize: 18,
-          color: AppColors.textBlack, // Adjust to your AppAppColors
+          color: AppColors.getTextColor(context), // Adjust to your AppAppColors
         ),
         hintText: hintText,
         hintStyle: TextStyle(
           fontFamily: GoogleFonts.kantumruyPro().fontFamily,
           fontWeight: FontWeight.w100, // Set font weight to normal
           fontSize: 16,
-          color: AppColors.textBlack, // Adjust to your AppAppColors
+          color: AppColors.getTextBlack(context), // Adjust to your AppAppColors
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.gray), // Adjust to your AppAppColors

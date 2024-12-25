@@ -93,14 +93,14 @@ class _MoonEmailParticipantsInputWidgetState
               fontFamily: GoogleFonts.kantumruyPro().fontFamily,
               fontWeight: FontWeight.w400,
               fontSize: 18,
-              color: AppColors.textBlack, // Adjust to your AppColors
+              color: AppColors.getTextColor(context), // Adjust to your AppColors
             ),
             hintText: "Type an email",
             hintStyle: TextStyle(
               fontFamily: GoogleFonts.kantumruyPro().fontFamily,
               fontWeight: FontWeight.w100, // Set font weight to normal
               fontSize: 16,
-              color: AppColors.textBlack, // Adjust to your AppColors
+              color: AppColors.getTextColor(context), // Adjust to your AppColors
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.gray), // Adjust to your AppColors

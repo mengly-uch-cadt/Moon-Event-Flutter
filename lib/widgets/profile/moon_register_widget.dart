@@ -65,7 +65,7 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                       'Register',
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.secondary),
+                          color: AppColors.getSecondaryColor(context)),
                     ),
                     const SizedBox(height: 25),
                     MoonTextFieldWidget(
@@ -195,8 +195,8 @@ class _MoonRegisterWidgetState extends State<MoonRegisterWidget> {
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text('Please fix the errors in the form'),
-                              backgroundColor: AppColors.secondary,
+                              content: Text('Please fix the errors in the form', style: TextStyle(color: AppColors.getTextColor(context))),
+                              backgroundColor: AppColors.getSecondaryColor(context),
                             ),
                           );
                         }
