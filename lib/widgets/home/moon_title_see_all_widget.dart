@@ -24,16 +24,17 @@ class MoonTitleSeeAllWidget extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            showDialog(
-              context: context, 
-              builder: (ctx)=> 
-                MoonSeeAllEventWidget(
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) => MoonSeeAllEventWidget(
                   events: events, 
                   moonTitleWidget: MoonTitleWidget(
                     firstTitle: firstTitle, 
                     secondTitle: secondTitle
                   ),
                 )
+              )
             );
           },
           child: Text(

@@ -88,18 +88,18 @@ class _MoonListCategoryWidgetState
                       child: GestureDetector(
                         onTap: () async {
                           final filteredEvents = await filterEventByCategory(categoryData[index].uuid);
-                          showDialog(
-                            
-                            context: context, 
-                            builder: (ctx)=> MoonSeeAllEventWidget(
-                              events: filteredEvents, 
-                              moonTitleWidget: const MoonTitleWidget(
-                                firstTitle: "Filterd", 
-                                secondTitle: "Events",
-                                )
-                            )
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MoonSeeAllEventWidget(
+                                events: filteredEvents,
+                                moonTitleWidget: MoonTitleWidget(
+                                  firstTitle: categoryData[index].category,
+                                  secondTitle: "Events",
+                                ),
+                              ),
+                            ),
                           );
-                          
                         },
                         child: MoonCategory(
                           category: categoryData[index].category,

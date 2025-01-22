@@ -61,11 +61,11 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
                       MoonButtonWidget(
                         text: "Login",
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const MoonLoginWidget(); // Show login widget
-                            },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoonLoginWidget(),
+                            ),
                           );
                         },
                       ),
@@ -73,11 +73,11 @@ class _MoonProfileScreenState extends ConsumerState<MoonProfileScreen> {
                       MoonButtonWidget(
                         text: "Register",
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const MoonRegisterWidget(); // Show register widget
-                            },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MoonRegisterWidget(),
+                            ),
                           );
                         },
                       ),

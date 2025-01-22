@@ -18,10 +18,11 @@ class MoonEventListWidget extends StatelessWidget {
             width: halfScreen(context),
             child: GestureDetector(
               onTap: () {
-                // Navigate to event details screen
-                showDialog(
-                  context: context, 
-                  builder: (ctx) => MoonEventDetailsWidget(event: event)
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => MoonEventDetailsWidget(event: event)
+                  )
                 );
               },
               child: MoonEventCardWidget(

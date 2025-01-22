@@ -118,7 +118,6 @@ class _MoonHomeScreenState extends ConsumerState<MoonHomeScreen> {
     final allEventsData = eventState.allEvents ?? [];
     final popularEventsData = eventState.popularEvents ?? [];
     final newReleaseEventsData = eventState.newReleaseEvents ?? [];
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor:  Colors.transparent,
